@@ -2,8 +2,8 @@
 #define CONNECTMODULEWIDGET_H
 
 #include <QWidget>
-#include <QMap>
 
+#include "structs.h"
 class QModbusClient;
 class QModbusReply;
 class QTimer;
@@ -20,8 +20,11 @@ public:
     explicit ConnectModuleWidget(QWidget *parent = nullptr);
     ~ConnectModuleWidget();
 
+    void setDevices(MapDevices devices){mapDevices=devices;}
+
 private slots:
     void on_pbConnect_clicked();
+    void on_pbAdd_clicked();
 
 private:
     Ui::ConnectModuleWidget *ui;
@@ -31,7 +34,9 @@ private:
     QModbusReply *lastRequest = nullptr;
     QModbusClient *modbusDevice = nullptr;
     QTimer *tim_value=nullptr;
-    QMap<QString, QModbusClient*> mapDevices;
+    MapDevices mapDevices;
+
+    void updateList();
 };
 
 #endif // CONNECTMODULEWIDGET_H

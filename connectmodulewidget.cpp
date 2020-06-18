@@ -1,6 +1,7 @@
 #include "connectmodulewidget.h"
 #include "ui_connectmodulewidget.h"
 
+
 #include <QModbusTcpClient>
 #include <QModbusRtuSerialMaster>
 #include <QTimer>
@@ -36,13 +37,24 @@ void ConnectModuleWidget::on_pbConnect_clicked() {
 }
 
 void ConnectModuleWidget::on_pbAdd_clicked() {
+    if(!mapDevices) return;
     if(!modbusDevice) return;
     auto name = ui->txtName->text();
-    if(mapDevices.contains(name))
+    if(mapDevices->contains(name))
         qDebug()<<"Такое имя устройства уже существует";
     else{
-        mapDevices[name] = modbusDevice;
+        ModbusDevice::DeviceType type = ModbusDevice::Other;
+        type = ui->cmbType_Device->currentText()=="InputAnalog"?ModbusDevice::OVEN_InpoutAnalog:ModbusDevice::OVEN_IODiget;
+        (*mapDevices)[name] = ModbusDevice(name, modbusDevice, type);
         modbusDevice = nullptr;
         qDebug()<<"Устройство"<<name<<"добавленно";
+        updateList();
+    }
+}
+
+void ConnectModuleWidget::updateList() {
+    ui->lstDevice->clear();
+    for(auto itm : *mapDevices){
+        ui->lstDevice->addItem(QString("%1 (%2)").arg(itm.name).arg(itm.typeStr()));
     }
 }

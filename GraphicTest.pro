@@ -22,9 +22,11 @@ SOURCES += \
 
 HEADERS += \
     connectmodulewidget.h \
-    mainwindow.h
+    mainwindow.h \
+    structs.h
 
 FORMS += \
+    TestModuleWidget.ui \
     connectmodulewidget.ui \
     mainwindow.ui
 
