@@ -18,17 +18,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     connectmodulewidget.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    testmodulewidget.cpp
 
 HEADERS += \
     connectmodulewidget.h \
     mainwindow.h \
-    structs.h
+    structs.h \
+    testmodulewidget.h
 
 FORMS += \
     TestModuleWidget.ui \
     connectmodulewidget.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    testmodulewidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

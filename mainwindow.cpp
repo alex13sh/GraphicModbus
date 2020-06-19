@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     mapDevices = new MapDevices_;
     ui->ConnectModule->setDevices(mapDevices);
+    ui->TestModule->setDevices(mapDevices);
 }
 
 MainWindow::~MainWindow()

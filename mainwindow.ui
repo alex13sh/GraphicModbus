@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>792</width>
+    <height>599</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <property name="currentIndex">
        <number>1</number>
       </property>
-      <widget class="QWidget" name="ConnectModule_2">
+      <widget class="QWidget" name="tab_ConnectModule">
        <attribute name="title">
         <string>Connect Module</string>
        </attribute>
@@ -30,10 +30,15 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="tab_TestModuleWidget">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Test Module</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="TestModuleWidget" name="TestModule" native="true"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -44,7 +49,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>792</width>
      <height>22</height>
     </rect>
    </property>
@@ -56,6 +61,12 @@
    <class>ConnectModuleWidget</class>
    <extends>QWidget</extends>
    <header>connectmodulewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TestModuleWidget</class>
+   <extends>QWidget</extends>
+   <header>testmodulewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
