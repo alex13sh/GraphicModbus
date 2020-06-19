@@ -29,4 +29,27 @@ struct ModbusDevice{
 typedef QMap<QString, ModbusDevice>* MapDevices;
 typedef QMap<QString, ModbusDevice> MapDevices_;
 
+struct Sensor{
+    QString name = "None";
+    enum SensorType{
+        None=0,
+        Volt_1=14,
+        Resister=39
+    } type = None;
+    const ModbusDevice *module=nullptr;
+
+    float fvalue;
+    int ivalue;
+
+    Sensor()
+        : name("None"), type(None)
+    {}
+    Sensor(const QString &name)
+        : name(name)
+    {}
+
+    void setModule(const ModbusDevice *module);
+    void setType(SensorType type);
+};
+
 #endif // STRUCTS_H
