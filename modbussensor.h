@@ -3,6 +3,17 @@
 
 #include <QObject>
 
+enum SensorType_{
+    None=0,
+    Volt_1=14,
+    Resister=39
+};
+enum SensorType{
+    Other=0,
+    Температура,
+    Давление
+};
+
 class ModbusDevice;
 class ModbusSensor : public QObject
 {
@@ -12,19 +23,8 @@ public:
 
     ModbusSensor(const QString &name, quint16 address, QObject *parent = nullptr);
 
-    enum SensorType_{
-        None=0,
-        Volt_1=14,
-        Resister=39
-    };
-    enum SensorType{
-        Other=0,
-        Температура,
-        Давление
-    };
-
-    void setModule(const ModbusDevice *module){this->module=module;}
-    void setType_(SensorType_ type){type_=type;}
+    void setModule(const ModbusDevice *module);
+    void setType_(SensorType_ type);
 
     void updateValue();
 
