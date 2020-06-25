@@ -3,7 +3,8 @@
 
 #include <QWidget>
 
-#include "structs.h"
+//#include "structs.h"
+#include "defines.h"
 
 namespace Ui {
 class TestModuleWidget;

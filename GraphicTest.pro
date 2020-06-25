@@ -19,11 +19,16 @@ SOURCES += \
     connectmodulewidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    modbusdevice.cpp \
+    modbussensor.cpp \
     testmodulewidget.cpp
 
 HEADERS += \
     connectmodulewidget.h \
+    defines.h \
     mainwindow.h \
+    modbusdevice.h \
+    modbussensor.h \
     structs.h \
     testmodulewidget.h
 
