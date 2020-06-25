@@ -9,7 +9,7 @@ enum SensorType_{
     Resister=39
 };
 enum SensorType{
-    Other=0,
+    OtherSensor=0,
     Температура,
     Давление
 };
@@ -34,7 +34,7 @@ private:
 
     QString name = "None";
     SensorType_ type_ = None;
-    SensorType type = Other;
+    SensorType type = OtherSensor;
     const ModbusDevice *module=nullptr;
     quint16 address;
 

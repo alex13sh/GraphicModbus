@@ -4,7 +4,7 @@
 #include <QWidget>
 
 //#include "structs.h"
-#include "modbusdevice.h"
+#include "defines.h"
 class QModbusClient;
 class QModbusReply;
 class QTimer;

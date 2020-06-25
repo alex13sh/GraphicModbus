@@ -1,6 +1,7 @@
 #include "connectmodulewidget.h"
 #include "ui_connectmodulewidget.h"
 
+#include "modbusdevice.h"
 
 #include <QModbusTcpClient>
 #include <QModbusRtuSerialMaster>
@@ -43,10 +44,10 @@ void ConnectModuleWidget::on_pbAdd_clicked() {
     if(mapDevices->contains(name))
         qDebug()<<"Такое имя устройства уже существует";
     else{
-        DeviceType type = DeviceType::Other;
+        DeviceType type = DeviceType::OtherDevice;
         type = ui->cmbType_Device->currentText()=="InputAnalog"?DeviceType::OVEN_InpoutAnalog : DeviceType::OVEN_IODiget;
 //        (*mapDevices)[name] = ModbusDevice(name, modbusDevice, type);
-        mapDevices->insert(name, ModbusDevice(name, modbusDevice, type));
+        mapDevices->insert(name, new ModbusDevice(name, modbusDevice, type));
         modbusDevice = nullptr;
         qDebug()<<"Устройство"<<name<<"добавленно";
         updateList();
@@ -55,7 +56,7 @@ void ConnectModuleWidget::on_pbAdd_clicked() {
 
 void ConnectModuleWidget::updateList() {
     ui->lstDevice->clear();
-    for(const auto &itm : *mapDevices){
-        ui->lstDevice->addItem(QString("%1 (%2)").arg(itm.name()).arg(itm.typeStr()));
+    for(const auto *itm : *mapDevices){
+        ui->lstDevice->addItem(QString("%1 (%2)").arg(itm->name()).arg(itm->typeStr()));
     }
 }

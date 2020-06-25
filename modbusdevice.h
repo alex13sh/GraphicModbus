@@ -4,7 +4,7 @@
 #include <QObject>
 
 enum DeviceType{
-    Other,
+    OtherDevice,
     OVEN_InpoutAnalog,
     OVEN_IODiget
 };
@@ -25,13 +25,11 @@ signals:
 
 private:
     QString m_name = "None";
-    DeviceType m_type = DeviceType::Other;
+    DeviceType m_type = DeviceType::OtherDevice;
     QModbusClient *m_device=nullptr;
 
     void onReadReady();
     bool sendRead(quint16 addr, quint16 cnt);
 };
-typedef QMap<QString, ModbusDevice>* MapDevices;
-typedef QMap<QString, ModbusDevice> MapDevices_;
 
 #endif // MODBUSDEVICE_H

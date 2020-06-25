@@ -25,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     connectmodulewidget.h \
+    defines.h \
     mainwindow.h \
     modbusdevice.h \
     modbussensor.h \
