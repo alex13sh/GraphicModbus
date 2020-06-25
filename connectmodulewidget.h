@@ -3,7 +3,8 @@
 
 #include <QWidget>
 
-#include "structs.h"
+//#include "structs.h"
+#include "modbusdevice.h"
 class QModbusClient;
 class QModbusReply;
 class QTimer;

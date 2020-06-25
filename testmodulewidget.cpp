@@ -28,7 +28,7 @@ void TestModuleWidget::on_pbAdd_clicked() {
 void TestModuleWidget::updateListDevice() {
     if(!mapDevices) return;
     ui->cmbDevice->clear();
-    for(auto itm : *mapDevices){
-        ui->cmbDevice->addItem(QString("%1 (%2)").arg(itm.name).arg(itm.typeStr()));
+    for(const auto &itm : *mapDevices){
+        ui->cmbDevice->addItem(QString("%1 (%2)").arg(itm.name()).arg(itm.typeStr()));
     }
 }

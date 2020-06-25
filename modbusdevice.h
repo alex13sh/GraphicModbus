@@ -3,24 +3,29 @@
 
 #include <QObject>
 
+enum DeviceType{
+    Other,
+    OVEN_InpoutAnalog,
+    OVEN_IODiget
+};
 class QModbusClient;
 class ModbusDevice : public QObject
 {
     Q_OBJECT
 public:
     explicit ModbusDevice(QObject *parent = nullptr);
+    ModbusDevice(const QString &name, QModbusClient *device, DeviceType type)
+        : m_name(name), m_device(device), m_type(type)
+    {}
 
+    QString name() const {return this->m_name;}
     QString typeStr() const;
     QModbusClient *device() const {return m_device;}
 signals:
 
 private:
-    QString name = "None";
-    enum DeviceType{
-        Other,
-        OVEN_InpoutAnalog,
-        OVEN_IODiget
-    } m_type = Other;
+    QString m_name = "None";
+    DeviceType m_type = DeviceType::Other;
     QModbusClient *m_device=nullptr;
 
     void onReadReady();
