@@ -23,7 +23,7 @@ public:
 
     ModbusSensor(const QString &name, quint16 address, QObject *parent = nullptr);
 
-    void setModule(const ModbusDevice *module);
+    void setModule(ModbusDevice *module, int pin);
     void setType_(SensorType_ type);
 
     void updateValue();
