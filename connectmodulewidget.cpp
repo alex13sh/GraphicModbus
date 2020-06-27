@@ -23,10 +23,11 @@ ConnectModuleWidget::~ConnectModuleWidget()
 
 void ConnectModuleWidget::on_pbConnect_clicked() {
     if(!modbusDevice) return;
-    if(ui->cmbType->currentText() == "RTU"){
-        if(modbusDevice->connectRTU(ui->txtDeviceAddress->text())) qDebug()<<"Device is connected";
-        else qDebug()<<"Device is not connected";
-    }//else modbusDevice_ = new QModbusTcpClient(this);
+    if(ui->cmbType->currentText() == "RTU") modbusDevice->connectRTU(ui->txtDeviceAddress->text());
+    else modbusDevice->connectTCP(ui->txtDeviceAddress->text());
+
+    if(modbusDevice->isConnected()) qDebug()<<"Device is connected";
+    else qDebug()<<"Device is not connected";
 }
 
 void ConnectModuleWidget::on_pbAdd_clicked() {

@@ -28,6 +28,7 @@ public:
 
     bool connectRTU(const QString &adr="/dev/ttyACM0");
     bool connectTCP(const QString &adr);
+    bool isConnected() const;
     QModbusClient *getDevice() const {return this->m_device;}
 
     void setSensor(quint8 pin, ModbusSensor* sens);

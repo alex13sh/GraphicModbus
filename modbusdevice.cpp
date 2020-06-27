@@ -1,6 +1,7 @@
 #include "modbusdevice.h"
 
 #include <QModbusRtuSerialMaster>
+#include <QModbusTcpClient>
 #include <QVariant>
 #include <QDebug>
 
@@ -24,8 +25,18 @@ bool ModbusDevice::connectRTU(const QString &adr) {
 
 bool ModbusDevice::connectTCP(const QString &adr)
 {
-//    m_device = new QModbusTcpClient(this);
-    return false;
+    m_device = new QModbusTcpClient(this);
+    m_device->setConnectionParameter(QModbusDevice::NetworkAddressParameter, QVariant(adr));
+    m_device->setTimeout(1000);
+    m_device->setNumberOfRetries(3);
+    if (!m_device->connectDevice())
+//        qDebug()<<tr("Connect failed: ") + m_device->errorString();
+        return false;
+    else return true; //qDebug()<<"Connected!";
+}
+
+bool ModbusDevice::isConnected() const {
+    return m_device->state() == QModbusDevice::ConnectedState;
 }
 
 void ModbusDevice::setSensor(quint8 pin, ModbusSensor *sens) {
@@ -57,7 +68,7 @@ void ModbusDevice::onReadReady()
 }
 
 bool ModbusDevice::sendRead(quint16 addr, quint16 cnt) const {
-    if(m_device->state() != QModbusDevice::ConnectedState) return false;
+    if(not isConnected()) return false;
 
     QModbusDataUnit du(QModbusDataUnit::InputRegisters, addr, cnt);
     if (auto *reply = m_device->sendReadRequest(du, 1)) {
