@@ -27,6 +27,8 @@ public:
     void setModule(ModbusDevice *m_module, int pin);
     void setType_(SensorType_ m_type);
 
+    QString name() const {return m_name;}
+
     void updateValue();
     void setValueF(float value);
 

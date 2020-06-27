@@ -23,11 +23,16 @@ public:
 private slots:
     void on_pbAdd_clicked();
 
+    void on_cmbDevice_currentIndexChanged(int index);
+
 private:
     Ui::TestModuleWidget *ui;
 
-    MapDevices mapDevices;
+    MapDevices mapDevices = nullptr;
+    QStringList cmbListName;
+
     void updateListDevice();
+    void updateListSensor(const ModbusDevice *dev);
 };
 
 #endif // TESTMODULEWIDGET_H

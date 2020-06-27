@@ -12,6 +12,7 @@ enum DeviceType{
 class QModbusClient;
 class ModbusSensor;
 class QModbusReply;
+typedef QMap<int, ModbusSensor*> ListSensors;
 
 class ModbusDevice : public QObject
 {
@@ -34,6 +35,8 @@ public:
     QString name() const {return this->m_name;}
     QString typeStr() const;
     QModbusClient *device() const {return m_device;}
+    ListSensors getListSensors() const {return m_sensors;}
+
 signals:
     void updatedListSensors();
 
@@ -42,7 +45,7 @@ protected:
     DeviceType m_type = DeviceType::OtherDevice;
     QModbusClient *m_device=nullptr;
 
-    QMap<int, ModbusSensor*> m_sensors; // датчики этого модуля
+    ListSensors m_sensors; // датчики этого модуля
     using ValuesType = QVector<quint16>;
 //    typedef void CallBackFunc (QModbusReply *);
 

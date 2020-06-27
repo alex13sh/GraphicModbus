@@ -21,5 +21,7 @@ private:
     Ui::MainWindow *ui;
 
     MapDevices mapDevices;
+
+    void init_test_device();
 };
 #endif // MAINWINDOW_H

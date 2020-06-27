@@ -21,7 +21,7 @@ public:
     explicit ConnectModuleWidget(QWidget *parent = nullptr);
     ~ConnectModuleWidget();
 
-    void setDevices(MapDevices devices){mapDevices=devices;}
+    void setDevices(MapDevices devices){mapDevices=devices;updateList();}
 
 private slots:
     void on_pbConnect_clicked();
