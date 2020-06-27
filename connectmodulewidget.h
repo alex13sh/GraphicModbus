@@ -34,6 +34,7 @@ private:
 
     QModbusReply *lastRequest = nullptr;
     QModbusClient *modbusDevice = nullptr;
+    ModbusDevice *modbusDevice_ = nullptr;
     QTimer *tim_value=nullptr;
     MapDevices mapDevices;
 

@@ -22,24 +22,18 @@ ConnectModuleWidget::~ConnectModuleWidget()
 }
 
 void ConnectModuleWidget::on_pbConnect_clicked() {
-    if(modbusDevice) delete modbusDevice;
-    if(ui->cmbType->currentText() == "RTU")
-        modbusDevice = new QModbusRtuSerialMaster(this);
-    else modbusDevice = new QModbusTcpClient(this);
-
-    modbusDevice->setConnectionParameter(QModbusDevice::SerialPortNameParameter,
-        ui->txtDeviceAddress->text());
-
-    modbusDevice->setTimeout(1000);
-    modbusDevice->setNumberOfRetries(3);
-    if (!modbusDevice->connectDevice())
-        qDebug()<<tr("Connect failed: ") + modbusDevice->errorString();
-    else qDebug()<<"Connected!";
+    if(!modbusDevice_) return;
+//    modbusDevice = modbusDevice_->device();
+//    if(modbusDevice) delete modbusDevice;
+    if(ui->cmbType->currentText() == "RTU"){
+//        modbusDevice = new QModbusRtuSerialMaster(this);
+        if(modbusDevice_->connectRTU(ui->txtDeviceAddress->text())) qDebug()<<"Device is connected";
+        else qDebug()<<"Device is not connected";
+    }else modbusDevice = new QModbusTcpClient(this);
 }
 
 void ConnectModuleWidget::on_pbAdd_clicked() {
     if(!mapDevices) return;
-    if(!modbusDevice) return;
     auto name = ui->txtName->text();
     if(mapDevices->contains(name))
         qDebug()<<"Такое имя устройства уже существует";
@@ -47,8 +41,8 @@ void ConnectModuleWidget::on_pbAdd_clicked() {
         DeviceType type = DeviceType::OtherDevice;
         type = ui->cmbType_Device->currentText()=="InputAnalog"?DeviceType::OVEN_InpoutAnalog : DeviceType::OVEN_IODiget;
 //        (*mapDevices)[name] = ModbusDevice(name, modbusDevice, type);
-        mapDevices->insert(name, new ModbusDevice(name, modbusDevice, type));
-        modbusDevice = nullptr;
+        modbusDevice_ = new ModbusDevice(name, type);
+        mapDevices->insert(name, modbusDevice_);
         qDebug()<<"Устройство"<<name<<"добавленно";
         updateList();
     }
@@ -60,3 +54,5 @@ void ConnectModuleWidget::updateList() {
         ui->lstDevice->addItem(QString("%1 (%2)").arg(itm->name()).arg(itm->typeStr()));
     }
 }
+
+
