@@ -51,10 +51,7 @@ void ModbusDevice::onReadReady()
     qDebug()<<"Get Result";
     if (reply->error() == QModbusDevice::NoError) {
         const QModbusDataUnit unit = reply->result();
-
-        if(unit.startAddress()>=4000
-            && unit.startAddress()<=4071)
-            updateValueSensor(unit.startAddress(), unit.values());
+        getValues(unit.startAddress(), unit.values());
     }else qDebug()<<" - Error:"<<reply->errorString()<<tr("(%1) ").arg(reply->error())<<"; device:"<<m_device->errorString();
 
 }
@@ -71,25 +68,5 @@ bool ModbusDevice::sendRead(quint16 addr, quint16 cnt) const {
             delete reply; // broadcast replies return immediately
     }
     return false;
-}
-
-#include "modbussensor.h"
-void ModbusDevice::updateValueSensor(quint16 adr, ModbusDevice::ValuesType value) {
-    if(adr>=4000 && adr<4064){
-        qint32 ivalue = (((qint32)value[1]<<16)|(qint32)value[0]);
-        float fvalue=(float&)ivalue;
-        quint8 pin = (adr-4000)/3+1;
-        m_sensors[pin]->m_fvalue = fvalue;
-    }else if(adr>=4064 && adr<=4071){
-        qint16 ivalue=(quint16)(value[0]);
-        quint8 pin = (adr-4064)/1+1;
-        m_sensors[pin]->m_ivalue = ivalue;
-    }
-}
-
-void ModbusDevice::getValueSensor(quint8 pin) const {
-    auto sens = m_sensors[pin]; sens->m_fvalue = 0;
-    sendRead(4000+(pin-1)*3, 2); // float value
-    sendRead(4064+(pin-1), 1);  // int value
 }
 

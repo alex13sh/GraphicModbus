@@ -30,3 +30,9 @@ void ModbusSensor::updateValue()
 {
     m_module->getValueSensor(m_pin);
 }
+
+void ModbusSensor::setValueF(float value) {
+    if(m_fvalue == value) return;
+    m_fvalue = value;
+    emit fvalueChanged(value);
+}

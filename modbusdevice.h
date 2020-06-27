@@ -18,8 +18,8 @@ class ModbusDevice : public QObject
     Q_OBJECT
 public:
     explicit ModbusDevice(QObject *parent = nullptr);
-    ModbusDevice(const QString &name, DeviceType type)
-        : QObject(nullptr), m_name(name), m_device(nullptr), m_type(type)
+    ModbusDevice(const QString &name, DeviceType type, QObject *parent = nullptr)
+        : QObject(parent), m_name(name), m_device(nullptr), m_type(type)
     {}
     ModbusDevice(const QString &name, QModbusClient *device, DeviceType type)
         : QObject(nullptr), m_name(name), m_device(device), m_type(type)
@@ -36,7 +36,8 @@ public:
     QModbusClient *device() const {return m_device;}
 signals:
     void updatedListSensors();
-private:
+
+protected:
     QString m_name = "None";
     DeviceType m_type = DeviceType::OtherDevice;
     QModbusClient *m_device=nullptr;
@@ -45,12 +46,13 @@ private:
     using ValuesType = QVector<quint16>;
 //    typedef void CallBackFunc (QModbusReply *);
 
-    void onReadReady();
+    virtual void onReadReady();
+    virtual void getValues(quint16 adr, ValuesType value) {};
     bool sendRead(quint16 addr, quint16 cnt) const;
-    void updateValueSensor(quint16 adr, ValuesType value);
+    virtual void updateValueSensor(quint16 adr, ValuesType value) {};
 
     friend class ModbusSensor;
-    void getValueSensor(quint8 pin) const;
+    virtual void getValueSensor(quint8 pin) const {};
 };
 
 #endif // MODBUSDEVICE_H

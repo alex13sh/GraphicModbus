@@ -20,6 +20,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     modbusdevice.cpp \
+    modbusdevice_analog.cpp \
     modbussensor.cpp \
     testmodulewidget.cpp
 
@@ -28,6 +29,7 @@ HEADERS += \
     defines.h \
     mainwindow.h \
     modbusdevice.h \
+    modbusdevice_analog.h \
     modbussensor.h \
     structs.h \
     testmodulewidget.h

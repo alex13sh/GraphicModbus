@@ -28,9 +28,10 @@ public:
     void setType_(SensorType_ m_type);
 
     void updateValue();
+    void setValueF(float value);
 
 signals:
-
+    void fvalueChanged(float value);
 private:
 
     QString m_name = "None";
