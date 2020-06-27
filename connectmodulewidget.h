@@ -33,8 +33,7 @@ private:
     using ValuesType = QVector<quint16>;
 
     QModbusReply *lastRequest = nullptr;
-    QModbusClient *modbusDevice = nullptr;
-    ModbusDevice *modbusDevice_ = nullptr;
+    ModbusDevice *modbusDevice = nullptr;
     QTimer *tim_value=nullptr;
     MapDevices mapDevices;
 

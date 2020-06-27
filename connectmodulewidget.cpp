@@ -22,14 +22,11 @@ ConnectModuleWidget::~ConnectModuleWidget()
 }
 
 void ConnectModuleWidget::on_pbConnect_clicked() {
-    if(!modbusDevice_) return;
-//    modbusDevice = modbusDevice_->device();
-//    if(modbusDevice) delete modbusDevice;
+    if(!modbusDevice) return;
     if(ui->cmbType->currentText() == "RTU"){
-//        modbusDevice = new QModbusRtuSerialMaster(this);
-        if(modbusDevice_->connectRTU(ui->txtDeviceAddress->text())) qDebug()<<"Device is connected";
+        if(modbusDevice->connectRTU(ui->txtDeviceAddress->text())) qDebug()<<"Device is connected";
         else qDebug()<<"Device is not connected";
-    }else modbusDevice = new QModbusTcpClient(this);
+    }//else modbusDevice_ = new QModbusTcpClient(this);
 }
 
 void ConnectModuleWidget::on_pbAdd_clicked() {
@@ -40,9 +37,8 @@ void ConnectModuleWidget::on_pbAdd_clicked() {
     else{
         DeviceType type = DeviceType::OtherDevice;
         type = ui->cmbType_Device->currentText()=="InputAnalog"?DeviceType::OVEN_InpoutAnalog : DeviceType::OVEN_IODiget;
-//        (*mapDevices)[name] = ModbusDevice(name, modbusDevice, type);
-        modbusDevice_ = new ModbusDevice(name, type);
-        mapDevices->insert(name, modbusDevice_);
+        modbusDevice = new ModbusDevice(name, type);
+        mapDevices->insert(name, modbusDevice);
         qDebug()<<"Устройство"<<name<<"добавленно";
         updateList();
     }
