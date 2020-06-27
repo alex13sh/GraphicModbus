@@ -28,6 +28,7 @@ public:
     void setType_(SensorType_ m_type);
 
     QString name() const {return m_name;}
+    quint8 pin() const {return m_pin;}
 
     void updateValue();
     void setValueF(float value);

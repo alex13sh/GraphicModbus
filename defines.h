@@ -4,6 +4,7 @@
 #include <QMap>
 
 class ModbusDevice;
+class ModbusSensor;
 typedef QMap<QString, ModbusDevice*>* MapDevices;
 typedef QMap<QString, ModbusDevice*> MapDevices_;
 

@@ -31,6 +31,16 @@
    <item row="0" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
+      <widget class="QSpinBox" name="spinBox">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>8</number>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLineEdit" name="txtName">
        <property name="placeholderText">
         <string>Название датчика</string>
@@ -56,8 +66,19 @@
    <item row="1" column="0">
     <widget class="QListWidget" name="listWidget"/>
    </item>
+   <item row="1" column="1">
+    <widget class="SensorAnalog_InfoWidget" name="InfoForm" native="true"/>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SensorAnalog_InfoWidget</class>
+   <extends>QWidget</extends>
+   <header>sensoranalog_infowidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -25,11 +25,14 @@ private slots:
 
     void on_cmbDevice_currentIndexChanged(int index);
 
+    void on_listWidget_currentRowChanged(int currentRow);
+
 private:
     Ui::TestModuleWidget *ui;
 
     MapDevices mapDevices = nullptr;
-    QStringList cmbListName;
+    QVector<ModbusDevice*> m_lstDevice;
+    QVector<ModbusSensor*> m_lstSensor;
 
     void updateListDevice();
     void updateListSensor(const ModbusDevice *dev);
