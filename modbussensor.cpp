@@ -8,19 +8,25 @@ ModbusSensor::ModbusSensor(QObject *parent)
 {}
 
 ModbusSensor::ModbusSensor(const QString &name, quint16 address, QObject *parent)
-    : QObject(parent), name(name), address(address)
+    : QObject(parent), m_name(name), m_address(address)
 {}
 
+ModbusSensor::ModbusSensor(const QString &name, quint8 pin, ModbusDevice *module)
+    : QObject(module), m_name(name)//, m_module(module), m_pin(pin)
+{
+    setModule(module, pin);
+}
+
 void ModbusSensor::setModule(ModbusDevice *module, int pin){
-    this->module=module;
+    this->m_module=module;
+    this->m_pin = pin;
 //    module->setSensor(pin, this);
     module->m_sensors[pin] = this;
 }
 
-void ModbusSensor::setType_(SensorType_ type){type_=type;}
+void ModbusSensor::setType_(SensorType_ type){m_type_=type;}
 
 void ModbusSensor::updateValue()
 {
-    auto device = this->module->device();
-
+    m_module->getValueSensor(m_pin);
 }
