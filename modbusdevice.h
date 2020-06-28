@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QMap>
 
+#include "defines.h"
+
 enum DeviceType{
     OtherDevice,
     OVEN_InpoutAnalog,
@@ -12,7 +14,6 @@ enum DeviceType{
 class QModbusClient;
 class ModbusSensor;
 class QModbusReply;
-typedef QMap<int, ModbusSensor*> ListSensors;
 
 class ModbusDevice : public QObject
 {
@@ -47,7 +48,7 @@ protected:
     QModbusClient *m_device=nullptr;
 
     ListSensors m_sensors; // датчики этого модуля
-    using ValuesType = QVector<quint16>;
+//    using ValuesType = QVector<quint16>;
 //    typedef void CallBackFunc (QModbusReply *);
 
     virtual void onReadReady();

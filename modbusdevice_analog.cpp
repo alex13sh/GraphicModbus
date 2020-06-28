@@ -5,13 +5,13 @@ ModbusDevice_Analog::ModbusDevice_Analog(const QString &name, QObject *parent) :
 {
 }
 
-void ModbusDevice_Analog::getValues(quint16 adr, ModbusDevice::ValuesType values) {
+void ModbusDevice_Analog::getValues(quint16 adr, ValuesType values) {
     if(adr>=4000 && adr<=4071)
         updateValueSensor(adr, values);
 }
 
 #include "modbussensor.h"
-void ModbusDevice_Analog::updateValueSensor(quint16 adr, ModbusDevice::ValuesType value) {
+void ModbusDevice_Analog::updateValueSensor(quint16 adr, ValuesType value) {
     if(adr>=4000 && adr<4064){
         qint32 ivalue = (((qint32)value[1]<<16)|(qint32)value[0]);
         float fvalue=(float&)ivalue;
