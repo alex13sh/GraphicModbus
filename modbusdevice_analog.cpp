@@ -37,8 +37,10 @@ ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name)
 }
 
 void ModbusDevice_Analog::getValues(quint16 adr, ValuesType values) {
-    if(adr>=4000 && adr<=4071)
-        updateValueSensor(adr, values);
+    ModbusDevice::getValues(adr, values);
+    return;
+//    if(adr>=4000 && adr<=4071)
+//        updateValueSensor(adr, values);
 }
 
 #include "modbussensor.h"

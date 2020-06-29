@@ -1,5 +1,5 @@
 #include "modbusdevice.h"
-//#include "modbusvalue.h"
+#include "modbusvalue.h"
 
 #include <QModbusRtuSerialMaster>
 #include <QModbusTcpClient>
@@ -74,6 +74,11 @@ void ModbusDevice::onReadReady()
         getValues(unit.startAddress(), unit.values());
     }else qDebug()<<" - Error:"<<reply->errorString()<<tr("(%1) ").arg(reply->error())<<"; device:"<<m_device->errorString();
 
+}
+
+void ModbusDevice::getValues(quint16 adr, ValuesType value) {
+    if(!m_values.contains(adr)) return;
+    m_values[adr]->updateValues(value);
 }
 
 bool ModbusDevice::sendRead(quint16 addr, quint16 cnt) const {

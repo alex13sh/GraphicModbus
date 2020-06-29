@@ -55,12 +55,13 @@ protected:
 //    typedef void CallBackFunc (QModbusReply *);
 
     virtual void onReadReady();
-    virtual void getValues(quint16 adr, ValuesType value) {};
+    virtual void getValues(quint16 adr, ValuesType value);;
     bool sendRead(quint16 addr, quint16 cnt) const;
     virtual void updateValueSensor(quint16 adr, ValuesType value) {};
 
     friend class ModbusSensor;
-    virtual void getValueSensor(quint8 pin) const {};
+    friend class ModbusValue;
+    virtual void getValueSensor(quint8 pin) const {}
 };
 
 #endif // MODBUSDEVICE_H

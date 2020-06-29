@@ -25,6 +25,10 @@ void ModbusValue::updateValues(const ValuesType &values) {
     emit valuesChanged();
 }
 
+void ModbusValue::updateValues() {
+    m_module->sendRead(m_address, m_size);
+}
+
 ValuesType ModbusValue::values() const {
     return m_values;
 }

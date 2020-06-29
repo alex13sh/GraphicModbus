@@ -8,11 +8,13 @@ class QTimer;
 
 enum ValueType{
     ValueType_None,
-    ЦелоЧисленное_Значение,
-    Вещественное_Значение,
+    ValueType_INT8,
+    ValueType_INT16,
+    ValueType_INT32,
+    ValueType_FLOAT,
     Датчик,
     Ошибка,
-    Найстройка
+    Найстройка //Запись
 };
 
 class ModbusValue : public QObject
@@ -25,6 +27,7 @@ public:
 
     void setValues(const ValuesType &values); // Установить новые значения
     void updateValues(const ValuesType &values); // Обновить
+    void updateValues();
     ValuesType values() const;
 
     float value_float() const;
