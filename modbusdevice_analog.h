@@ -2,7 +2,6 @@
 #define MODBUSDEVICE_ANALOG_H
 
 #include "modbusdevice.h"
-#include "defines.h"
 
 class ModbusDevice_Analog : public ModbusDevice
 {

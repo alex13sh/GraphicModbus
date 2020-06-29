@@ -21,6 +21,7 @@ SOURCES += \
     mainwindow.cpp \
     modbusdevice.cpp \
     modbusdevice_analog.cpp \
+    modbusdevice_iodigital.cpp \
     modbussensor.cpp \
     modbusvalue.cpp \
     sensoranalog_infowidget.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     mainwindow.h \
     modbusdevice.h \
     modbusdevice_analog.h \
+    modbusdevice_iodigital.h \
     modbussensor.h \
     modbusvalue.h \
     sensoranalog_infowidget.h \
