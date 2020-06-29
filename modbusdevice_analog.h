@@ -2,6 +2,7 @@
 #define MODBUSDEVICE_ANALOG_H
 
 #include "modbusdevice.h"
+#include "defines.h"
 
 class ModbusDevice_Analog : public ModbusDevice
 {
@@ -9,6 +10,7 @@ class ModbusDevice_Analog : public ModbusDevice
 public:
     explicit ModbusDevice_Analog(const QString &name, QObject *parent = nullptr);
 
+    ModbusSensor *createSensor(quint8 pin, const QString &name) override;
 signals:
 
 private:

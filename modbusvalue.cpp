@@ -13,7 +13,16 @@ ModbusValue::ModbusValue(ModbusDevice *module, const QString &name, quint16 addr
 }
 
 void ModbusValue::setValues(const ValuesType &values) {
+    if(m_values == values) return;
     m_values = values;
+    // отправить значение
+    emit valuesChanged();
+}
+
+void ModbusValue::updateValues(const ValuesType &values) {
+    if(m_values == values) return;
+    m_values = values;
+    emit valuesChanged();
 }
 
 ValuesType ModbusValue::values() const {

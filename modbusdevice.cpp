@@ -1,4 +1,5 @@
 #include "modbusdevice.h"
+//#include "modbusvalue.h"
 
 #include <QModbusRtuSerialMaster>
 #include <QModbusTcpClient>
@@ -39,11 +40,19 @@ bool ModbusDevice::isConnected() const {
     return m_device->state() == QModbusDevice::ConnectedState;
 }
 
+ModbusSensor *ModbusDevice::createSensor(quint8 pin, const QString &name) {
+    return nullptr;
+}
+
 void ModbusDevice::setSensor(quint8 pin, ModbusSensor *sens) {
     if(m_sensors.contains(pin))
         return;
     m_sensors[pin] = sens;
     emit updatedListSensors();
+}
+
+void ModbusDevice::setValue(quint32 address, ModbusValue *value) {
+    m_values.insert(address, value);
 }
 
 QString ModbusDevice::typeStr() const {

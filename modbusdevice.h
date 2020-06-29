@@ -32,7 +32,9 @@ public:
     bool isConnected() const;
     QModbusClient *getDevice() const {return this->m_device;}
 
-    void setSensor(quint8 pin, ModbusSensor* sens);
+    virtual ModbusSensor *createSensor(quint8 pin, const QString &name);
+    void setSensor(quint8 pin, ModbusSensor *sens);
+    void setValue(quint32 address, ModbusValue *value);
 
     QString name() const {return this->m_name;}
     QString typeStr() const;
@@ -48,7 +50,8 @@ protected:
     QModbusClient *m_device=nullptr;
 
     ListSensors m_sensors; // датчики этого модуля
-//    using ValuesType = QVector<quint16>;
+    ListValues m_values;
+
 //    typedef void CallBackFunc (QModbusReply *);
 
     virtual void onReadReady();

@@ -2,6 +2,7 @@
 #define MODBUSSENSOR_H
 
 #include <QObject>
+#include "defines.h"
 
 enum SensorType_{
     None=0,
@@ -21,11 +22,13 @@ class ModbusSensor : public QObject
 public:
     explicit ModbusSensor(QObject *parent = nullptr);
 
-    ModbusSensor(const QString &m_name, quint16 m_address, QObject *parent = nullptr);
-    ModbusSensor(const QString &m_name, quint8 pin, ModbusDevice *m_module);
+    ModbusSensor(const QString &name, quint8 pin, ModbusDevice *module);
 
     void setModule(ModbusDevice *m_module, int pin);
     void setType_(SensorType_ m_type);
+
+    void addValue(quint16 address, ModbusValue* value);
+    ListValues values() const;
 
     QString name() const {return m_name;}
     quint8 pin() const {return m_pin;}
@@ -41,11 +44,13 @@ private:
     SensorType_ m_type_ = None;
     SensorType m_type = OtherSensor;
     const ModbusDevice *m_module=nullptr;
-    quint16 m_address;
+
     quint8 m_pin;
 
     float m_fvalue;
     int m_ivalue;
+
+    ListValues m_values;
 
     friend class ModbusDevice;
 };

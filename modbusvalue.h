@@ -23,7 +23,8 @@ public:
 
     void setType(ValueType type);
 
-    void setValues(const ValuesType &values);
+    void setValues(const ValuesType &values); // Установить новые значения
+    void updateValues(const ValuesType &values); // Обновить
     ValuesType values() const;
 
     float value_float() const;
@@ -42,6 +43,16 @@ protected:
     ValuesType m_values;
     quint32 m_ivalue;
     float m_fvalue; // может быть эти значения не будут хранится
+};
+
+class ModbusValueFloat : public ModbusValue
+{
+
+public:
+    explicit ModbusValueFloat(ModbusDevice *module, const QString &name, quint16 address, quint8 size);
+
+    void setValue(float value);
+    float value() const;
 };
 
 #endif // MODBUSVALUE_H
