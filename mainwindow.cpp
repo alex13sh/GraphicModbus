@@ -20,10 +20,15 @@ MainWindow::~MainWindow()
 
 #include "modbusdevice.h"
 #include "modbusdevice_analog.h"
+#include "modbusdevice_iodigital.h"
 #include "modbussensor.h"
 void MainWindow::init_test_device() {
     auto dev_analog = new ModbusDevice_Analog("Input Analog", this);
     mapDevices->insert(dev_analog->name(), dev_analog);
-    auto sens_resister = new ModbusSensor("Test Resister", 1, dev_analog);
+    auto sens_resister = dev_analog->createSensor(1, "Test Resister");
+
+    auto dev_digital = new ModbusDevice_IODigital("Input\Output Digital", this);
+    mapDevices->insert(dev_digital->name(), dev_digital);
+    auto sens_counter = dev_digital->createSensor(1, "Test Counter");
 }
 

@@ -6,56 +6,54 @@
 
 class QTimer;
 
-enum ValueType{
+enum ValueType_{
     ValueType_None,
     ValueType_INT8,
     ValueType_INT16,
     ValueType_INT32,
-    ValueType_FLOAT,
-    Датчик,
-    Ошибка,
-    Найстройка //Запись
+    ValueType_FLOAT
+};
+enum ValueType{
+    Sensor, Option, Critical
 };
 
 class ModbusValue : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
 public:
     explicit ModbusValue(ModbusDevice *module, const QString &name, quint16 address, quint8 size);
+    explicit ModbusValue(ModbusSensor *sensor, const QString &name, quint16 address, quint8 size);
 
-    void setType(ValueType type);
+//    void setType(ValueType type);
+    void setReadOnly(bool readOnly){m_readOnly=readOnly;}
+    bool readOnly() const {return m_readOnly;}
 
     void setValues(const ValuesType &values); // Установить новые значения
     void updateValues(const ValuesType &values); // Обновить
     void updateValues();
     ValuesType values() const;
 
-    float value_float() const;
     int value_int() const;
+    float value_float() const;
+    qint8 value_int8() const;
+    qint16 value_int16() const;
+    qint32 value_int32() const;
+
 signals:
     void valuesChanged();
 
 protected:
-    ModbusDevice *m_module = nullptr;
+    const ModbusDevice *m_module = nullptr;
+    ModbusSensor *m_sensor = nullptr;
     QString m_name;
     quint16 m_address;
     quint8 m_size;
     ValueType m_type;
+    bool m_readOnly;
 
     QTimer *m_updateValue;
     ValuesType m_values;
-    quint32 m_ivalue;
-    float m_fvalue; // может быть эти значения не будут хранится
-};
-
-class ModbusValueFloat : public ModbusValue
-{
-
-public:
-    explicit ModbusValueFloat(ModbusDevice *module, const QString &name, quint16 address, quint8 size);
-
-    void setValue(float value);
-    float value() const;
 };
 
 #endif // MODBUSVALUE_H

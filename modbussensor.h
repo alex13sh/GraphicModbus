@@ -25,16 +25,16 @@ public:
     ModbusSensor(const QString &name, quint8 pin, ModbusDevice *module);
 
     void setModule(ModbusDevice *m_module, int pin);
+    const ModbusDevice *module() const {return m_module;}
     void setType_(SensorType_ m_type);
 
     void addValue(quint16 address, ModbusValue* value);
     ListValues values() const;
+    ModbusValue *value_float = nullptr;
+    ModbusValue *value_int = nullptr;
 
     QString name() const {return m_name;}
     quint8 pin() const {return m_pin;}
-
-    void updateValue();
-    void setValueF(float value);
 
 signals:
     void fvalueChanged(float value);
@@ -47,10 +47,8 @@ private:
 
     quint8 m_pin;
 
-    float m_fvalue;
-    int m_ivalue;
-
     ListValues m_values;
+//    ListValues m_sensorValues, m_optionValues;
 
     friend class ModbusDevice;
 };

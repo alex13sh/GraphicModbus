@@ -14,9 +14,9 @@ signals:
 
 private:
 
-    void getValues(quint16 adr, ValuesType values) override;
-    void updateValueSensor(quint16 adr, ValuesType value) override;
-    void getValueSensor(quint8 pin) const override;
+//    void getValues(quint16 adr, ValuesType values) override;
+//    void updateValueSensor(quint16 adr, ValuesType value) override;
+//    void getValueSensor(quint8 pin) const override;
 };
 
 #endif // MODBUSDEVICE_ANALOG_H
