@@ -25,6 +25,7 @@ void ModbusValue::setValues(const ValuesType &values) {
     if(m_values == values) return;
     m_values = values;
     // отправить значение
+    m_module->sendWrite(m_address, values);
     emit valuesChanged();
 }
 
@@ -40,6 +41,30 @@ void ModbusValue::updateValues() {
 
 ValuesType ModbusValue::values() const {
     return m_values;
+}
+
+void ModbusValue::setValue_int16(qint16 value) {
+    if(m_size!=1) return;
+    ValuesType values(1);
+    values[0]=value;
+    setValues(values);
+}
+
+void ModbusValue::setValue_uint32(quint32 value) {
+    if(m_size!=2) return;
+    ValuesType values(2);
+    values[0]=value & 0xffff;
+    values[1]=value>>16;
+    setValues(values);
+}
+
+void ModbusValue::setValue_float(float value) {
+    if(m_size!=2) return;
+    quint32 ivalue = (quint32&)value;
+    ValuesType values(2);
+    values[0]=ivalue & 0xffff;
+    values[1]=ivalue>>16;
+    setValues(values);
 }
 
 int ModbusValue::value_int() const {

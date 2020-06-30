@@ -95,3 +95,17 @@ bool ModbusDevice::sendRead(quint16 addr, quint16 cnt) const {
     return false;
 }
 
+bool ModbusDevice::sendWrite(quint16 addr, ValuesType value) const {
+    if(not isConnected()) return false;
+
+    QModbusDataUnit du(QModbusDataUnit::HoldingRegisters, addr, value);
+    if (auto *reply = m_device->sendReadRequest(du, 1)) {
+        if (!reply->isFinished()){
+            connect(reply, &QModbusReply::finished, this, &ModbusDevice::onReadReady);
+            return true;
+        }else
+            delete reply; // broadcast replies return immediately
+    }
+    return false;
+}
+

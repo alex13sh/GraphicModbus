@@ -57,6 +57,7 @@ protected:
     virtual void onReadReady();
     virtual void getValues(quint16 adr, ValuesType value);;
     bool sendRead(quint16 addr, quint16 cnt) const;
+    bool sendWrite(quint16 addr, ValuesType value) const;
     virtual void updateValueSensor(quint16 adr, ValuesType value) {};
 
     friend class ModbusSensor;

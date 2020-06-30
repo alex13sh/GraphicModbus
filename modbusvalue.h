@@ -25,6 +25,7 @@ public:
     explicit ModbusValue(ModbusDevice *module, const QString &name, quint16 address, quint8 size);
     explicit ModbusValue(ModbusSensor *sensor, const QString &name, quint16 address, quint8 size);
 
+    QString name() const {return m_name;}
 //    void setType(ValueType type);
     void setReadOnly(bool readOnly){m_readOnly=readOnly;}
     bool readOnly() const {return m_readOnly;}
@@ -34,6 +35,9 @@ public:
     void updateValues();
     ValuesType values() const;
 
+    void setValue_int16(qint16 value);
+    void setValue_uint32(quint32 value);
+    void setValue_float(float value);
     int value_int() const;
     float value_float() const;
     qint8 value_int8() const;
