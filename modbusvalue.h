@@ -21,11 +21,14 @@ class ModbusValue : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
+    Q_PROPERTY(int value READ value_int NOTIFY valuesChanged)
 public:
     explicit ModbusValue(ModbusDevice *module, const QString &name, quint16 address, quint8 size);
     explicit ModbusValue(ModbusSensor *sensor, const QString &name, quint16 address, quint8 size);
 
     QString name() const {return m_name;}
+    void setDescription(const QString &desc) {m_description=desc;}
+    QString description() const {return m_description;}
 //    void setType(ValueType type);
     void setReadOnly(bool readOnly){m_readOnly=readOnly;}
     bool readOnly() const {return m_readOnly;}
@@ -50,7 +53,7 @@ signals:
 protected:
     const ModbusDevice *m_module = nullptr;
     ModbusSensor *m_sensor = nullptr;
-    QString m_name;
+    QString m_name, m_description;
     quint16 m_address;
     quint8 m_size;
     ValueType m_type;

@@ -20,11 +20,9 @@ void ModbusSensor::setModule(ModbusDevice *module, int pin){
     module->m_sensors[pin] = this;
 }
 
-void ModbusSensor::setType_(SensorType_ type){m_type_=type;}
-
 void ModbusSensor::addValue(quint16 address, ModbusValue *value) {
     m_values.insert(address, value);
-
+    m_mapNameValue.insert(value->name(), value);
 }
 
 ListValues ModbusSensor::values() const {

@@ -4,11 +4,6 @@
 #include <QObject>
 #include "defines.h"
 
-enum SensorType_{
-    None=0,
-    Volt_1=14,
-    Resister=39
-};
 enum SensorType{
     OtherSensor=0,
     Температура,
@@ -26,28 +21,27 @@ public:
 
     void setModule(ModbusDevice *m_module, int pin);
     const ModbusDevice *module() const {return m_module;}
-    void setType_(SensorType_ m_type);
+//    void setType_(SensorType_ m_type);
 
-    void addValue(quint16 address, ModbusValue* value);
+    virtual void addValue(quint16 address, ModbusValue* value);
     ListValues values() const;
-    ModbusValue *value_float = nullptr;
-    ModbusValue *value_int = nullptr;
 
     QString name() const {return m_name;}
     quint8 pin() const {return m_pin;}
 
 signals:
     void fvalueChanged(float value);
-private:
+
+protected:
 
     QString m_name = "None";
-    SensorType_ m_type_ = None;
     SensorType m_type = OtherSensor;
     const ModbusDevice *m_module=nullptr;
 
     quint8 m_pin;
 
     ListValues m_values;
+    QMap<QString, ModbusValue*> m_mapNameValue;
 //    ListValues m_sensorValues, m_optionValues;
 
     friend class ModbusDevice;
