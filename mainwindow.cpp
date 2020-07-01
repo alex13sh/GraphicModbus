@@ -29,6 +29,6 @@ void MainWindow::init_test_device() {
 
     auto dev_digital = new ModbusDevice_IODigital("Input\Output Digital", this);
     mapDevices->insert(dev_digital->name(), dev_digital);
-    auto sens_counter = dev_digital->createSensor(1, "Test Counter");
+    auto sens_counter = dev_digital->createSensor(2, "Test Counter");
 }
 

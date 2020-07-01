@@ -24,7 +24,7 @@ SOURCES += \
     modbusdevice_iodigital.cpp \
     modbussensor.cpp \
     modbusvalue.cpp \
-    sensoranalog_infowidget.cpp \
+    sensor_infowidget.cpp \
     testmodulewidget.cpp
 
 HEADERS += \
@@ -36,7 +36,7 @@ HEADERS += \
     modbusdevice_iodigital.h \
     modbussensor.h \
     modbusvalue.h \
-    sensoranalog_infowidget.h \
+    sensor_infowidget.h \
     structs.h \
     testmodulewidget.h
 
@@ -44,7 +44,7 @@ FORMS += \
     TestModuleWidget.ui \
     connectmodulewidget.ui \
     mainwindow.ui \
-    sensoranalog_infowidget.ui \
+    sensor_infowidget.ui \
     testmodulewidget.ui
 
 # Default rules for deployment.

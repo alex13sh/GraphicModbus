@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SensorAnalog_InfoWidget</class>
- <widget class="QWidget" name="SensorAnalog_InfoWidget">
+ <class>Sensor_InfoWidget</class>
+ <widget class="QWidget" name="Sensor_InfoWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,26 +29,12 @@
      <item row="1" column="0">
       <widget class="QLabel" name="lbPin">
        <property name="text">
-        <string>pin</string>
+        <string>Pin</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="txtPin"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="lbIntrval">
-       <property name="text">
-        <string>Interval</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="txtInterval">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>

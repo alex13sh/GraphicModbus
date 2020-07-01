@@ -4,22 +4,22 @@
 #include <QWidget>
 
 namespace Ui {
-class SensorAnalog_InfoWidget;
+class Sensor_InfoWidget;
 }
 
 class ModbusSensor;
-class SensorAnalog_InfoWidget : public QWidget
+class Sensor_InfoWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SensorAnalog_InfoWidget(QWidget *parent = nullptr);
-    ~SensorAnalog_InfoWidget();
+    explicit Sensor_InfoWidget(QWidget *parent = nullptr);
+    ~Sensor_InfoWidget();
 
     void setSensor(ModbusSensor *sens){m_sens=sens; updateForm();}
 
 private:
-    Ui::SensorAnalog_InfoWidget *ui;
+    Ui::Sensor_InfoWidget *ui;
 
     ModbusSensor *m_sens=nullptr;
 

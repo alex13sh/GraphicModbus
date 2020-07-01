@@ -67,15 +67,15 @@
     <widget class="QListWidget" name="listWidget"/>
    </item>
    <item row="1" column="1">
-    <widget class="SensorAnalog_InfoWidget" name="InfoForm" native="true"/>
+    <widget class="Sensor_InfoWidget" name="InfoForm" native="true"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SensorAnalog_InfoWidget</class>
+   <class>Sensor_InfoWidget</class>
    <extends>QWidget</extends>
-   <header>sensoranalog_infowidget.h</header>
+   <header>sensor_infowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
