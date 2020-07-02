@@ -26,7 +26,7 @@ ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name)
     addValue("value_int", 4064+(pin-1), 1, true);
     addValue("type", 4100+(pin-1)*16, 2, false, "Тип датчика");
 //    addValue("полоса фильтра", 4102+(pin-1)*16, 1);
-    addValue("point", 4103+(pin-1)*16, 1, "положение десятичной точки");
+    addValue("point", 4103+(pin-1)*16, 1, false, "положение десятичной точки");
 
 //    addValue("Сдвиг характеристик", 4104+(pin-1)*16, 2);
 //    addValue("Наклон характеристик", 4106+(pin-1)*16, 2);

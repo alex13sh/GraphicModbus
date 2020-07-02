@@ -8,6 +8,9 @@ class Sensor_InfoWidget;
 }
 
 class ModbusSensor;
+class QLabel;
+class QLineEdit;
+
 class Sensor_InfoWidget : public QWidget
 {
     Q_OBJECT
@@ -20,6 +23,8 @@ public:
 
 private:
     Ui::Sensor_InfoWidget *ui;
+    QVector<QLabel*> vec_label;
+    QVector<QLineEdit*> vec_text;
 
     ModbusSensor *m_sens=nullptr;
 
