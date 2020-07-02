@@ -20,11 +20,11 @@ SOURCES += \
     widgets/graphsensorform.cpp \
     main.cpp \
     mainwindow.cpp \
-    core\modbusdevice.cpp \
-    core\modbusdevice_analog.cpp \
-    core\modbusdevice_iodigital.cpp \
-    core\modbussensor.cpp \
-    core\modbusvalue.cpp \
+    core/modbusdevice.cpp \
+    core/modbusdevice_analog.cpp \
+    core/modbusdevice_iodigital.cpp \
+    core/modbussensor.cpp \
+    core/modbusvalue.cpp \
     widgets/sensor_infowidget.cpp \
     widgets/testmodulewidget.cpp
 
@@ -43,7 +43,7 @@ HEADERS += \
     widgets/testmodulewidget.h
 
 FORMS += \
-    widgets/TestModuleWidget.ui \
+#    widgets/TestModuleWidget.ui \
     widgets/connectmodulewidget.ui \
     widgets/graphsensorform.ui \
     mainwindow.ui \

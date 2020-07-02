@@ -66,8 +66,19 @@
    <item row="1" column="0">
     <widget class="QListWidget" name="listWidget"/>
    </item>
+   <item row="1" column="1">
+    <widget class="Sensor_InfoWidget" name="InfoForm" native="true"/>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Sensor_InfoWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/sensor_infowidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
