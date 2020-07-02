@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_ConnectModule">
        <attribute name="title">
@@ -37,6 +37,16 @@
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="TestModuleWidget" name="TestModule" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_grapch">
+       <attribute name="title">
+        <string>Страница</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="GraphSensorForm" name="GraphSensor" native="true"/>
         </item>
        </layout>
       </widget>
@@ -67,6 +77,12 @@
    <class>TestModuleWidget</class>
    <extends>QWidget</extends>
    <header>testmodulewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GraphSensorForm</class>
+   <extends>QWidget</extends>
+   <header>graphsensorform.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

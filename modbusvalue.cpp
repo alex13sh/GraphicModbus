@@ -92,7 +92,7 @@ int ModbusValue::value_int() const {
 }
 
 float ModbusValue::value_float() const {
-    if(m_size<2) return -1.0;
+    if(m_size<2 || m_values.size()<2) return -1.0;
     qint32 ivalue = (((qint32)m_values[1]<<16)|(qint32)m_values[0]);
     float fvalue=(float&)ivalue;
     return fvalue;

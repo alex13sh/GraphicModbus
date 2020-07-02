@@ -32,6 +32,12 @@ public:
 //    void setType(ValueType type);
     void setReadOnly(bool readOnly){m_readOnly=readOnly;}
     bool readOnly() const {return m_readOnly;}
+    void setFloatType(bool floatType) {m_floatType = floatType;}
+    bool isFloatType() const {return m_floatType;}
+
+
+    const ModbusDevice *module() const {return m_module;}
+    const ModbusSensor *sensor() const {return m_sensor;}
 
     void setValues(const ValuesType &values); // Установить новые значения
     void updateValues(const ValuesType &values); // Обновить
@@ -58,7 +64,7 @@ protected:
     quint16 m_address;
     quint8 m_size;
     ValueType m_type;
-    bool m_readOnly;
+    bool m_readOnly=false, m_floatType=false;
 
     QTimer *m_updateValue;
     ValuesType m_values;

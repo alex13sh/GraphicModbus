@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     init_test_device();
     ui->ConnectModule->setDevices(mapDevices);
     ui->TestModule->setDevices(mapDevices);
+    ui->GraphSensor->setDevices(mapDevices);
 }
 
 MainWindow::~MainWindow()

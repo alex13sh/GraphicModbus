@@ -15,7 +15,7 @@ ModbusSensor *ModbusDevice_IODigital::createSensor(quint8 pin, const QString &na
 
     auto addValue = [this, sens](const QString &name, quint16 address, quint8 size, bool readOnly = false, const QString &desc = ""){
         ModbusValue *value;
-        value = new ModbusValue(this, name, address, size);
+        value = new ModbusValue(sens, name, address, size);
         value->setReadOnly(readOnly);
         value->setDescription(desc);
         sens->addValue(address, value);

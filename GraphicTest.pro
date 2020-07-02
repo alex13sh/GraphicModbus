@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     connectmodulewidget.cpp \
+    graphsensorform.cpp \
     main.cpp \
     mainwindow.cpp \
     modbusdevice.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
 HEADERS += \
     connectmodulewidget.h \
     defines.h \
+    graphsensorform.h \
     mainwindow.h \
     modbusdevice.h \
     modbusdevice_analog.h \
@@ -43,6 +45,7 @@ HEADERS += \
 FORMS += \
     TestModuleWidget.ui \
     connectmodulewidget.ui \
+    graphsensorform.ui \
     mainwindow.ui \
     sensor_infowidget.ui \
     testmodulewidget.ui

@@ -15,7 +15,7 @@ ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name)
 
     auto addValue = [this, sens](const QString &name, quint16 address, quint8 size, bool readOnly = false, const QString &desc = ""){
         ModbusValue *value;
-        value = new ModbusValue(this, name, address, size);
+        value = new ModbusValue(sens, name, address, size);
         value->setReadOnly(readOnly);
         value->setDescription(desc);
         sens->addValue(address, value);
@@ -66,6 +66,7 @@ void ModbusSensor_Analog::addValue(quint16 address, ModbusValue *value) {
     if(name == "type") v_type = value;
     else if(name == "value_float") {
         v_value_float = value;
+        v_value_float->setFloatType(true);
         connect(v_value_float, &ModbusValue::valuesChanged, this, &ModbusSensor_Analog::value_float_changed);
     }else if(name == "value_int") v_value_int = value;
 }
