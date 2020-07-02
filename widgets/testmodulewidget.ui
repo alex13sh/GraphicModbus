@@ -75,7 +75,7 @@
   <customwidget>
    <class>Sensor_InfoWidget</class>
    <extends>QWidget</extends>
-   <header>sensor_infowidget.h</header>
+   <header>widgets/sensor_infowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

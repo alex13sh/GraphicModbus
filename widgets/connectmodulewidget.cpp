@@ -1,7 +1,7 @@
 #include "connectmodulewidget.h"
 #include "ui_connectmodulewidget.h"
 
-#include "modbusdevice.h"
+#include "../core/modbusdevice.h"
 
 #include <QModbusTcpClient>
 #include <QModbusRtuSerialMaster>

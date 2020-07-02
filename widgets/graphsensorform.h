@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "defines.h"
+#include "../core/defines.h"
 namespace Ui {
 class GraphSensorForm;
 }
