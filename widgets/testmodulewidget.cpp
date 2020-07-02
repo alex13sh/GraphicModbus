@@ -1,7 +1,7 @@
 #include "testmodulewidget.h"
 #include "ui_testmodulewidget.h"
 
-#include "modbusdevice.h"
+#include "../core/modbusdevice.h"
 #include <QTimer>
 #include <QDebug>
 
@@ -38,7 +38,7 @@ void TestModuleWidget::updateListDevice() {
     }
 }
 
-#include "modbussensor.h"
+#include "../core/modbussensor.h"
 void TestModuleWidget::updateListSensor(const ModbusDevice *dev) {
     if(!dev) return;
     ui->listWidget->clear(); m_lstSensor.clear();

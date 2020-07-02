@@ -19,10 +19,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-#include "modbusdevice.h"
-#include "modbusdevice_analog.h"
-#include "modbusdevice_iodigital.h"
-#include "modbussensor.h"
+#include "core/modbusdevice.h"
+#include "core/modbusdevice_analog.h"
+#include "core/modbusdevice_iodigital.h"
+#include "core/modbussensor.h"
 void MainWindow::init_test_device() {
     auto dev_analog = new ModbusDevice_Analog("Input Analog", this);
     mapDevices->insert(dev_analog->name(), dev_analog);

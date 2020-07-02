@@ -1,7 +1,7 @@
 #include "sensor_infowidget.h"
 #include "ui_sensor_infowidget.h"
-#include "modbussensor.h"
-#include "modbusvalue.h"
+#include "../core/modbussensor.h"
+#include "../core/modbusvalue.h"
 
 Sensor_InfoWidget::Sensor_InfoWidget(QWidget *parent) :
     QWidget(parent),

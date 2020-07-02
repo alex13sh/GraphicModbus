@@ -16,39 +16,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    connectmodulewidget.cpp \
-    graphsensorform.cpp \
+    widgets/connectmodulewidget.cpp \
+    widgets/graphsensorform.cpp \
     main.cpp \
     mainwindow.cpp \
-    modbusdevice.cpp \
-    modbusdevice_analog.cpp \
-    modbusdevice_iodigital.cpp \
-    modbussensor.cpp \
-    modbusvalue.cpp \
-    sensor_infowidget.cpp \
-    testmodulewidget.cpp
+    core\modbusdevice.cpp \
+    core\modbusdevice_analog.cpp \
+    core\modbusdevice_iodigital.cpp \
+    core\modbussensor.cpp \
+    core\modbusvalue.cpp \
+    widgets/sensor_infowidget.cpp \
+    widgets/testmodulewidget.cpp
 
 HEADERS += \
-    connectmodulewidget.h \
-    defines.h \
-    graphsensorform.h \
+    widgets/connectmodulewidget.h \
+    core/defines.h \
+    widgets/graphsensorform.h \
     mainwindow.h \
-    modbusdevice.h \
-    modbusdevice_analog.h \
-    modbusdevice_iodigital.h \
-    modbussensor.h \
-    modbusvalue.h \
-    sensor_infowidget.h \
+    core/modbusdevice.h \
+    core/modbusdevice_analog.h \
+    core/modbusdevice_iodigital.h \
+    core/modbussensor.h \
+    core/modbusvalue.h \
+    widgets/sensor_infowidget.h \
     structs.h \
-    testmodulewidget.h
+    widgets/testmodulewidget.h
 
 FORMS += \
-    TestModuleWidget.ui \
-    connectmodulewidget.ui \
-    graphsensorform.ui \
+    widgets/TestModuleWidget.ui \
+    widgets/connectmodulewidget.ui \
+    widgets/graphsensorform.ui \
     mainwindow.ui \
-    sensor_infowidget.ui \
-    testmodulewidget.ui
+    widgets/sensor_infowidget.ui \
+    widgets/testmodulewidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

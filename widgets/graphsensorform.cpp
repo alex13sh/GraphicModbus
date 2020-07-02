@@ -17,9 +17,9 @@ GraphSensorForm::~GraphSensorForm()
     delete ui;
 }
 
-#include "modbusdevice.h"
-#include "modbussensor.h"
-#include "modbusvalue.h"
+#include "../core/modbusdevice.h"
+#include "../core/modbussensor.h"
+#include "../core/modbusvalue.h"
 void GraphSensorForm::setDevices(MapDevices devices){
     mapDevices=devices;
     m_lstSensor.clear();
