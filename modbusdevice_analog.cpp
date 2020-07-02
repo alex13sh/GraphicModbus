@@ -9,6 +9,7 @@ ModbusDevice_Analog::ModbusDevice_Analog(const QString &name, QObject *parent) :
 
 ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name) {
     if(not (pin>=1 && pin<=8)) return nullptr;
+    if(m_sensors.contains(pin)) return m_sensors.value(pin, nullptr);
 
     ModbusSensor_Analog *sens = new ModbusSensor_Analog(name, pin, this);
 

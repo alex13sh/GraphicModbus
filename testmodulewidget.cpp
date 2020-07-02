@@ -24,7 +24,9 @@ TestModuleWidget::~TestModuleWidget()
 }
 
 void TestModuleWidget::on_pbAdd_clicked() {
-
+    if(!m_curDevice) return;
+    auto sens = m_curDevice->createSensor(ui->spin_pin->value(), ui->txtName->text());
+    updateListSensor(m_curDevice);
 }
 
 void TestModuleWidget::updateListDevice() {
@@ -52,7 +54,8 @@ void TestModuleWidget::on_cmbDevice_currentIndexChanged(int index) {
     if(index>=m_lstDevice.count()) return;
 //    auto name = m_lstDevice[index]->name();
 //    updateListSensor(mapDevices->value(name, nullptr));
-    updateListSensor(m_lstDevice.value(index, nullptr));
+    m_curDevice = m_lstDevice.value(index, nullptr);
+    updateListSensor(m_curDevice);
 }
 
 void TestModuleWidget::on_listWidget_currentRowChanged(int currentRow) {

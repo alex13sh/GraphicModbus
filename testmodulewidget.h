@@ -31,6 +31,7 @@ private:
     Ui::TestModuleWidget *ui;
 
     MapDevices mapDevices = nullptr;
+    ModbusDevice* m_curDevice=nullptr;
     QVector<ModbusDevice*> m_lstDevice;
     QVector<ModbusSensor*> m_lstSensor;
 
