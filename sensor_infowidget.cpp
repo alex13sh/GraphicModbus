@@ -33,6 +33,9 @@ void Sensor_InfoWidget::updateForm() {
         vec_text.append(txt);
         ui->gridLayout->addWidget(lb, vec_label.size()+1, 0);
         ui->gridLayout->addWidget(txt, vec_text.size()+1, 1);
+
+        connect(val, &ModbusValue::valuesChanged, this, [txt,val](){txt->setText(QString::number(val->value_int()));});
+        connect(txt, &QLineEdit::textChanged, this, [txt,val](const QString &text){val->setValue_int(text.toInt());});
     }
     ui->gridLayout->addItem(ui->verticalSpacer,vec_text.size()+2, 1);
 }

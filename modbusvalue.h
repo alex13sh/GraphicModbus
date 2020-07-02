@@ -38,6 +38,7 @@ public:
     void updateValues();
     ValuesType values() const;
 
+    void setValue_int(int value);
     void setValue_int16(qint16 value);
     void setValue_uint32(quint32 value);
     void setValue_float(float value);

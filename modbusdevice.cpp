@@ -37,6 +37,7 @@ bool ModbusDevice::connectTCP(const QString &adr)
 }
 
 bool ModbusDevice::isConnected() const {
+    if(!m_device) return false;
     return m_device->state() == QModbusDevice::ConnectedState;
 }
 
@@ -96,7 +97,7 @@ bool ModbusDevice::sendRead(quint16 addr, quint16 cnt) const {
 }
 
 bool ModbusDevice::sendWrite(quint16 addr, ValuesType value) const {
-    if(not isConnected()) return false;
+    if(! isConnected()) return false;
 
     QModbusDataUnit du(QModbusDataUnit::HoldingRegisters, addr, value);
     if (auto *reply = m_device->sendReadRequest(du, 1)) {

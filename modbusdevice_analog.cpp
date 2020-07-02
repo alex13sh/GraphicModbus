@@ -33,7 +33,7 @@ ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name)
 //    addValue("Верхняя граница", 4108+(pin-1)*16, 2);
 //    addValue("Нижняя граница", 4110+(pin-1)*16, 2);
 
-    addValue("interval", 4113+(pin-1)*16, 1); // <<--
+    addValue("interval", 4113+(pin-1)*16, 1, false); // <<--
 
     setSensor(pin, sens);
     return sens;
