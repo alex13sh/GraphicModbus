@@ -43,6 +43,7 @@ public:
     void updateValues(const ValuesType &values); // Обновить
     void updateValues();
     ValuesType values() const;
+    quint32 countUpdate() const {return m_countUpdate;}
 
     void setValue_int(int value);
     void setValue_int16(qint16 value);
@@ -64,7 +65,8 @@ protected:
     quint16 m_address;
     quint8 m_size;
     ValueType m_type;
-    bool m_readOnly=false, m_floatType=false;
+    bool m_readOnly=false, m_floatType=false; // or ValueType::ValueType_FLOAT
+    quint32 m_countUpdate = 0;
 
     QTimer *m_updateValue;
     ValuesType m_values;

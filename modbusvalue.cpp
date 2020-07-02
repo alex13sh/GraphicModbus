@@ -37,6 +37,7 @@ void ModbusValue::updateValues(const ValuesType &values) {
     if(values.size()!=m_size) return;
     if(m_values == values) return;
     m_values = values;
+    m_countUpdate++;
     emit valuesChanged();
 }
 
