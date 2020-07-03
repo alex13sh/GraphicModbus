@@ -1,4 +1,4 @@
-QT       += core gui serialport serialbus
+QT       += core gui serialport serialbus charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     widgets/connectmodulewidget.cpp \
+    widgets/graphicsitem.cpp \
     widgets/graphsensorform.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 HEADERS += \
     widgets/connectmodulewidget.h \
     core/defines.h \
+    widgets/graphicsitem.h \
     widgets/graphsensorform.h \
     mainwindow.h \
     core/modbusdevice.h \
