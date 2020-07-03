@@ -8,6 +8,7 @@ namespace Ui {
 class GraphSensorForm;
 }
 
+class GraphicsItem;
 class GraphSensorForm : public QWidget
 {
     Q_OBJECT
@@ -31,6 +32,7 @@ private:
     QVector<ModbusValue*> m_lstValue;
 
     QTimer *m_timUpdate = nullptr;
+    GraphicsItem *m_graph = nullptr;
 
     void updateListSensors();
 };

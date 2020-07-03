@@ -10,6 +10,7 @@ GraphSensorForm::GraphSensorForm(QWidget *parent) :
     m_timUpdate = new QTimer(this);
     m_timUpdate->setInterval(1000);
     connect(m_timUpdate, &QTimer::timeout, this, &GraphSensorForm::updateListSensors);
+    m_graph = static_cast<GraphicsItem *>(ui->widGraph->chart());
 }
 
 GraphSensorForm::~GraphSensorForm()
@@ -31,6 +32,7 @@ void GraphSensorForm::setDevices(MapDevices devices){
                 if(v->readOnly())
                     m_lstValue.append(v);
         }
+    m_graph->setValues(m_lstValue);
     updateListSensors();
 }
 
@@ -46,6 +48,7 @@ void GraphSensorForm::updateListSensors() {
         ui->lstSensor->addItem(txt);
         v->updateValues();
     }
+    m_graph->updateValues();
 }
 
 void GraphSensorForm::on_pbStart_clicked()
