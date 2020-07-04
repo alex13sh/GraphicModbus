@@ -9,6 +9,7 @@
 ModbusDevice::ModbusDevice(QObject *parent) : QObject(parent)
 {
 
+    v_ip_address = new ModbusValue(this, "ip_adrdess", 20,2);
 }
 
 bool ModbusDevice::connectRTU(const QString &adr) {
@@ -39,6 +40,21 @@ bool ModbusDevice::connectTCP(const QString &adr)
 bool ModbusDevice::isConnected() const {
     if(!m_device) return false;
     return m_device->state() == QModbusDevice::ConnectedState;
+}
+
+void ModbusDevice::set_ipaddress(const QString &ip) {
+    auto ip_part = ip.split('.');
+    if(ip_part.size()!=4) return;
+    quint32 ip_int=0;
+    for(int i=0; i<4; ++i){
+        quint8 v = ip_part[i].toUInt();
+        ip_int|=v<<(8*i);
+    }
+//    ValuesType res(2);
+//    res[0] = ip_int & 0xffff;
+//    res[1] = ip_int >> 16;
+//    sendWrite(20, res);
+    v_ip_address->setValue_uint32(ip_int);
 }
 
 ModbusSensor *ModbusDevice::createSensor(quint8 pin, const QString &name) {

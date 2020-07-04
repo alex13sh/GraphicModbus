@@ -32,6 +32,7 @@ public:
     bool isConnected() const;
     QModbusClient *getDevice() const {return this->m_device;}
 
+    void set_ipaddress(const QString &ip);
     virtual ModbusSensor *createSensor(quint8 pin, const QString &name);
     void setSensor(quint8 pin, ModbusSensor *sens);
     void setValue(quint32 address, ModbusValue *value);
@@ -51,6 +52,7 @@ protected:
 
     ListSensors m_sensors; // датчики этого модуля
     ListValues m_values;
+    ModbusValue *v_ip_address=nullptr;
 
 //    typedef void CallBackFunc (QModbusReply *);
 
