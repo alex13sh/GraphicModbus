@@ -23,7 +23,7 @@ ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name)
         return value;
     };
     addValue("value_float", 4000+(pin-1)*3, 2, true);
-    addValue("interval", 4000+(pin-1)*3+2, 1); // <<--
+//    addValue("interval", 4000+(pin-1)*3+2, 1); // <<--
     addValue("value_int", 4064+(pin-1), 1, true);
     addValue("type", 4100+(pin-1)*16, 2, false, "Тип датчика");
 //    addValue("полоса фильтра", 4102+(pin-1)*16, 1);
@@ -64,11 +64,17 @@ void ModbusSensor_Analog::addValue(quint16 address, ModbusValue *value) {
     ModbusSensor::addValue(address, value);
     auto name = value->name();
     if(name == "type") v_type = value;
+    else if(name=="interval") v_interval=value;
     else if(name == "value_float") {
         v_value_float = value;
         v_value_float->setFloatType(true);
         connect(v_value_float, &ModbusValue::valuesChanged, this, &ModbusSensor_Analog::value_float_changed);
     }else if(name == "value_int") v_value_int = value;
+}
+
+void ModbusSensor_Analog::setInterval(quint16 interval) {
+    if(!v_interval) return;
+    v_interval->setValue_int16(interval);
 }
 
 qint16 ModbusSensor_Analog::value_int16() const {
