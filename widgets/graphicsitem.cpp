@@ -22,7 +22,7 @@ GraphicsItem::GraphicsItem(QObject *parent)
     m_axisX->setRange(QDateTime::currentDateTime().addSecs(-m_secondsScala+1), QDateTime::currentDateTime().addSecs(1));
     m_axisX->setFormat("h:mm:ss");
     m_axisX->setTitleText("Date");
-    m_axisY->setRange(-5, 10);
+    m_axisY->setRange(-5, 300);
 }
 
 #include "../core/modbusvalue.h"
@@ -48,7 +48,7 @@ void GraphicsItem::updateValues() {
     for(int i=0; i<m_values.size();++i){
         auto ser = m_series[i];
         ser->append( momentInTime.toMSecsSinceEpoch(),
-                m_values[i]->value_int());
+                m_values[i]->isFloatType()?m_values[i]->value_float():m_values[i]->value_int());
     }
     m_axisX->setRange(QDateTime::currentDateTime().addSecs(-m_secondsScala+1), QDateTime::currentDateTime().addSecs(1));
 }

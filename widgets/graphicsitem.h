@@ -28,7 +28,7 @@ private:
     QValueAxis *m_axisY;
     QList<QSplineSeries *>m_series;
     QVector<ModbusValue*> m_values;
-    const int m_secondsScala = 10;
+    const int m_secondsScala = 50;
 };
 
 using QCharView = QtCharts::QChartView;
