@@ -85,7 +85,7 @@ void ModbusDevice::onReadReady()
     auto reply = qobject_cast<QModbusReply *>(sender());
     if (!reply)
         return;
-    qDebug()<<"Get Result";
+//    qDebug()<<"Get Result";
     if (reply->error() == QModbusDevice::NoError) {
         const QModbusDataUnit unit = reply->result();
         getValues(unit.startAddress(), unit.values());
@@ -114,14 +114,16 @@ bool ModbusDevice::sendRead(quint16 addr, quint16 cnt) const {
 
 bool ModbusDevice::sendWrite(quint16 addr, ValuesType value) const {
     if(! isConnected()) return false;
-
+    qDebug()<<"ModbusDevice::sendWrite:"<<addr<<value;
     QModbusDataUnit du(QModbusDataUnit::HoldingRegisters, addr, value);
-    if (auto *reply = m_device->sendReadRequest(du, 1)) {
+    if (auto *reply = m_device->sendWriteRequest(du, 1)) {
         if (!reply->isFinished()){
             connect(reply, &QModbusReply::finished, this, &ModbusDevice::onReadReady);
             return true;
-        }else
+        }else{
+            qDebug()<<"Error: "<<reply->errorString();
             delete reply; // broadcast replies return immediately
+        }
     }
     return false;
 }

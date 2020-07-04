@@ -23,21 +23,23 @@ ModbusValue::ModbusValue(ModbusSensor *sensor, const QString &name, quint16 addr
 }
 
 void ModbusValue::setValues(const ValuesType &values) {
-    qDebug()<<"ModbusValue::setValues";
+    qDebug()<<"ModbusValue::setValues:"<<name()<<values.size()<<values<<"; adr:"<<m_address;
     if(values.size()!=m_size) return;
     if(m_values == values) return;
     m_values = values;
     // отправить значение
     if(m_module) m_module->sendWrite(m_address, values);
     emit valuesChanged();
-    qDebug()<<"_ModbusValue::setValues";
+//    qDebug()<<"_ModbusValue::setValues";
 }
 
 void ModbusValue::updateValues(const ValuesType &values) {
     if(values.size()!=m_size) return;
+    m_countUpdate++;
+    qDebug()<<"ModbusValue::updateValues:"<<name()<<values.size()<<values<<"; adr:"<<m_address;
     if(m_values == values) return;
     m_values = values;
-    m_countUpdate++;
+//    m_countUpdate++;
     emit valuesChanged();
 }
 
@@ -50,7 +52,7 @@ ValuesType ModbusValue::values() const {
 }
 
 void ModbusValue::setValue_int(int value) {
-    qDebug()<<"ModbusValue::setValue_int:"<<value<<QString("(%1, %2)").arg(m_values.size()).arg(m_size);
+//    qDebug()<<"ModbusValue::setValue_int:"<<value<<QString("(%1, %2)").arg(m_values.size()).arg(m_size);
     if(m_size==1)
         setValue_int16(value);
     else if(m_size==2)
@@ -58,7 +60,7 @@ void ModbusValue::setValue_int(int value) {
 }
 
 void ModbusValue::setValue_int16(qint16 value) {
-    qDebug()<<"ModbusValue::setValue_int16:"<<value;
+//    qDebug()<<"ModbusValue::setValue_int16:"<<value;
     if(m_size!=1) return;
     ValuesType values(1);
     values[0]=value;
@@ -66,16 +68,17 @@ void ModbusValue::setValue_int16(qint16 value) {
 }
 
 void ModbusValue::setValue_uint32(quint32 value) {
-    qDebug()<<"ModbusValue::setValue_uint32:"<<value;
+//    qDebug()<<"ModbusValue::setValue_uint32:"<<value;
     if(m_size!=2) return;
     ValuesType values(2);
     values[0]=value & 0xffff;
     values[1]=value>>16;
     setValues(values);
+//    setValues({3,0});
 }
 
 void ModbusValue::setValue_float(float value) {
-    qDebug()<<"ModbusValue::setValue_float:"<<value;
+//    qDebug()<<"ModbusValue::setValue_float:"<<value;
     if(m_size!=2) return;
     quint32 ivalue = (quint32&)value;
     ValuesType values(2);
