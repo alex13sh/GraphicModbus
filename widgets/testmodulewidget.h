@@ -27,6 +27,8 @@ private slots:
 
     void on_listWidget_currentRowChanged(int currentRow);
 
+    void on_pbTest_clicked();
+
 private:
     Ui::TestModuleWidget *ui;
 

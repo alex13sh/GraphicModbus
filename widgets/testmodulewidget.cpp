@@ -62,3 +62,21 @@ void TestModuleWidget::on_listWidget_currentRowChanged(int currentRow) {
     if(currentRow==-1) return;
     ui->InfoForm->setSensor(m_lstSensor.value(currentRow, nullptr));
 }
+
+#include "../core/modbusdevice_analog.h"
+void TestModuleWidget::on_pbTest_clicked() {
+    auto dev_analog = static_cast<ModbusDevice_Analog *>(m_curDevice);
+//    if(dev_analog->isConnected()){
+//        auto sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(1, "Термо 1"));
+//        sens_analog->setInterval(6000);
+//        sens_analog->setType(ModbusSensor_Analog::None);
+////        sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(2, "Термо 2"));
+////        sens_analog->setInterval(1000);
+////        sens_analog->setType(ModbusSensor_Analog::Pt_100);
+////        sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(5, "Пирометр"));
+////        sens_analog->setInterval(1000);
+////        sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
+//    }
+//    for(auto s:dev_analog->getListSensors())
+//        s->setTy
+}

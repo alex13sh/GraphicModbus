@@ -26,7 +26,19 @@ MainWindow::~MainWindow()
 void MainWindow::init_test_device() {
     auto dev_analog = new ModbusDevice_Analog("Input Analog", this);
     mapDevices->insert(dev_analog->name(), dev_analog);
-    auto sens_resister = dev_analog->createSensor(1, "Test Resister");
+    dev_analog->connectRTU("/dev/ttyACM0");
+
+    if(dev_analog->isConnected()){
+        auto sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(1, "Термо 1"));
+        sens_analog->setInterval(1000);
+        sens_analog->setType(ModbusSensor_Analog::Pt_100);
+        sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(2, "Термо 2"));
+        sens_analog->setInterval(1000);
+        sens_analog->setType(ModbusSensor_Analog::Pt_100);
+        sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(5, "Пирометр"));
+        sens_analog->setInterval(1000);
+        sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
+    }
 
     auto dev_digital = new ModbusDevice_IODigital("Input\Output Digital", this);
     mapDevices->insert(dev_digital->name(), dev_digital);
