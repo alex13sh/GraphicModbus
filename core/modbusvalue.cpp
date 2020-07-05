@@ -4,6 +4,7 @@
 
 #include <QTimer>
 #include <QDebug>
+#include <QTime>
 
 ModbusValue::ModbusValue(ModbusDevice *module, const QString &name, quint16 address, quint8 size)
     : QObject(module)
@@ -35,11 +36,12 @@ void ModbusValue::setValues(const ValuesType &values) {
 
 void ModbusValue::updateValues(const ValuesType &values) {
     if(values.size()!=m_size) return;
-    m_countUpdate++;
-    qDebug()<<"ModbusValue::updateValues:"<<name()<<values.size()<<values<<"; adr:"<<m_address;
+//    m_countUpdate++;
+//    qDebug()<<"ModbusValue::updateValues:"<<name()<<values.size()<<values<<"; adr:"<<m_address;
     if(m_values == values) return;
     m_values = values;
-//    m_countUpdate++;
+    m_countUpdate++;
+    qDebug()<<"ModbusValue::updateValues:"<<name()<<values.size()<<values<<"; time:"<<QTime::currentTime().toString("ss.zzz");
     emit valuesChanged();
 }
 

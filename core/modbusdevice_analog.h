@@ -58,6 +58,8 @@ public:
     qint16 value_int16() const;
     float value_float() const;
 
+    ModbusValue *getValueFloat()const{return v_value_float;}
+
 signals:
     void value_float_changed();
 private:
