@@ -20,28 +20,29 @@ ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name)
 
     ModbusSensor_Analog *sens = new ModbusSensor_Analog(name, pin, this);
 
-    auto addValue = [this, sens](const QString &name, quint16 address, quint8 size, bool readOnly = false, const QString &desc = ""){
+    auto addValue = [this, sens](const QString &name, quint16 address, quint8 size, ValueType typ, bool readOnly = false, const QString &desc = ""){
         ModbusValue *value;
         value = new ModbusValue(sens, name, address, size);
         value->setReadOnly(readOnly);
         value->setDescription(desc);
+        value->setType(typ);
         sens->addValue(address, value);
         this->m_values.insert(address, value);
         return value;
     };
-    addValue("value_float", 4000+(pin-1)*3, 2, true);
-    addValue("interval_read", 4000+(pin-1)*3+2, 1, true); // <<--
-    addValue("value_int", 4064+(pin-1), 1, true);
-    addValue("type", 4100+(pin-1)*16, 2, false, "Тип датчика");
+    addValue("value_float", 4000+(pin-1)*3, 2, ValueType_FLOAT, true);
+    addValue("interval_read", 4002+(pin-1)*3, 1, ValueType_UINT16, true); // <<--
+    addValue("value_int", 4064+(pin-1), 1, ValueType_INT16, true);
+    addValue("type", 4100+(pin-1)*16, 2, ValueType_UINT32, false, "Тип датчика");
 //    addValue("полоса фильтра", 4102+(pin-1)*16, 1);
-    addValue("point", 4103+(pin-1)*16, 1, false, "положение десятичной точки");
+    addValue("point", 4103+(pin-1)*16, 1, ValueType_UINT16, false, "положение десятичной точки");
 
 //    addValue("Сдвиг характеристик", 4104+(pin-1)*16, 2);
 //    addValue("Наклон характеристик", 4106+(pin-1)*16, 2);
-//    addValue("Верхняя граница", 4108+(pin-1)*16, 2);
-//    addValue("Нижняя граница", 4110+(pin-1)*16, 2);
+    addValue("Верхняя граница", 4108+(pin-1)*16, 2, ValueType_FLOAT);
+    addValue("Нижняя граница", 4110+(pin-1)*16, 2, ValueType_FLOAT);
 
-    addValue("interval", 4113+(pin-1)*16, 1, false); // <<--
+    addValue("interval", 4113+(pin-1)*16, 1, ValueType_UINT16, false); // <<--
 
     setSensor(pin, sens);
     return sens;

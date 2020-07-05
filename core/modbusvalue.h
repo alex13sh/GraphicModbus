@@ -6,15 +6,14 @@
 
 class QTimer;
 
-enum ValueType_{
+enum ValueType{
     ValueType_None,
     ValueType_INT8,
     ValueType_INT16,
+    ValueType_UINT16,
     ValueType_INT32,
+    ValueType_UINT32,
     ValueType_FLOAT
-};
-enum ValueType{
-    Sensor, Option, Critical
 };
 
 class ModbusValue : public QObject
@@ -32,8 +31,9 @@ public:
 //    void setType(ValueType type);
     void setReadOnly(bool readOnly){m_readOnly=readOnly;}
     bool readOnly() const {return m_readOnly;}
-    void setFloatType(bool floatType) {m_floatType = floatType;}
-    bool isFloatType() const {return m_floatType;}
+    void setType(ValueType type) {m_type=type;}
+//    void setFloatType(bool floatType) {m_type = ValueType_FLOAT;}
+    bool isFloatType() const {return m_type==ValueType_FLOAT;}
 
 
     const ModbusDevice *module() const {return m_module;}
