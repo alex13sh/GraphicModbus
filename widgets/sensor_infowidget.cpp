@@ -28,6 +28,7 @@ void Sensor_InfoWidget::updateForm() {
     for(auto val : m_sens->values()){
         auto lb = new QLabel(val->name(), this);
         auto txt = new QLineEdit(QString::number(val->value_int()), this);
+        val->updateValues();
         txt->setEnabled(!val->readOnly());
         vec_label.append(lb);
         vec_text.append(txt);

@@ -5,6 +5,13 @@
 ModbusDevice_Analog::ModbusDevice_Analog(const QString &name, QObject *parent) :
     ModbusDevice(name, DeviceType::OVEN_InpoutAnalog, parent)
 {
+    v_adc = new ModbusValue(this, "adc_max", 4097, 1);
+}
+
+void ModbusDevice_Analog::setADC(bool enable){
+    if(!v_adc) return;
+    if(enable) v_adc->setValue_int16(1);
+    else v_adc->setValue_int16(0);
 }
 
 ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name) {
@@ -23,7 +30,7 @@ ModbusSensor *ModbusDevice_Analog::createSensor(quint8 pin, const QString &name)
         return value;
     };
     addValue("value_float", 4000+(pin-1)*3, 2, true);
-//    addValue("interval", 4000+(pin-1)*3+2, 1); // <<--
+    addValue("interval_read", 4000+(pin-1)*3+2, 1, true); // <<--
     addValue("value_int", 4064+(pin-1), 1, true);
     addValue("type", 4100+(pin-1)*16, 2, false, "Тип датчика");
 //    addValue("полоса фильтра", 4102+(pin-1)*16, 1);

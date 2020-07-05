@@ -9,11 +9,13 @@ class ModbusDevice_Analog : public ModbusDevice
 public:
     explicit ModbusDevice_Analog(const QString &name, QObject *parent = nullptr);
 
+    void setADC(bool enable);
+
     ModbusSensor *createSensor(quint8 pin, const QString &name) override;
 signals:
 
 private:
-
+     ModbusValue *v_adc=nullptr;
 //    void getValues(quint16 adr, ValuesType values) override;
 //    void updateValueSensor(quint16 adr, ValuesType value) override;
 //    void getValueSensor(quint8 pin) const override;
