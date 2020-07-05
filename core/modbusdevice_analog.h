@@ -54,6 +54,7 @@ public:
     void addValue(quint16 address, ModbusValue *value) override;
 
     void setInterval(quint16 interval);
+    void setRange(float l, float h);
 
     qint16 value_int16() const;
     float value_float() const;
@@ -65,7 +66,8 @@ signals:
 private:
     SensorType m_type;
     ModbusValue *v_type=nullptr, *v_interval=nullptr,
-      *v_value_float=nullptr, *v_value_int=nullptr;
+      *v_value_float=nullptr, *v_value_int=nullptr,
+      *v_ain_l=nullptr, *v_ain_h=nullptr;
 };
 
 #endif // MODBUSDEVICE_ANALOG_H

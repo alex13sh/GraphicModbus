@@ -75,14 +75,21 @@ void ModbusSensor_Analog::addValue(quint16 address, ModbusValue *value) {
     else if(name=="interval") v_interval=value;
     else if(name == "value_float") {
         v_value_float = value;
-        v_value_float->setFloatType(true);
         connect(v_value_float, &ModbusValue::valuesChanged, this, &ModbusSensor_Analog::value_float_changed);
     }else if(name == "value_int") v_value_int = value;
+    else if(name=="Нижняя граница") v_ain_l = value;
+    else if(name=="Верхняя граница") v_ain_h = value;
 }
 
 void ModbusSensor_Analog::setInterval(quint16 interval) {
     if(!v_interval) return;
     v_interval->setValue_int16(interval);
+}
+
+void ModbusSensor_Analog::setRange(float l, float h){
+    if(!v_ain_h || !v_ain_l) return;
+    v_ain_l->setValue_float(l);
+    v_ain_h->setValue_float(h);
 }
 
 qint16 ModbusSensor_Analog::value_int16() const {
