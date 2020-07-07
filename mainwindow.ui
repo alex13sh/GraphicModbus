@@ -16,9 +16,9 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="tabGraph">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_ConnectModule">
        <attribute name="title">
@@ -42,7 +42,7 @@
       </widget>
       <widget class="QWidget" name="tab_grapch">
        <attribute name="title">
-        <string>Страница</string>
+        <string>Graphic</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
