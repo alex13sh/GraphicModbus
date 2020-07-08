@@ -1,4 +1,4 @@
-QT       += core gui serialport serialbus charts
+QT       += core gui serialport serialbus charts sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    core/logger.cpp \
     widgets/connectmodulewidget.cpp \
     widgets/graphicsitem.cpp \
     widgets/graphsensorform.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
     widgets/testmodulewidget.cpp
 
 HEADERS += \
+    core/logger.h \
     widgets/connectmodulewidget.h \
     core/defines.h \
     widgets/graphicsitem.h \

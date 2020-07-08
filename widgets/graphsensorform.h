@@ -18,6 +18,7 @@ public:
     ~GraphSensorForm();
 
     void setDevices(MapDevices devices);
+    QVector<ModbusValue*> getValuesSensor() const {return m_lstValue;}
 
 private slots:
     void on_pbStart_clicked();

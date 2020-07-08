@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 //#include "modbusdevice.h"
+#include "core/logger.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,11 +13,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ConnectModule->setDevices(mapDevices);
     ui->TestModule->setDevices(mapDevices);
     ui->GraphSensor->setDevices(mapDevices);
+
+    m_logger = new Logger(this);
+    m_logger ->setValues(ui->GraphSensor->getValuesSensor());
+//    logger->pushValues();
+//    delete logger;
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete m_logger;
 }
 
 #include "core/modbusdevice.h"

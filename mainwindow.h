@@ -9,6 +9,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class Logger;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -21,6 +23,7 @@ private:
     Ui::MainWindow *ui;
 
     MapDevices mapDevices;
+    Logger *m_logger;
 
     void init_test_device();
 };
