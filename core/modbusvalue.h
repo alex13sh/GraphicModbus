@@ -26,6 +26,7 @@ public:
     explicit ModbusValue(ModbusSensor *sensor, const QString &name, quint16 address, quint8 size);
 
     QString name() const {return m_name;}
+    quint16 address() const {return m_address;}
     void setDescription(const QString &desc) {m_description=desc;}
     QString description() const {return m_description;}
 //    void setType(ValueType type);

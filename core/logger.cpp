@@ -3,6 +3,7 @@
 //#include <QtSql>
 //#include <QSqlDatabase>
 #include <QTimer>
+#include <QCryptographicHash>
 #include <QDebug>
 
 Logger::Logger(QObject *parent) : QObject(parent)
@@ -90,12 +91,68 @@ void Logger::create_tables() {
     if (a_query.exec(str))
            qDebug() << "Вроде не удается создать таблицу, провертье карманы!";
     qDebug()<<"Error:"<<a_query.lastError().text();
+
+    str = "CREATE TABLE value_table ("
+            "hash VARCHAR(32) PRIMARY KEY NOT NULL," // QCryptographicHash::Sha256
+            "value_name VARCHAR(255),"
+            "value_address integer,"
+            "sensor_name VARCHAR(255),"
+            "sensor_pin integer,"
+            "module_name VARCHAR(255),"
+            "summary VARCHAR(255)" // module_name/sensor_pin - sensor_name/name
+           ");";
+    if (a_query.exec(str))
+           qDebug() << "Вроде не удается создать таблицу, провертье карманы!";
+    qDebug()<<"Error:"<<a_query.lastError().text();
 }
 
 void Logger::test_printCount() {
     QSqlQuery a_query(m_sdb);
-    QString execute = "SELECT COUNT(datetime) FROM values_table";
-    a_query.exec(execute);
+    a_query.prepare("select COUNT(datetime) as cnt from values_table;");
+//    a_query.bindValue(":today", QDateTime::currentDateTime());
+    if(a_query.exec()) qDebug()<<"MyQuery query is done";
     qDebug()<<"MyQuery Error:"<<a_query.lastError().text();
-    qDebug()<<"MyQuery Value:"<<a_query.value(0).toInt();
+    if(a_query.next())
+        qDebug()<<"MyQuery Value cnt:"<<a_query.value("cnt");
+}
+
+void Logger::update_value_table() {
+    QSqlQuery a_query(m_sdb);
+    QString summary, hash,
+            value_name, sensor_name, module_name;
+    int value_address, sensor_pin;
+    for(auto v: m_values){
+        value_name = v->name();
+        value_address = v->address();
+        sensor_name = v->sensor()->name();
+        sensor_pin = v->sensor()->pin();
+        module_name = v->module()->name();
+        summary = module_name+"/"+QString::number(sensor_pin)+" - "+sensor_name+"/"+value_name;
+        hash = QCryptographicHash::hash(summary.toLatin1(), QCryptographicHash::Sha256).left(16).toHex();
+        qDebug()<<"Hash:"<<hash;
+        a_query.prepare("select value_name from value_table where hash=:hash");
+        a_query.bindValue(":hash", hash);
+        a_query.exec();
+        if(a_query.next()){
+            qDebug()<<"Value_name:"<< a_query.value("value_name").toString();
+            m_values_hash<<hash;
+        }else{
+            a_query.prepare("INSERT INTO value_table (hash, value_name, value_address,"
+                                    "sensor_name, sensor_pin, module_name, summary)"
+                            "VALUES (:hash, :value_name, :value_address,"
+                            ":sensor_name, :sensor_pin, :module_name, :summary);");
+            a_query.bindValue(":hash", hash);
+            a_query.bindValue(":summary", summary);
+
+            a_query.bindValue(":value_name", value_name);
+            a_query.bindValue(":value_address", value_address);
+
+            a_query.bindValue(":sensor_name", sensor_name);
+            a_query.bindValue(":sensor_pin", sensor_pin);
+            a_query.bindValue(":module_name", module_name);
+
+            a_query.exec();
+            m_values_hash<<hash;
+        }
+    }
 }
