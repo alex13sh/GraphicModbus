@@ -13,6 +13,7 @@ ModbusValue::ModbusValue(ModbusDevice *module, const QString &name, quint16 addr
 {
     m_updateValue = new QTimer(this);
     connect(m_updateValue, &QTimer::timeout, this, [this](){this->updateValues();});
+    update_hash();
 }
 
 ModbusValue::ModbusValue(ModbusSensor *sensor, const QString &name, quint16 address, quint8 size)
@@ -20,7 +21,7 @@ ModbusValue::ModbusValue(ModbusSensor *sensor, const QString &name, quint16 addr
     , m_module(sensor->module()), m_sensor(sensor)
     , m_name(name), m_address(address), m_size(size)
 {
-
+    update_hash();
 }
 
 void ModbusValue::setValues(const ValuesType &values) {
@@ -129,4 +130,24 @@ qint32 ModbusValue::value_int32() const {
     if(m_size<2) return -1;
     qint32 ivalue = (((qint32)m_values[1]<<16)|(qint32)m_values[0]);
     return ivalue;
+}
+
+#include <QCryptographicHash>
+void ModbusValue::update_hash() {
+    auto v = this;
+    QString summary, hash,
+            value_name, sensor_name, module_name;
+    int value_address, sensor_pin;
+    value_name = v->name();
+    value_address = v->address();
+    module_name = v->module()->name();
+    if(m_sensor){
+        sensor_name = v->sensor()->name();
+        sensor_pin = v->sensor()->pin();
+        summary = module_name+"/"+QString::number(sensor_pin)+" - "+sensor_name+"/"+value_name;
+    }else{
+        summary = module_name+"/adr:"+QString::number(value_address);
+    }
+    m_hash = QCryptographicHash::hash(summary.toLatin1(), QCryptographicHash::Sha256).left(16);
+    m_hash_str = m_hash.toHex();
 }

@@ -29,6 +29,7 @@ public:
     quint16 address() const {return m_address;}
     void setDescription(const QString &desc) {m_description=desc;}
     QString description() const {return m_description;}
+    QString hash_str() const {return m_hash_str;}
 //    void setType(ValueType type);
     void setReadOnly(bool readOnly){m_readOnly=readOnly;}
     bool readOnly() const {return m_readOnly;}
@@ -63,7 +64,8 @@ signals:
 protected:
     const ModbusDevice *m_module = nullptr;
     ModbusSensor *m_sensor = nullptr;
-    QString m_name, m_description;
+    QString m_name, m_description, m_hash_str;
+    QByteArray m_hash;
     quint16 m_address;
     quint8 m_size;
     ValueType m_type;
@@ -72,6 +74,8 @@ protected:
 
     QTimer *m_updateValue;
     ValuesType m_values;
+
+    void update_hash();
 };
 
 #endif // MODBUSVALUE_H
