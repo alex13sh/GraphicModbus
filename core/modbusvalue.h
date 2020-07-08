@@ -45,6 +45,7 @@ public:
     ValuesType values() const;
     quint32 countUpdate() const {return m_countUpdate;}
 
+    QVariant value_var() const;
     void setValue_int(int value);
     void setValue_int16(qint16 value);
     void setValue_uint32(quint32 value);

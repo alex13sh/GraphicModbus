@@ -53,6 +53,15 @@ ValuesType ModbusValue::values() const {
     return m_values;
 }
 
+QVariant ModbusValue::value_var() const {
+    switch (m_type) {
+    case ValueType_INT16: return QVariant(value_int16());
+    case ValueType_INT32: return QVariant(value_int32());
+    case ValueType_FLOAT: return QVariant(value_float());
+    default: return QVariant();
+    }
+}
+
 void ModbusValue::setValue_int(int value) {
 //    qDebug()<<"ModbusValue::setValue_int:"<<value<<QString("(%1, %2)").arg(m_values.size()).arg(m_size);
     if(m_size==1)
