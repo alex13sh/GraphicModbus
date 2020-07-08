@@ -45,7 +45,7 @@ void Logger::pushValues() {
     for(auto v:m_values){
         cur = cur.addMSecs(1);
         v_hash<<v->hash_str().left(10);
-        v_value<<v->value_int();
+        v_value<<v->value_int32();
         v_dt<<cur;
     }
     my_query.bindValue(":hash", v_hash);
@@ -91,6 +91,7 @@ void Logger::create_tables() {
             "hash VARCHAR(32) PRIMARY KEY NOT NULL," // QCryptographicHash::Sha256
             "value_name VARCHAR(255),"
             "value_address integer,"
+            "value_type integer,"
             "sensor_name VARCHAR(255),"
             "sensor_pin integer,"
             "module_name VARCHAR(255),"
@@ -115,7 +116,7 @@ void Logger::update_value_table() {
     QSqlQuery a_query(m_sdb);
     QString summary, hash,
             value_name, sensor_name, module_name;
-    int value_address, sensor_pin;
+    int value_address, value_type, sensor_pin;
     for(auto v: m_values){
         hash = v->hash_str();
 //        qDebug()<<"Hash:"<<hash;
@@ -128,20 +129,22 @@ void Logger::update_value_table() {
         }else{
             value_name = v->name();
             value_address = v->address();
+            value_type = int(v->type());
             sensor_name = v->sensor()->name();
             sensor_pin = v->sensor()->pin();
             module_name = v->module()->name();
             summary = module_name+"/"+QString::number(sensor_pin)+" - "+sensor_name+"/"+value_name;
 
-            a_query.prepare("INSERT INTO value_table (hash, value_name, value_address,"
+            a_query.prepare("INSERT INTO value_table (hash, value_name, value_address, value_type,"
                                     "sensor_name, sensor_pin, module_name, summary)"
-                            "VALUES (:hash, :value_name, :value_address,"
+                            "VALUES (:hash, :value_name, :value_address, :value_type,"
                             ":sensor_name, :sensor_pin, :module_name, :summary);");
             a_query.bindValue(":hash", hash);
             a_query.bindValue(":summary", summary);
 
             a_query.bindValue(":value_name", value_name);
             a_query.bindValue(":value_address", value_address);
+            a_query.bindValue(":value_type", value_type);
 
             a_query.bindValue(":sensor_name", sensor_name);
             a_query.bindValue(":sensor_pin", sensor_pin);

@@ -127,8 +127,9 @@ qint16 ModbusValue::value_int16() const {
 }
 
 qint32 ModbusValue::value_int32() const {
-    if(m_size<2) return -1;
-    qint32 ivalue = (((qint32)m_values[1]<<16)|(qint32)m_values[0]);
+    qint32 ivalue=-1;
+    if(m_size==1) ivalue = (qint32)m_values[0];
+    else if(m_size==2) ivalue = (((qint32)m_values[1]<<16)|(qint32)m_values[0]);
     return ivalue;
 }
 

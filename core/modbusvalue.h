@@ -34,6 +34,7 @@ public:
     void setReadOnly(bool readOnly){m_readOnly=readOnly;}
     bool readOnly() const {return m_readOnly;}
     void setType(ValueType type) {m_type=type;}
+    ValueType type() const {return m_type;}
 //    void setFloatType(bool floatType) {m_type = ValueType_FLOAT;}
     bool isFloatType() const {return m_type==ValueType_FLOAT;}
 
