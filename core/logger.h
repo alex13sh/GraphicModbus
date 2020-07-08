@@ -23,6 +23,10 @@ private:
     QTimer *m_updateValues=nullptr;
     QSqlDatabase m_sdb;
     QDateTime m_start, m_finish;
+
+    bool connect_db();
+    void create_tables();
+    void test_printCount();
 };
 
 #endif // LOGGER_H
