@@ -10,6 +10,7 @@ public:
     explicit ModbusDevice_IODigital(const QString &name, QObject *parent = nullptr);
 
     ModbusSensor *createSensor(quint8 pin, const QString &name) override;
+    void initSensor(ModbusSensor *sens) override;
 
 signals:
 

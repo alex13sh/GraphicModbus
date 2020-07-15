@@ -34,6 +34,7 @@ public:
 
     void set_ipaddress(const QString &ip);
     virtual ModbusSensor *createSensor(quint8 pin, const QString &name);
+    virtual void initSensor(ModbusSensor *sens){} // =0
     void setSensor(quint8 pin, ModbusSensor *sens);
     void setValue(quint32 address, ModbusValue *value);
 

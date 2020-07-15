@@ -12,6 +12,13 @@ ModbusSensor *ModbusDevice_IODigital::createSensor(quint8 pin, const QString &na
     if(not (pin>=1 && pin<=12)) return nullptr;
 
     ModbusSensor *sens = new ModbusSensor_IODigital(name, pin, this);
+    initSensor(sens);
+    setSensor(pin, sens);
+    return sens;
+}
+
+void ModbusDevice_IODigital::initSensor(ModbusSensor *sens) {
+    auto pin = sens->pin();
 
     auto addValue = [this, sens](const QString &name, quint16 address, quint8 size, bool readOnly = false, const QString &desc = ""){
         ModbusValue *value;
@@ -36,7 +43,6 @@ ModbusSensor *ModbusDevice_IODigital::createSensor(quint8 pin, const QString &na
     if(pin>=1 && pin<=4)  addValue("Коэффициент заполнения ШИМ", 340 +(pin-1)*1, 1); // 1 - 4
 
     if(pin>=1 && pin<=4)  addValue("Безопасное состояние выхода", 474 +(pin-1)*1, 1); // 1 - 4
-    return sens;
 }
 
 ModbusSensor_IODigital::ModbusSensor_IODigital(const QString &name, quint8 pin, ModbusDevice *module)

@@ -12,6 +12,7 @@ public:
     void setADC(bool enable);
 
     ModbusSensor *createSensor(quint8 pin, const QString &name) override;
+    void initSensor(ModbusSensor *sens) override;
 signals:
 
 private:
@@ -100,16 +101,22 @@ public:
         return v;
     }
 };
+#include <math.h>
 class ModbusSensor_Analog_Davl : public ModbusSensor_Analog
 {
 public:
-    ModbusSensor_Analog_Davl(const QString &name, quint8 pin, ModbusDevice *module);
+    ModbusSensor_Analog_Davl(const QString &name, quint8 pin, ModbusDevice *module)
+        : ModbusSensor_Analog(name, pin, module)
+    {
+//        setType(Amper_4_20);
+//        setRange(-100.0, 100.0);
+    }
     virtual float value_float() const
     {
         // от 0 до 25 мм/с
         // 4 - 20 мА
         float v = ModbusSensor_Analog::value_float();
-
+        v = pow(10, v*10-5.5);
         return v;
     }
 };

@@ -76,9 +76,13 @@ void MainWindow::init_test_device_2()
     sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
     sens_analog->setRange(0, 250.0);
 
-    sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(2, "Давление -1_1 V")); // 0.1 В
+    sens_analog = static_cast<ModbusSensor_Analog *>(new ModbusSensor_Analog_Davl("Давление -1_1 V", 2, dev_analog));
+    dev_analog->initSensor(sens_analog); // 0.1 В
+    dev_analog->setSensor(sens_analog->pin(), sens_analog);
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Volt_1);
+    sens_analog->setRange(-1.0, 1.0);
+//    dev_analog->setSensor(2, dynamic_cast<ModbusSensor_Analog_Davl*>(sens_analog));
 
     sens_analog  = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(3, "Вибрация 4_20 A"));
     sens_analog->setInterval(800);
