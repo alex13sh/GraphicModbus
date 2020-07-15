@@ -26,5 +26,6 @@ private:
     Logger *m_logger;
 
     void init_test_device();
+    void init_test_device_2();
 };
 #endif // MAINWINDOW_H
