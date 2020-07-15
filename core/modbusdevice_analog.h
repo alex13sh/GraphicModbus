@@ -56,8 +56,8 @@ public:
     void setInterval(quint16 interval);
     void setRange(float l, float h);
 
-    qint16 value_int16() const;
-    float value_float() const;
+    virtual qint16 value_int16() const;
+    virtual float value_float() const;
 
     ModbusValue *getValueFloat()const{return v_value_float;}
 
@@ -68,6 +68,50 @@ private:
     ModbusValue *v_type=nullptr, *v_interval=nullptr,
       *v_value_float=nullptr, *v_value_int=nullptr,
       *v_ain_l=nullptr, *v_ain_h=nullptr;
+};
+
+class ModbusSensor_Analog_Perometr : public ModbusSensor_Analog
+{
+public:
+    ModbusSensor_Analog_Perometr(const QString &name, quint8 pin, ModbusDevice *module)
+        : ModbusSensor_Analog(name, pin, module)
+    {
+        setType(Pt_100);
+    }
+    virtual float value_float() const
+    {
+        // от 0 до 250 градусов
+        // 4 - 20 мА
+        float v = ModbusSensor_Analog::value_float();
+//        v = v
+        return v;
+    }
+};
+class ModbusSensor_Analog_Vibra : public ModbusSensor_Analog
+{
+public:
+    ModbusSensor_Analog_Vibra(const QString &name, quint8 pin, ModbusDevice *module);
+    virtual float value_float() const
+    {
+        // от 0 до 25 мм/с
+        // 4 - 20 мА
+        float v = ModbusSensor_Analog::value_float();
+
+        return v;
+    }
+};
+class ModbusSensor_Analog_Davl : public ModbusSensor_Analog
+{
+public:
+    ModbusSensor_Analog_Davl(const QString &name, quint8 pin, ModbusDevice *module);
+    virtual float value_float() const
+    {
+        // от 0 до 25 мм/с
+        // 4 - 20 мА
+        float v = ModbusSensor_Analog::value_float();
+
+        return v;
+    }
 };
 
 #endif // MODBUSDEVICE_ANALOG_H

@@ -20,7 +20,9 @@ public:
     GraphicsItem(QObject *parent = nullptr);
 
     void setValues(const QVector<ModbusValue*> &values);
+    void setSensors(const QVector<ModbusSensor*> &values);
     void updateValues();
+    void updateSensors();
 signals:
 
 private:
@@ -28,6 +30,7 @@ private:
     QValueAxis *m_axisY;
     QList<QSplineSeries *>m_series;
     QVector<ModbusValue*> m_values;
+    QVector<ModbusSensor*> m_sensors;
     const int m_secondsScala = 50;
 };
 

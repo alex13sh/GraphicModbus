@@ -65,3 +65,8 @@ int ModbusSensor_IODigital::value() const {
     if(v_value) return v_value->value_int();
     return 0;
 }
+
+float ModbusSensor_IODigital::value_float() const
+{
+
+}

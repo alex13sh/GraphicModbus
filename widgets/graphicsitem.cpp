@@ -41,6 +41,23 @@ void GraphicsItem::setValues(const QVector<ModbusValue *> &values){
     }
 }
 
+#include "../core/modbussensor.h"
+void GraphicsItem::setSensors(const QVector<ModbusSensor *> &values)
+{
+    m_sensors=values;
+    m_series.clear();
+    for(auto s:values){
+        auto series = new QSplineSeries(this);
+        series->setUseOpenGL(true);
+        series->setPen(QPen(QBrush(Qt::GlobalColor(m_series.size()%10+7)),4));//(green);
+        series->setName(s->name());
+        addSeries(series);
+        m_series.append(series);
+        series->attachAxis(m_axisX);
+        series->attachAxis(m_axisY);
+    }
+}
+
 void GraphicsItem::updateValues() {
     static int CountTic=0;
     QDateTime momentInTime = QDateTime::currentDateTime() ;
@@ -49,6 +66,18 @@ void GraphicsItem::updateValues() {
         auto ser = m_series[i];
         ser->append( momentInTime.toMSecsSinceEpoch(),
                 m_values[i]->isFloatType()?m_values[i]->value_float():m_values[i]->value_int());
+    }
+    m_axisX->setRange(QDateTime::currentDateTime().addSecs(-m_secondsScala+1), QDateTime::currentDateTime().addSecs(1));
+}
+
+void GraphicsItem::updateSensors() {
+    static int CountTic=0;
+    QDateTime momentInTime = QDateTime::currentDateTime() ;
+//    qDebug()<<++CountTic<<") DateTime:"<< momentInTime;
+    for(int i=0; i<m_sensors.size();++i){
+        auto ser = m_series[i];
+        ser->append( momentInTime.toMSecsSinceEpoch(),
+                m_sensors[i]->value_float());
     }
     m_axisX->setRange(QDateTime::currentDateTime().addSecs(-m_secondsScala+1), QDateTime::currentDateTime().addSecs(1));
 }

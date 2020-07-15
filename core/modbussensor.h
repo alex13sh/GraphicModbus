@@ -29,6 +29,8 @@ public:
     QString name() const {return m_name;}
     quint8 pin() const {return m_pin;}
 
+    void updateValue();
+    virtual float value_float() const = 0;
 signals:
     void fvalueChanged(float value);
 
@@ -41,6 +43,7 @@ protected:
     quint8 m_pin;
 
     ListValues m_values;
+    ModbusValue *v_value = nullptr;
     QMap<QString, ModbusValue*> m_mapNameValue;
 //    ListValues m_sensorValues, m_optionValues;
 

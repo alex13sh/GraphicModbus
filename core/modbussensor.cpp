@@ -28,3 +28,8 @@ void ModbusSensor::addValue(quint16 address, ModbusValue *value) {
 ListValues ModbusSensor::values() const {
     return m_values;
 }
+
+void ModbusSensor::updateValue()
+{
+    if(v_value) v_value->updateValues();
+}

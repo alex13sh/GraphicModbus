@@ -32,23 +32,36 @@ void GraphSensorForm::setDevices(MapDevices devices){
                 if(v->readOnly())
                     m_lstValue.append(v);
         }
-    m_graph->setValues(m_lstValue);
+//    m_graph->setValues(m_lstValue);
+    m_graph->setSensors(m_lstSensor);
     updateListSensors();
 }
 
+//void GraphSensorForm::updateListSensors() {
+//    ui->lstSensor->clear();
+//    for(auto v:m_lstValue){
+//        auto txt = QString("%1) %2/%3 - %4/%5 = %6")
+//                .arg(v->countUpdate()).arg(v->module()->name())
+//                .arg(v->sensor()->pin()).arg(v->sensor()->name())
+//                .arg(v->name());
+//        if(v->isFloatType()) txt = txt.arg(v->value_float());
+//        else txt = txt.arg(v->value_int());
+//        ui->lstSensor->addItem(txt);
+//        v->updateValues();
+//    }
+//    m_graph->updateValues();
+//}
+
 void GraphSensorForm::updateListSensors() {
     ui->lstSensor->clear();
-    for(auto v:m_lstValue){
-        auto txt = QString("%1) %2/%3 - %4/%5 = %6")
-                .arg(v->countUpdate()).arg(v->module()->name())
-                .arg(v->sensor()->pin()).arg(v->sensor()->name())
-                .arg(v->name());
-        if(v->isFloatType()) txt = txt.arg(v->value_float());
-        else txt = txt.arg(v->value_int());
+    for(auto s:m_lstSensor){
+        auto txt = QString("%1) %2 = %3")
+                .arg(s->pin()).arg(s->name())
+                .arg(s->value_float());
         ui->lstSensor->addItem(txt);
-        v->updateValues();
+        s->updateValue();
     }
-    m_graph->updateValues();
+    m_graph->updateSensors();
 }
 
 void GraphSensorForm::on_pbStart_clicked()
