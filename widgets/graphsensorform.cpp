@@ -8,7 +8,7 @@ GraphSensorForm::GraphSensorForm(QWidget *parent) :
 {
     ui->setupUi(this);
     m_timUpdate = new QTimer(this);
-    m_timUpdate->setInterval(1000);
+    m_timUpdate->setInterval(500);
     connect(m_timUpdate, &QTimer::timeout, this, &GraphSensorForm::updateListSensors);
     m_graph = static_cast<GraphicsItem *>(ui->widGraph->chart());
 }

@@ -86,11 +86,6 @@ void ModbusSensor_Analog::addValue(quint16 address, ModbusValue *value) {
     else if(name=="Верхняя граница") v_ain_h = value;
 }
 
-void ModbusSensor_Analog::setInterval(quint16 interval) {
-    if(!v_interval) return;
-    v_interval->setValue_int16(interval);
-}
-
 void ModbusSensor_Analog::setRange(float l, float h){
     if(!v_ain_h || !v_ain_l) return;
     v_ain_l->setValue_float(l);

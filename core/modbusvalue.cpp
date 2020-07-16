@@ -47,7 +47,7 @@ void ModbusValue::updateValues(const ValuesType &values) {
 }
 
 void ModbusValue::updateValues() {
-    m_module->sendRead(m_address, m_size);
+    if(m_module) m_module->sendRead(m_address, m_size);
 }
 
 ValuesType ModbusValue::values() const {
@@ -72,7 +72,7 @@ void ModbusValue::setValue_int(int value) {
 }
 
 void ModbusValue::setValue_int16(qint16 value) {
-//    qDebug()<<"ModbusValue::setValue_int16:"<<value;
+    qDebug()<<"ModbusValue::setValue_int16:"<<value;
     if(m_size!=1) return;
     ValuesType values(1);
     values[0]=value;
@@ -127,7 +127,7 @@ qint16 ModbusValue::value_int16() const {
 }
 
 qint32 ModbusValue::value_int32() const {
-    qint32 ivalue=-1;
+    qint32 ivalue=-5;
     if(m_size==1) ivalue = (qint32)m_values[0];
     else if(m_size==2) ivalue = (((qint32)m_values[1]<<16)|(qint32)m_values[0]);
     return ivalue;
@@ -135,6 +135,7 @@ qint32 ModbusValue::value_int32() const {
 
 #include <QCryptographicHash>
 void ModbusValue::update_hash() {
+    if(!m_module) return;
     auto v = this;
     QString summary, hash,
             value_name, sensor_name, module_name;

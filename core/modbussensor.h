@@ -25,6 +25,7 @@ public:
 
     virtual void addValue(quint16 address, ModbusValue* value);
     ListValues values() const;
+    void setInterval(quint16 interval);
 
     QString name() const {return m_name;}
     quint8 pin() const {return m_pin;}
@@ -43,7 +44,7 @@ protected:
     quint8 m_pin;
 
     ListValues m_values;
-    ModbusValue *v_value = nullptr;
+    ModbusValue *v_value = nullptr, *v_interval=nullptr;
     QMap<QString, ModbusValue*> m_mapNameValue;
 //    ListValues m_sensorValues, m_optionValues;
 

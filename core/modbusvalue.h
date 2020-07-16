@@ -9,6 +9,7 @@ class QTimer;
 enum ValueType{
     ValueType_None,
     ValueType_INT8,
+    ValueType_UINT8,
     ValueType_INT16,
     ValueType_UINT16,
     ValueType_INT32,
