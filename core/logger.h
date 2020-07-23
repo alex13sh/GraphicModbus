@@ -2,6 +2,7 @@
 #define LOGGER_H
 
 #include <QObject>
+#include <QtQml>
 #include <QtSql>
 #include "defines.h"
 class QTimer;
@@ -9,6 +10,7 @@ class QTimer;
 class Logger : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit Logger(QObject *parent = nullptr);
     ~Logger();

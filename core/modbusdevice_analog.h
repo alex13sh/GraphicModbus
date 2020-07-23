@@ -6,6 +6,7 @@
 class ModbusDevice_Analog : public ModbusDevice
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit ModbusDevice_Analog(const QString &name, QObject *parent = nullptr);
 

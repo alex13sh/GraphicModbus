@@ -6,6 +6,7 @@
 class ModbusDevice_IODigital : public ModbusDevice
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit ModbusDevice_IODigital(const QString &name, QObject *parent = nullptr);
 

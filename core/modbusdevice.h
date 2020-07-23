@@ -2,6 +2,7 @@
 #define MODBUSDEVICE_H
 
 #include <QObject>
+#include <QtQml>
 #include <QMap>
 
 #include "defines.h"
@@ -18,6 +19,7 @@ class QModbusReply;
 class ModbusDevice : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit ModbusDevice(QObject *parent = nullptr);
     ModbusDevice(const QString &name, DeviceType type, QObject *parent = nullptr)

@@ -2,6 +2,7 @@
 #define MODBUSSENSOR_H
 
 #include <QObject>
+#include <QtQml>
 #include "defines.h"
 
 enum SensorType{
@@ -14,6 +15,7 @@ class ModbusDevice;
 class ModbusSensor : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit ModbusSensor(QObject *parent = nullptr);
 

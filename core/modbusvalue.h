@@ -2,6 +2,7 @@
 #define MODBUSVALUE_H
 
 #include <QObject>
+#include <QtQml>
 #include "defines.h"
 
 class QTimer;
@@ -22,6 +23,7 @@ class ModbusValue : public QObject
     Q_OBJECT
     Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
     Q_PROPERTY(int value READ value_int NOTIFY valuesChanged)
+    QML_ELEMENT
 public:
     explicit ModbusValue(ModbusDevice *module, const QString &name, quint16 address, quint8 size);
     explicit ModbusValue(ModbusSensor *sensor, const QString &name, quint16 address, quint8 size);

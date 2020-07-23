@@ -1,4 +1,5 @@
 QT       += core gui serialport serialbus charts sql
+QT += qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
