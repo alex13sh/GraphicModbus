@@ -17,7 +17,7 @@ void ModbusSensor::setModule(ModbusDevice *module, int pin){
     this->m_module=module;
     this->m_pin = pin;
     module->setSensor(pin, this);
-//    module->m_sensors[pin] = this;
+//    module->m_sensors.insert(pin, this);
 }
 
 void ModbusSensor::addValue(quint16 address, ModbusValue *value) {

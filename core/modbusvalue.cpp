@@ -115,20 +115,20 @@ float ModbusValue::value_float() const {
 }
 
 qint8 ModbusValue::value_int8() const {
-    if(m_size<1) return -1;
-    qint8 ivalue=(qint8)(m_values[0]);
+    if(m_size<1 || m_values.size()<1) return -1;
+    qint8 ivalue=(qint8)(m_values.value(0,0));
     return ivalue;
 }
 
 qint16 ModbusValue::value_int16() const {
-    if(m_size<1) return -1;
-    qint16 ivalue=(qint16)(m_values[0]);
+    if(m_size<1 || m_values.size()<1) return -1;
+    qint16 ivalue=(qint16)(m_values.value(0,0));
     return ivalue;
 }
 
 qint32 ModbusValue::value_int32() const {
     qint32 ivalue=-5;
-    if(m_size==1) ivalue = (qint32)m_values[0];
+    if(m_size==1 || m_values.size()<1) ivalue = (qint32)m_values.value(0, 0);
     else if(m_size==2) ivalue = (((qint32)m_values[1]<<16)|(qint32)m_values[0]);
     return ivalue;
 }

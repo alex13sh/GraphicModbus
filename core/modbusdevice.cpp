@@ -47,7 +47,7 @@ void ModbusDevice::set_ipaddress(const QString &ip) {
     if(ip_part.size()!=4) return;
     quint32 ip_int=0;
     for(int i=0; i<4; ++i){
-        quint8 v = ip_part[i].toUInt();
+        quint8 v = ip_part.at(i).toUInt();
         ip_int|=v<<(8*i);
     }
 //    ValuesType res(2);
@@ -62,9 +62,9 @@ ModbusSensor *ModbusDevice::createSensor(quint8 pin, const QString &name) {
 }
 
 void ModbusDevice::setSensor(quint8 pin, ModbusSensor *sens) {
-    if(m_sensors.contains(pin))
-        return;
-    m_sensors[pin] = sens;
+//    if(m_sensors.contains(pin))
+//        return;
+    m_sensors.insert(pin, sens);
     emit updatedListSensors();
 }
 

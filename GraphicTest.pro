@@ -17,11 +17,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     core/logger.cpp \
+    mainwindow.cpp \
+    testwindow.cpp \
     widgets/connectmodulewidget.cpp \
     widgets/graphicsitem.cpp \
     widgets/graphsensorform.cpp \
     main.cpp \
-    mainwindow.cpp \
     core/modbusdevice.cpp \
     core/modbusdevice_analog.cpp \
     core/modbusdevice_iodigital.cpp \
@@ -32,11 +33,12 @@ SOURCES += \
 
 HEADERS += \
     core/logger.h \
+    mainwindow.h \
+    testwindow.h \
     widgets/connectmodulewidget.h \
     core/defines.h \
     widgets/graphicsitem.h \
     widgets/graphsensorform.h \
-    mainwindow.h \
     core/modbusdevice.h \
     core/modbusdevice_analog.h \
     core/modbusdevice_iodigital.h \
@@ -48,9 +50,10 @@ HEADERS += \
 
 FORMS += \
 #    widgets/TestModuleWidget.ui \
+    mainwindow.ui \
+    testwindow.ui \
     widgets/connectmodulewidget.ui \
     widgets/graphsensorform.ui \
-    mainwindow.ui \
     widgets/sensor_infowidget.ui \
     widgets/testmodulewidget.ui
 
