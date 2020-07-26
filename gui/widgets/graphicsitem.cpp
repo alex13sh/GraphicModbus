@@ -25,7 +25,7 @@ GraphicsItem::GraphicsItem(QObject *parent)
     m_axisY->setRange(-5, 300);
 }
 
-#include "../core/modbusvalue.h"
+#include "core/modbusvalue.h"
 void GraphicsItem::setValues(const QVector<ModbusValue *> &values){
     m_values=values;
     m_series.clear();
@@ -41,7 +41,7 @@ void GraphicsItem::setValues(const QVector<ModbusValue *> &values){
     }
 }
 
-#include "../core/modbussensor.h"
+#include "core/modbussensor.h"
 void GraphicsItem::setSensors(const QVector<ModbusSensor *> &values)
 {
     m_sensors=values;

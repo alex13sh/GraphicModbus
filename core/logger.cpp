@@ -1,6 +1,6 @@
 #include "logger.h"
 
-//#include <QtSql>
+#include <QtSql>
 //#include <QSqlDatabase>
 #include <QTimer>
 #include <QDebug>

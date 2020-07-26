@@ -1,7 +1,7 @@
 #include "testmodulewidget.h"
 #include "ui_testmodulewidget.h"
 
-#include "../core/modbusdevice.h"
+#include "core/modbusdevice.h"
 #include <QTimer>
 #include <QDebug>
 
@@ -38,7 +38,7 @@ void TestModuleWidget::updateListDevice() {
     }
 }
 
-#include "../core/modbussensor.h"
+#include "core/modbussensor.h"
 void TestModuleWidget::updateListSensor(const ModbusDevice *dev) {
     if(!dev) return;
     ui->listWidget->clear(); m_lstSensor.clear();
@@ -63,7 +63,7 @@ void TestModuleWidget::on_listWidget_currentRowChanged(int currentRow) {
     ui->InfoForm->setSensor(m_lstSensor.value(currentRow, nullptr));
 }
 
-#include "../core/modbusdevice_analog.h"
+#include "core/modbusdevice_analog.h"
 void TestModuleWidget::on_pbTest_clicked() {
     auto dev_analog = static_cast<ModbusDevice_Analog *>(m_curDevice);
 //    if(dev_analog->isConnected()){

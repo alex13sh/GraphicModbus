@@ -82,7 +82,7 @@
   <customwidget>
    <class>Sensor_InfoWidget</class>
    <extends>QWidget</extends>
-   <header>widgets/sensor_infowidget.h</header>
+   <header>sensor_infowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

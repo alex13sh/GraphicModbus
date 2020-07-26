@@ -4,7 +4,7 @@
 #include <QWidget>
 
 //#include "structs.h"
-#include "../core/defines.h"
+#include "core/defines.h"
 
 namespace Ui {
 class TestModuleWidget;

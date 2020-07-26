@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabGraph">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_ConnectModule">
        <attribute name="title">
@@ -70,19 +70,19 @@
   <customwidget>
    <class>ConnectModuleWidget</class>
    <extends>QWidget</extends>
-   <header>widgets/connectmodulewidget.h</header>
+   <header>connectmodulewidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>TestModuleWidget</class>
    <extends>QWidget</extends>
-   <header>widgets/testmodulewidget.h</header>
+   <header>testmodulewidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>GraphSensorForm</class>
    <extends>QWidget</extends>
-   <header>widgets/graphsensorform.h</header>
+   <header>graphsensorform.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

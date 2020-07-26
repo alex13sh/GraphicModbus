@@ -3,7 +3,7 @@
 
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
-#include "../core/defines.h"
+#include "core/defines.h"
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QSplineSeries;

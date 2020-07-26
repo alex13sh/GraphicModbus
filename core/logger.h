@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtQml>
-#include <QtSql>
+#include <QSqlDatabase>
 #include "defines.h"
 class QTimer;
 
