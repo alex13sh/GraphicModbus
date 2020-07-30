@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    engine.load(QUrl(QStringLiteral("../qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("../qml/main_app.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 

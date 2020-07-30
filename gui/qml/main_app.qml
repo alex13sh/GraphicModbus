@@ -8,7 +8,7 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 600
-    title: "LOL"
+    title: "Graphic QML"
 
 
     Logger {
@@ -21,4 +21,5 @@ ApplicationWindow {
 //        onMapDevicesChanged: logger.values = devises.getValues(true)
 //        Component.onCompleted: logger.values = devises.getValues(true)
     }
+
 }
