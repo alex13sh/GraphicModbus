@@ -17,8 +17,8 @@
         Depends{name:"cpp"}
         Depends{name:"Qt"; submodules: ["qml", "sql", "serialbus"]}
 //        cpp.includePaths:"./"
-        cpp.includePaths: [qbs.installRoot+qbs.installPrefix+"/include"]
-//        cpp.includePaths: [product.sourceDirectory+"/../"]
+//        cpp.includePaths: [qbs.installRoot+qbs.installPrefix+"/include"]
+        cpp.includePaths: [product.sourceDirectory+"/../"]
     }
 
 //    Qt.core.pluginPath: "plugins"

@@ -28,13 +28,45 @@ Item {
         anchors.fill: parent
         legend.alignment: Qt.AlignBottom
 
-        PieSeries {
-            id: pieSeries
-            PieSlice { label: "Volkswagen"; value: 13.5 }
-            PieSlice { label: "Toyota"; value: 10.9 }
-            PieSlice { label: "Ford"; value: 8.6 }
-            PieSlice { label: "Skoda"; value: 8.2 }
-            PieSlice { label: "Volvo"; value: 6.8 }
+        ValueAxis {
+            id: axis_temper
+            min: 0
+            max: 100
+            minorTickCount: 10
+        }
+
+        ValueAxis {
+            id: axis_other
+            min: -10
+            max: 200
+            minorTickCount: 10
+        }
+        LogValueAxis {
+            id: axis_davl
+            min: 0.001
+            max: 1000
+            minorTickCount: 10
+        }
+
+        Component{
+            id: cmpLS
+        LineSeries {
+//            id: lineSeries1
+            name: "signal 1"
+//            axisX: axisX
+//            axisY: axisY1
+            useOpenGL: true
+        }
+        }
+
+        Component.onCompleted: {
+            var lst = devises.sensors
+
+            for(var i in lst) {
+                console.log(i, ") name:", lst[i].name)
+                var ls = cmpLS.createObject(chart)
+                ls.name = lst[i].name
+            }
         }
     }
 }

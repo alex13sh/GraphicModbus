@@ -1,4 +1,5 @@
 #include "modbusdeviceinit.h"
+#include <QDebug>
 
 ModbusDevicesInit::ModbusDevicesInit(QObject *parent)
     : QObject(parent)
@@ -87,13 +88,24 @@ void ModbusDevicesInit::init_devices_digital()
     sens_out->setTypeOutput(ModbusSensor_ODigital::LogicSignal);
 }
 
+QVector<ModbusSensor *> ModbusDevicesInit::getListSensors()
+{
+    QVector<ModbusSensor *> res;
+    for (auto d : *m_mapDevices)
+        for (auto s : d->getListSensors()) {
+            res.append(s);
+            qDebug()<<"ModbusDevicesInit::getListSensors name:"<<s->name();
+        }
+    return res;
+}
+
 QVector<ModbusValue *> ModbusDevicesInit::getValues(bool readOnly)
 {
     QVector<ModbusValue *> res;
     for (auto d : *m_mapDevices) {
         for (auto s : d->getListSensors()) {
             for (auto v : s->values()) {
-                if (v->readOnly()==readOnly) res.append(v);
+                if (!readOnly or (v->readOnly() and readOnly)) res.append(v);
             }
         }
     }

@@ -21,6 +21,7 @@ enum ValueType{
 class ModbusValue : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString name READ name FINAL)
     Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
     Q_PROPERTY(int value READ value_int NOTIFY valuesChanged)
     QML_ELEMENT

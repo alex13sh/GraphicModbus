@@ -16,6 +16,7 @@ class ModbusSensor : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
+    Q_PROPERTY(QString name READ name FINAL)
 public:
     explicit ModbusSensor(QObject *parent = nullptr);
 
