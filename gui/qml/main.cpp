@@ -52,6 +52,7 @@
 #include <QQmlApplicationEngine>
 
 #include <QtGui>
+//#include <QQmlContext>
 
 int main(int argc, char *argv[])
 {
@@ -62,16 +63,12 @@ int main(int argc, char *argv[])
     QLoggingCategory::setFilterRules("QSSG.trace_info=false\n"
 //                                     "*.debug=false\n"
                                      "qt.quick.controls.style=false");
-    QQmlApplicationEngine engine;
-//    QObject::connect(&engine, &QQmlApplicationEngine::warnings, [](const QList<QQmlError> &warnings){
-//        for(auto war : warnings)
-//            qDebug()<<"War:"<<war;
-//    });
-    engine.load(QUrl(QStringLiteral("../qml/main.qml")));
-    if (engine.rootObjects().isEmpty()){
 
+    QQmlApplicationEngine engine;
+
+    engine.load(QUrl(QStringLiteral("../qml/main.qml")));
+    if (engine.rootObjects().isEmpty())
         return -1;
-    }
 
     return app.exec();
 }

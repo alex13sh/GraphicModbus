@@ -7,6 +7,10 @@ CppApplication{
 //            qbs_install: true
     }
 
+    Qt.qml.importName: "my.work.gui"
+    Qt.qml.importVersion: "1.0"
+    cpp.includePaths: "./"
+
     files: ["*.h", "*.cpp"]
 
     Group{
