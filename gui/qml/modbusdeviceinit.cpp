@@ -87,13 +87,13 @@ void ModbusDevicesInit::init_devices_digital()
     sens_out->setTypeOutput(ModbusSensor_ODigital::LogicSignal);
 }
 
-QVector<ModbusValue *> ModbusDevicesInit::getValues()
+QVector<ModbusValue *> ModbusDevicesInit::getValues(bool readOnly)
 {
     QVector<ModbusValue *> res;
     for (auto d : *m_mapDevices) {
         for (auto s : d->getListSensors()) {
             for (auto v : s->values()) {
-                res.append(v);
+                if (v->readOnly()==readOnly) res.append(v);
             }
         }
     }

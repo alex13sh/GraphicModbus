@@ -11,13 +11,14 @@ class Logger : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
+    Q_PROPERTY(QVector<ModbusValue*> values WRITE setValues FINAL)
 public:
     explicit Logger(QObject *parent = nullptr);
     ~Logger();
 
+public slots:
     void setValues(const QVector<ModbusValue*> &values) {m_values=values; update_value_table();}
     void pushValues();
-
 signals:
 
 private:

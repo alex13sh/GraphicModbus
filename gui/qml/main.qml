@@ -12,10 +12,13 @@ ApplicationWindow {
 
 
     Logger {
-//        values: devises.values
+        id: logger
+        values: devises.getValues(true)
     }
 
     ModbusDevicesInit {
         id: devises
+//        onMapDevicesChanged: logger.values = devises.getValues(true)
+//        Component.onCompleted: logger.values = devises.getValues(true)
     }
 }

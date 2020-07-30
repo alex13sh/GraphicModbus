@@ -113,12 +113,14 @@ void Logger::test_printCount() {
 }
 
 void Logger::update_value_table() {
+    qDebug()<<"Logger::update_value_table m_values:"<<m_values.size();
     QSqlQuery a_query(m_sdb);
     QString summary, hash,
             value_name, sensor_name, module_name;
     int value_address, value_type, sensor_pin;
     for(auto v: m_values){
         hash = v->hash_str();
+        if (hash.isEmpty()) continue;
 //        qDebug()<<"Hash:"<<hash;
         a_query.prepare("select value_name from value_table where hash=:hash");
         a_query.bindValue(":hash", hash);
@@ -154,4 +156,5 @@ void Logger::update_value_table() {
             m_values_hash<<hash;
         }
     }
+    qDebug()<<"Logger::update_value_table end";
 }

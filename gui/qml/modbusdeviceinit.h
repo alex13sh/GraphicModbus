@@ -19,15 +19,17 @@ class ModbusDevicesInit : public QObject
 public:
     ModbusDevicesInit(QObject *parent=nullptr);
 
+public slots:
+
     void init_devices();
     void init_devices_analog();
     void init_devices_digital();
 
-    ListSensors getMapSensors();
-    QList<ModbusSensor*> getListSensors();
-    QList<ModbusValue*> getListValues();
+//    ListSensors getMapSensors();
+//    QList<ModbusSensor*> getListSensors();
+//    QList<ModbusValue*> getListValues();
     MapDevices mapDevices() const {return m_mapDevices;}
-    QVector<ModbusValue*> getValues();
+    QVector<ModbusValue*> getValues(bool readOnly=false);
 
 signals:
     void mapDevicesChanged();
