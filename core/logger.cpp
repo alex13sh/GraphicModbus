@@ -11,24 +11,41 @@ Logger::Logger(QObject *parent) : QObject(parent)
     m_updateValues = new QTimer(this);
     m_updateValues->setInterval(1000);
     connect(m_updateValues, &QTimer::timeout, this, &Logger::pushValues);
-
-    if(!connect_db()) return;
-    create_tables();
-    test_printCount();
+    m_sdb = QSqlDatabase::addDatabase("QSQLITE");
+//    if(!connect_db()) return;
+//    create_tables();
+//    test_printCount();
 
     m_start = QDateTime::currentDateTime();
-    m_updateValues->start();
+//    m_updateValues->start();
 }
 
 Logger::~Logger(){
-    m_finish = QDateTime::currentDateTime();
-    QSqlQuery my_query(m_sdb);
-    my_query.prepare("INSERT INTO session_table (start, finish)"
-                                  "VALUES (:start, :finish);");
-    my_query.bindValue(":start", m_start);
-    my_query.bindValue(":finish", m_finish);
-    my_query.exec();
+    setWrite(false);
     m_sdb.close();
+}
+
+void Logger::setWrite(bool v) {
+    if (m_isWrite == v) return;
+    m_isWrite = v;
+    if (m_isRead && m_isWrite) setRead(false);
+    if (v) m_start = QDateTime::currentDateTime();
+    else {
+        m_finish = QDateTime::currentDateTime();
+        QSqlQuery my_query(m_sdb);
+        my_query.prepare("INSERT INTO session_table (start, finish)"
+                                      "VALUES (:start, :finish);");
+        my_query.bindValue(":start", m_start);
+        my_query.bindValue(":finish", m_finish);
+        my_query.exec();
+    }
+}
+
+void Logger::setRead(bool v) {
+    if (m_isRead == v) return;
+    m_isRead = v;
+    if (m_isRead && m_isWrite) setWrite(false);
+    query_read();
 }
 
 #include "modbusvalue.h"
@@ -36,6 +53,7 @@ Logger::~Logger(){
 #include "modbusdevice.h"
 #include <QDateTime>
 void Logger::pushValues() {
+    if (!m_isWrite) return;
     QSqlQuery my_query(m_sdb);
 
     my_query.prepare("INSERT INTO values_table (value_hash, value, datetime)"
@@ -55,15 +73,35 @@ void Logger::pushValues() {
             qDebug()<<"Error:"<<my_query.lastError().text();
 }
 
-bool Logger::connect_db() {
-    m_sdb = QSqlDatabase::addDatabase("QSQLITE");
-    m_sdb.setDatabaseName("./test_2.sqlite");
+void Logger::readValues()
+{
+    if (!m_isRead) return;
+//    static QSqlQuery m_queryRead("select * from values_table", m_sdb);
+
+    if (!m_queryRead->next()) return;
+//    QDateTime dt = a_query.value("datetime").toDateTime();
+    QString hash = m_queryRead->value("value_hash").toString();
+    quint32 value = m_queryRead->value("value").toUInt();
+    static QDateTime dt_n, dt_p;
+    dt_n = m_queryRead->value("datetime").toDateTime();
+    if (dt_p.addSecs(5)<dt_n) {
+        qDebug()<<"Logger::readValues hash:"<<hash<<"; value:"<<value<<"; date:"<<dt_n;
+        dt_p = dt_n;
+    }
+    if (m_values_.contains(hash)) m_values_[hash]->setValue_uint32(value);
+//    a_query.previous();
+}
+
+bool Logger::connect_db(const QString &filePath) {
+
+    m_sdb.setDatabaseName(filePath);
 
     if (!m_sdb.open()) {
         qDebug()<<"Sql is not open. Error:"<<m_sdb.lastError().text();
         return false;
     }
     else qDebug()<<"Sql is open";
+    query_read();
     return true;
 }
 
@@ -127,7 +165,6 @@ void Logger::update_value_table() {
         a_query.exec();
         if(a_query.next()){
             qDebug()<<"Value_name:"<< a_query.value("value_name").toString();
-            m_values_hash<<hash;
         }else{
             value_name = v->name();
             value_address = v->address();
@@ -153,8 +190,34 @@ void Logger::update_value_table() {
             a_query.bindValue(":module_name", module_name);
 
             a_query.exec();
-            m_values_hash<<hash;
         }
+        m_values_hash<<hash;
+        m_values_.insert(hash.left(10), v);
     }
     qDebug()<<"Logger::update_value_table end";
+}
+
+void Logger::query_read()
+{
+    if (m_queryRead) delete m_queryRead;
+//    m_queryRead = new QSqlQuery("select * from values_table where "
+////                                "   value_hash='56d69d8552'"
+////                                "or value_hash='a439b8f7f2'"
+////                                "or value_hash='1029а3с7в6'"
+//                                " value_hash='86c6deedfb'"
+//                                ";", m_sdb);
+    m_queryRead = new QSqlQuery(m_sdb);
+//    m_queryRead->prepare("select * from values_table where value_hash = ANY (:hash);");
+    QStringList v_hash;
+    for (auto v:m_values)
+        v_hash<<"'"+v->hash_str().left(10)+"'";
+
+//    m_queryRead->bindValue(":hash", v_hash.join(", "));
+    auto txt = QString("select * from values_table where value_hash  IN (%1);").arg(v_hash.join(", "));
+    qDebug()<< "Logger::query_read hash:"<<txt;
+//    if (!m_queryRead->execBatch(QSqlQuery::ValuesAsColumns))
+    if (!m_queryRead->exec(txt))
+//    if (!m_queryRead->exec("select * from values_table;"))
+        qDebug()<<"Error:"<<m_queryRead->lastError().text();
+
 }

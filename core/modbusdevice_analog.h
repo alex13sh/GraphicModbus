@@ -28,6 +28,7 @@ private:
 class ModbusSensor_Analog : public ModbusSensor
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(float value_float READ value_float NOTIFY value_float_changed)
 public:
     enum SensorType{
@@ -58,7 +59,7 @@ public:
     void setRange(float l, float h);
 
     virtual qint16 value_int16() const;
-    virtual float value_float() const;
+    virtual float value_float() const override;
 
     ModbusValue *getValueFloat()const{return v_value_float;}
 

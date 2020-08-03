@@ -17,6 +17,7 @@ class ModbusSensor : public QObject
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(QString name READ name FINAL)
+    Q_PROPERTY(float value READ value_float NOTIFY fvalueChanged)
 public:
     explicit ModbusSensor(QObject *parent = nullptr);
 
@@ -36,7 +37,7 @@ public:
     void updateValue();
     virtual float value_float() const = 0;
 signals:
-    void fvalueChanged(float value);
+    void fvalueChanged(/*float value*/);
 
 protected:
 

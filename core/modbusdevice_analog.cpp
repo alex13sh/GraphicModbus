@@ -81,6 +81,7 @@ void ModbusSensor_Analog::addValue(quint16 address, ModbusValue *value) {
         v_value_float = value;
         v_value = value;
         connect(v_value_float, &ModbusValue::valuesChanged, this, &ModbusSensor_Analog::value_float_changed);
+        connect(v_value_float, &ModbusValue::valuesChanged, this, &ModbusSensor::fvalueChanged);
     }else if(name == "value_int") v_value_int = value;
     else if(name=="Нижняя граница") v_ain_l = value;
     else if(name=="Верхняя граница") v_ain_h = value;
