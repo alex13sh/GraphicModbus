@@ -18,7 +18,7 @@ class Logger : public QObject
     Q_PROPERTY(QString filePath WRITE connect_db FINAL)
     Q_PROPERTY(bool isWrite READ isWrite WRITE setWrite FINAL)
     Q_PROPERTY(bool isRead READ isRead WRITE setRead FINAL)
-    Q_PROPERTY(QList<LoggerSession*> sessions READ sessions)
+    Q_PROPERTY(QList<LoggerSession*> sessions READ sessions CONSTANT)
 public:
     explicit Logger(QObject *parent = nullptr);
     ~Logger();
@@ -62,8 +62,8 @@ class LoggerSession : public QObject
 //    Q_GADGET
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(QDateTime start READ start)
-    Q_PROPERTY(QDateTime finish READ finish)
+    Q_PROPERTY(QDateTime start READ start CONSTANT FINAL)
+    Q_PROPERTY(QDateTime finish READ finish CONSTANT FINAL)
 public:
     LoggerSession(QSqlQuery *query, QObject *parent = nullptr);
     LoggerSession(quint16 id, const QSqlDatabase *db, QObject *parent = nullptr);

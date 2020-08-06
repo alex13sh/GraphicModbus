@@ -22,8 +22,9 @@ Item {
 //            isRead = true
 
             var ses = this.sessions;
-            for(var i in ses)
-                console.log("Session start:", ses[i].start, "; finish:", ses[i].finish)
+//            for(var i in ses)
+//                console.log("Session start:", ses[i].start, "; finish:", ses[i].finish)
+            sessionsList.model = ses
         }
     }
     Timer {
@@ -38,8 +39,10 @@ Item {
 //        Component.onCompleted: logger.values = devises.getValues(true)
     }
 
-    RowLayout{
+    GridLayout{
         anchors.fill: parent
+        columns: 2
+        rows: 2
 
     SensorList {
         id: sensorList
@@ -58,6 +61,7 @@ Item {
 //        Layout.preferredWidth: parent.width*80
         Layout.fillWidth: true
         Layout.fillHeight: true
+        Layout.rowSpan: 2
 
         ValueAxis {
             id: axis_temper
@@ -103,6 +107,15 @@ Item {
             }
             sensorList.model = lstLS
         }
+    }
+    SessionsList {
+        id: sessionsList
+        Layout.minimumWidth: 200
+        Layout.minimumHeight: 200
+//        Layout.fillHeight: true
+//        Layout.column: 0
+        color: "red"
+        clip: true
     }
     }
 }
