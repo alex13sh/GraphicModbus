@@ -102,6 +102,7 @@ bool Logger::connect_db(const QString &filePath) {
     }
     else qDebug()<<"Sql is open";
     query_read();
+    read_sessions();
     return true;
 }
 
@@ -197,6 +198,22 @@ void Logger::update_value_table() {
     qDebug()<<"Logger::update_value_table end";
 }
 
+void Logger::read_sessions()
+{
+    QSqlQuery q(m_sdb);
+    q.exec("select * from session_table");
+    m_sessions.clear();
+    while(q.next()){
+        QSqlQuery *sq = new QSqlQuery(m_sdb);
+        sq->prepare("select * from values_table where datetime >= :start and datetime <= :finish;");
+        sq->bindValue(":start", q.value("start").toString());
+        sq->bindValue(":finish", q.value("finish").toString());
+        auto s = new LoggerSession(sq, this);
+        s->setRange(q.value("start").toDateTime(), q.value("finish").toDateTime());
+        m_sessions.append(s);
+    }
+}
+
 void Logger::query_read()
 {
     if (m_queryRead) delete m_queryRead;
@@ -220,4 +237,35 @@ void Logger::query_read()
 //    if (!m_queryRead->exec("select * from values_table;"))
         qDebug()<<"Error:"<<m_queryRead->lastError().text();
 
+}
+
+LoggerSession::LoggerSession(QSqlQuery *query, QObject *parent)
+    : QObject(parent)
+    , m_queryRead(query)
+{
+//    query->last();
+//    m_end = query->value("datetime").toDateTime();
+
+//    query->first();
+//    m_start = query->value("datetime").toDateTime();
+
+}
+
+LoggerSession::LoggerSession(quint16 /*id*/, const QSqlDatabase *db, QObject *parent)
+    : QObject(parent)
+{
+    QSqlQuery q(*db);
+    //    q.exec("select * from session_table where ");
+}
+
+LoggerSession::~LoggerSession()
+{
+    if(m_queryRead)
+        delete m_queryRead;
+}
+
+void LoggerSession::setRange(QDateTime start, QDateTime finish)
+{
+    m_start = start;
+    m_finish = finish;
 }

@@ -18,7 +18,13 @@ Item {
 
         filePath: "/home/alex13sh/TMP/test_2.sqlite"
 //        filePath: "./test_2.sqlite"
-        Component.onCompleted: isRead = true
+        Component.onCompleted: {
+//            isRead = true
+
+            var ses = this.sessions;
+            for(var i in ses)
+                console.log("Session start:", ses[i].start, "; finish:", ses[i].finish)
+        }
     }
     Timer {
         interval: 20; repeat: true
