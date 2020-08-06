@@ -65,16 +65,18 @@ class LoggerSession : public QObject
     Q_PROPERTY(QDateTime start READ start CONSTANT FINAL)
     Q_PROPERTY(QDateTime finish READ finish CONSTANT FINAL)
 public:
-    LoggerSession(QSqlQuery *query, QObject *parent = nullptr);
-    LoggerSession(quint16 id, const QSqlDatabase *db, QObject *parent = nullptr);
+    LoggerSession(const QString &query, const QSqlDatabase *db, QObject *parent = nullptr);
     ~LoggerSession();
 
     void setRange(QDateTime start, QDateTime finish);
     QDateTime start() const {return m_start;}
     QDateTime finish() const {return m_finish;}
 
+    Q_INVOKABLE QStringList getValuesHash() const;
+
 private:
-    QSqlQuery *m_queryRead = nullptr;
+    QString m_query;
+    const QSqlDatabase *m_db;
     QDateTime m_start, m_finish;
     quint16 m_id;
 };

@@ -22,8 +22,12 @@ Item {
 //            isRead = true
 
             var ses = this.sessions;
-//            for(var i in ses)
-//                console.log("Session start:", ses[i].start, "; finish:", ses[i].finish)
+
+            for(var i in ses){
+                var hashs = ses[i].getValuesHash()
+                console.log("Session start:", ses[i].start, "; finish:", ses[i].finish)
+                console.log("hashs:", hashs)
+            }
             sessionsList.model = ses
         }
     }

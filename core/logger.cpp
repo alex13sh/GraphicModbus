@@ -204,11 +204,8 @@ void Logger::read_sessions()
     q.exec("select * from session_table");
     m_sessions.clear();
     while(q.next()){
-        QSqlQuery *sq = new QSqlQuery(m_sdb);
-        sq->prepare("select * from values_table where datetime >= :start and datetime <= :finish;");
-        sq->bindValue(":start", q.value("start").toString());
-        sq->bindValue(":finish", q.value("finish").toString());
-        auto s = new LoggerSession(sq, this);
+        QString sq ="select * from values_table where datetime >= :start and datetime <= :finish";
+        auto s = new LoggerSession(sq, &m_sdb, this);
         s->setRange(q.value("start").toDateTime(), q.value("finish").toDateTime());
         m_sessions.append(s);
     }
@@ -224,7 +221,7 @@ void Logger::query_read()
 //                                " value_hash='86c6deedfb'"
 //                                ";", m_sdb);
     m_queryRead = new QSqlQuery(m_sdb);
-//    m_queryRead->prepare("select * from values_table where value_hash = ANY (:hash);");
+//    m_queryRead->prepare("select * from values_table where value_hash = ANY (:hash)");
     QStringList v_hash;
     for (auto v:m_values)
         v_hash<<"'"+v->hash_str().left(10)+"'";
@@ -239,33 +236,41 @@ void Logger::query_read()
 
 }
 
-LoggerSession::LoggerSession(QSqlQuery *query, QObject *parent)
-    : QObject(parent)
-    , m_queryRead(query)
+
+LoggerSession::LoggerSession(const QString &query, const QSqlDatabase *db, QObject *parent)
+    : QObject(parent), m_query(query), m_db(db)
 {
-//    query->last();
-//    m_end = query->value("datetime").toDateTime();
-
-//    query->first();
-//    m_start = query->value("datetime").toDateTime();
-
-}
-
-LoggerSession::LoggerSession(quint16 /*id*/, const QSqlDatabase *db, QObject *parent)
-    : QObject(parent)
-{
-    QSqlQuery q(*db);
+//    QSqlQuery q(*db);
     //    q.exec("select * from session_table where ");
 }
 
 LoggerSession::~LoggerSession()
 {
-    if(m_queryRead)
-        delete m_queryRead;
 }
 
 void LoggerSession::setRange(QDateTime start, QDateTime finish)
 {
     m_start = start;
     m_finish = finish;
+}
+
+QStringList LoggerSession::getValuesHash() const
+{
+    QSqlQuery q; //(*m_db); //(m_queryRead->result());
+    auto txt = m_query;
+//    txt = txt.left(txt.length()-1);
+    txt = QString("select DISTINCT value_hash as hash from (%1)").arg(txt);
+    qDebug()<<"getValuesHash: "<<txt;
+    q.prepare(txt);
+    q.bindValue(":start", m_start);
+    q.bindValue(":finish", m_finish);
+    if(!q.exec()) {
+        qDebug()<<"Error:"<<q.lastError().text();
+        return {};
+    }
+    QStringList res;
+    while(q.next())
+        res.append(q.value("hash").toString());
+    qDebug()<<"LoggerSession::getValuesHash res:"<<res;
+    return res;
 }
