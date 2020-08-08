@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QtQml>
-#include <QSqlDatabase>
 
 #include "defines.h"
 class QTimer;
@@ -44,7 +43,6 @@ private:
     QStringList m_values_hash;
     QMap<QString, ModbusValue*> m_values_;
     QTimer *m_updateValues=nullptr;
-    QSqlDatabase m_sdb;
     QSqlQuery *m_queryRead = nullptr;
     QDateTime m_start, m_finish;
 
@@ -65,7 +63,7 @@ class LoggerSession : public QObject
     Q_PROPERTY(QDateTime start READ start CONSTANT FINAL)
     Q_PROPERTY(QDateTime finish READ finish CONSTANT FINAL)
 public:
-    LoggerSession(const QString &query, const QSqlDatabase *db, QObject *parent = nullptr);
+    LoggerSession(const QString &query, QObject *parent = nullptr);
     ~LoggerSession();
 
     void setRange(QDateTime start, QDateTime finish);
@@ -76,7 +74,6 @@ public:
 
 private:
     QString m_query;
-    const QSqlDatabase *m_db;
     QDateTime m_start, m_finish;
     quint16 m_id;
 };

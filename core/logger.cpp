@@ -11,7 +11,7 @@ Logger::Logger(QObject *parent) : QObject(parent)
     m_updateValues = new QTimer(this);
     m_updateValues->setInterval(1000);
     connect(m_updateValues, &QTimer::timeout, this, &Logger::pushValues);
-    m_sdb = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlDatabase::addDatabase("QSQLITE");
 //    if(!connect_db()) return;
 //    create_tables();
 //    test_printCount();
@@ -22,7 +22,7 @@ Logger::Logger(QObject *parent) : QObject(parent)
 
 Logger::~Logger(){
     setWrite(false);
-    m_sdb.close();
+    QSqlDatabase::database().close();
 }
 
 void Logger::setWrite(bool v) {
@@ -32,7 +32,7 @@ void Logger::setWrite(bool v) {
     if (v) m_start = QDateTime::currentDateTime();
     else {
         m_finish = QDateTime::currentDateTime();
-        QSqlQuery my_query(m_sdb);
+        QSqlQuery my_query;
         my_query.prepare("INSERT INTO session_table (start, finish)"
                                       "VALUES (:start, :finish);");
         my_query.bindValue(":start", m_start);
@@ -54,7 +54,7 @@ void Logger::setRead(bool v) {
 #include <QDateTime>
 void Logger::pushValues() {
     if (!m_isWrite) return;
-    QSqlQuery my_query(m_sdb);
+    QSqlQuery my_query;
 
     my_query.prepare("INSERT INTO values_table (value_hash, value, datetime)"
                                   "VALUES (:hash, :value, :datetime);");
@@ -94,6 +94,7 @@ void Logger::readValues()
 
 bool Logger::connect_db(const QString &filePath) {
 
+    auto m_sdb = QSqlDatabase::database();
     m_sdb.setDatabaseName(filePath);
 
     if (!m_sdb.open()) {
@@ -107,7 +108,7 @@ bool Logger::connect_db(const QString &filePath) {
 }
 
 void Logger::create_tables() {
-    QSqlQuery a_query(m_sdb);
+    QSqlQuery a_query;
     // DDL query
     QString str = "CREATE TABLE values_table ("
            "value_hash VARCHAR(20),"
@@ -142,7 +143,7 @@ void Logger::create_tables() {
 }
 
 void Logger::test_printCount() {
-    QSqlQuery a_query(m_sdb);
+    QSqlQuery a_query;
     a_query.prepare("select COUNT(datetime) as cnt from values_table;");
 //    a_query.bindValue(":today", QDateTime::currentDateTime());
     if(a_query.exec()) qDebug()<<"MyQuery query is done";
@@ -153,7 +154,7 @@ void Logger::test_printCount() {
 
 void Logger::update_value_table() {
     qDebug()<<"Logger::update_value_table m_values:"<<m_values.size();
-    QSqlQuery a_query(m_sdb);
+    QSqlQuery a_query;
     QString summary, hash,
             value_name, sensor_name, module_name;
     int value_address, value_type, sensor_pin;
@@ -200,12 +201,12 @@ void Logger::update_value_table() {
 
 void Logger::read_sessions()
 {
-    QSqlQuery q(m_sdb);
+    QSqlQuery q;
     q.exec("select * from session_table");
     m_sessions.clear();
     while(q.next()){
         QString sq ="select * from values_table where datetime >= :start and datetime <= :finish";
-        auto s = new LoggerSession(sq, &m_sdb, this);
+        auto s = new LoggerSession(sq, this);
         s->setRange(q.value("start").toDateTime(), q.value("finish").toDateTime());
         m_sessions.append(s);
     }
@@ -220,7 +221,7 @@ void Logger::query_read()
 ////                                "or value_hash='1029а3с7в6'"
 //                                " value_hash='86c6deedfb'"
 //                                ";", m_sdb);
-    m_queryRead = new QSqlQuery(m_sdb);
+    m_queryRead = new QSqlQuery;
 //    m_queryRead->prepare("select * from values_table where value_hash = ANY (:hash)");
     QStringList v_hash;
     for (auto v:m_values)
@@ -237,11 +238,9 @@ void Logger::query_read()
 }
 
 
-LoggerSession::LoggerSession(const QString &query, const QSqlDatabase *db, QObject *parent)
-    : QObject(parent), m_query(query), m_db(db)
+LoggerSession::LoggerSession(const QString &query, QObject *parent)
+    : QObject(parent), m_query(query)
 {
-//    QSqlQuery q(*db);
-    //    q.exec("select * from session_table where ");
 }
 
 LoggerSession::~LoggerSession()
@@ -256,7 +255,7 @@ void LoggerSession::setRange(QDateTime start, QDateTime finish)
 
 QStringList LoggerSession::getValuesHash() const
 {
-    QSqlQuery q; //(*m_db); //(m_queryRead->result());
+    QSqlQuery q;
     auto txt = m_query;
 //    txt = txt.left(txt.length()-1);
     txt = QString("select DISTINCT value_hash as hash from (%1)").arg(txt);
