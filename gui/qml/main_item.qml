@@ -79,11 +79,17 @@ Item {
             max: 200
             minorTickCount: 10
         }
+
         LogValueAxis {
             id: axis_davl
             min: 0.001
             max: 1000
             minorTickCount: 10
+        }
+        DateTimeAxis{
+            id: axis_dt
+
+            tickCount: 20
         }
 
         Component{
@@ -91,17 +97,18 @@ Item {
             LineSeries {
     //            id: lineSeries1
                 name: "signal 1"
-    //            axisX: axisX
-    //            axisY: axisY1
-                useOpenGL: true
+                axisX: axis_dt
+                axisY: axis_temper
+//                useOpenGL: true
                 property var sens
             }
         }
 
+        property var lstLS : []
         Component.onCompleted: {
             var lst = devises.getListSensors()
 
-            var lstLS = []
+
             for(var i in lst) {
                 console.log(i, ") name:", lst[i].name)
                 var ls = cmpLS.createObject(chart)
@@ -120,6 +127,15 @@ Item {
 //        Layout.column: 0
         color: "red"
         clip: true
+        onSelected: {
+//            var s = sensorList.model.at(0)
+            var s = chart.lstLS[0]
+            var hash = logger.sessions[index].getValuesHash()[0]
+            console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
+            var lst = logger.getValues_var(hash, start, finish)
+            devises.series_setPoints(lst, s)
+            s.visible = true
+        }
     }
     }
 }

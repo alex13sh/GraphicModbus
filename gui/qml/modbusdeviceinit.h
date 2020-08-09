@@ -4,14 +4,16 @@
 #include <QObject>
 #include <QtQml>
 #include "core/defines.h"
-Q_DECLARE_METATYPE(MapDevices)
+//Q_DECLARE_METATYPE(MapDevices)
 
 #include "core/modbusvalue.h"
-Q_DECLARE_METATYPE(QVector<ModbusValue*>)
 
 #include "core/modbussensor.h"
-Q_DECLARE_METATYPE(ModbusSensor*)
-Q_DECLARE_METATYPE(QVector<ModbusSensor*>)
+
+#include <QLineSeries>
+//class QLineSeries;
+QT_CHARTS_USE_NAMESPACE
+Q_DECLARE_METATYPE(QList<QPointF>)
 
 class ModbusDevicesInit : public QObject
 {
@@ -28,6 +30,7 @@ public slots:
 
     void init_devices();
     void init_devices_analog();
+    void init_devices_analog_2();
     void init_devices_digital();
 
 //    ListSensors getMapSensors();
@@ -35,6 +38,8 @@ public slots:
 //    QList<ModbusValue*> getListValues();
     MapDevices mapDevices() const {return m_mapDevices;}
     QVector<ModbusValue*> getValues(bool readOnly=false);
+
+    Q_INVOKABLE void series_setPoints(const QList<QPointF> &points, QLineSeries *series);
 
 signals:
     void mapDevicesChanged();

@@ -35,6 +35,12 @@ void ModbusSensor::setInterval(quint16 interval)
     v_interval->setValue_int16(interval);
 }
 
+QString ModbusSensor::hash() const
+{
+    if (v_value) return v_value->hash_str().left(10);
+    return QString();
+}
+
 void ModbusSensor::updateValue()
 {
     if(v_value) v_value->updateValues();

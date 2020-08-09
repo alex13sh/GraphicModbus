@@ -8,6 +8,10 @@
 class QTimer;
 class QSqlQuery;
 
+#include <QList>
+#include <QPointF>
+Q_DECLARE_METATYPE(QList<QPointF>)
+
 class LoggerSession;
 class Logger : public QObject
 {
@@ -30,6 +34,9 @@ public:
     Q_INVOKABLE bool connect_db(const QString &filePath = "./test_2.sqlite");
 
     QList<LoggerSession*> sessions() {return m_sessions;}
+
+    QList<QPointF> getValues(const QString &hash, QDateTime start, QDateTime finish);
+    Q_INVOKABLE QVariant getValues_var(const QString &hash, QDateTime start, QDateTime finish){return QVariant::fromValue(getValues(hash, start, finish));}
 
 public slots:
     void setValues(const QVector<ModbusValue*> &values) {m_values=values; update_value_table();}
@@ -71,6 +78,7 @@ public:
     QDateTime finish() const {return m_finish;}
 
     Q_INVOKABLE QStringList getValuesHash() const;
+    Q_INVOKABLE QList<QPointF> getValues(const QString &hash);
 
 private:
     QString m_query;

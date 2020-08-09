@@ -111,3 +111,12 @@ QVector<ModbusValue *> ModbusDevicesInit::getValues(bool readOnly)
     }
     return res;
 }
+
+//#include <QLineSeries>
+void ModbusDevicesInit::series_setPoints(const QList<QPointF> &points, QLineSeries *series) {
+//    series->clear();
+    qDebug()<<"Points:"<<points.mid(0, 10);
+    series->replace(points);
+    series->setPointsVisible(true);
+    series->setVisible(true);
+}

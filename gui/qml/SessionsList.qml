@@ -1,11 +1,14 @@
 import QtQuick 2.0
 
 Rectangle {
+    id: root
     color: "grey"
     border{
         color: "black"
         width: 2
     }
+
+    signal selected(int index, date start, date finish);
 
     property alias model: view.model
     ListView {
@@ -31,6 +34,10 @@ Rectangle {
                     clip: true
                     text: "finish: "+delegate.finish
                 }
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: root.selected(delegate.index, start, finish)
             }
         }
     }

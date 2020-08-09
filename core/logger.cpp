@@ -107,6 +107,26 @@ bool Logger::connect_db(const QString &filePath) {
     return true;
 }
 
+QList<QPointF> Logger::getValues(const QString &hash, QDateTime start, QDateTime finish)
+{
+    qDebug()<<"__getValues hash:"<<hash<<";";
+    QSqlQuery q;
+    q.prepare("select value_hash, value, datetime from values_table where datetime >= :start and datetime <= :finish and value_hash = :hash;");
+    q.bindValue(":start", start);
+    q.bindValue(":finish", finish);
+    q.bindValue(":hash", hash);
+    if(!q.exec())
+        qDebug()<<"MyQuery Error:"<<q.lastError().text();
+    QList<QPointF> res;
+    while (q.next()){
+        QDateTime dt = q.value(2).toDateTime();
+        quint32 val = q.value(1).toInt();
+        res.append(QPointF(dt.toMSecsSinceEpoch(), val));
+    }
+    qDebug()<<"getValues hash:"<<hash<<"; list:"<<res.size();
+    return res;
+}
+
 void Logger::create_tables() {
     QSqlQuery a_query;
     // DDL query
@@ -269,7 +289,23 @@ QStringList LoggerSession::getValuesHash() const
     }
     QStringList res;
     while(q.next())
-        res.append(q.value("hash").toString());
+        res.append(q.value(0).toString());
     qDebug()<<"LoggerSession::getValuesHash res:"<<res;
+    return res;
+}
+
+QList<QPointF> LoggerSession::getValues(const QString &hash)
+{
+    QSqlQuery q;
+    q.prepare("select value, datetime from value_table where datetime >= :start and datetime <= :finish and value_hash = :hash");
+    q.bindValue(":start", m_start);
+    q.bindValue(":finish", m_finish);
+    q.bindValue(":hash", hash);
+
+    QList<QPointF> res;
+    while (q.next()){
+        QDateTime dt = q.value(1).toDateTime();
+        res.append(QPointF(dt.toMSecsSinceEpoch(), q.value(0).toInt()));
+    }
     return res;
 }

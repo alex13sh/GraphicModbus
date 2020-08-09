@@ -3,7 +3,7 @@ CppApplication{
     Depends{name:"cpp"}
     Depends{name:"Qt"; submodules: ["gui","qml", "quick"]}
     Depends{ name: "GraphicTest_Core" }
-    Depends{name:"Qt"; submodules: [/*"charts",*/ "widgets"]; condition: isViewer}
+    Depends{name:"Qt"; submodules: ["charts", "widgets"]; condition: isViewer}
 
     Qt.qml.importName: "my.work.gui"
     Qt.qml.importVersion: "1.0"
