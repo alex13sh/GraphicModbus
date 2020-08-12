@@ -120,6 +120,11 @@ public:
         v = pow(10, v*10-5.5);
         return v;
     }
+    virtual float value_float_from_int(quint32 ivalue) override{
+        float v = ModbusSensor::value_float_from_int(ivalue);
+        v = pow(10, v*10-5.5);
+        return v;
+    }
 };
 
 #endif // MODBUSDEVICE_ANALOG_H

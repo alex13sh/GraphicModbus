@@ -107,7 +107,7 @@ bool Logger::connect_db(const QString &filePath) {
     return true;
 }
 
-QList<QPointF> Logger::getValues(const QString &hash, QDateTime start, QDateTime finish)
+QList<QPointF> Logger::getValuesPoint(const QString &hash, QDateTime start, QDateTime finish)
 {
     qDebug()<<"__getValues hash:"<<hash<<";";
     QSqlQuery q;

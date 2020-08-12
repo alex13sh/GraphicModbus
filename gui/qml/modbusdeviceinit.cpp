@@ -94,7 +94,8 @@ QVector<ModbusSensor *> ModbusDevicesInit::getListSensors()
     for (auto d : *m_mapDevices)
         for (auto s : d->getListSensors()) {
             res.append(s);
-            qDebug()<<"ModbusDevicesInit::getListSensors name:"<<s->name();
+            m_mapSensors[s->hash()] = s;
+            qDebug()<<"ModbusDevicesInit::getListSensors name:"<<s->name()<<"; hash:"<<s->hash();
         }
     return res;
 }
@@ -113,10 +114,24 @@ QVector<ModbusValue *> ModbusDevicesInit::getValues(bool readOnly)
 }
 
 //#include <QLineSeries>
-void ModbusDevicesInit::series_setPoints(const QList<QPointF> &points, QLineSeries *series) {
+void ModbusDevicesInit::series_setPoints(const QString &hash, QList<QPointF> points, QLineSeries *series) {
 //    series->clear();
+    if(m_mapSensors.contains(hash)){
+        qDebug()<<"mapSensor hash";
+        auto s = m_mapSensors[hash];
+        for(int i=0; i<points.size(); ++i){
+             points[i].setY(s->value_float_from_int(points[i].y()));
+             points[i].setX(i);
+        }
+    }
     qDebug()<<"Points:"<<points.mid(0, 10);
     series->replace(points);
     series->setPointsVisible(true);
     series->setVisible(true);
+}
+
+#include <QDateTime>
+qint64 ModbusDevicesInit::getMSecsSinceEpoch() const
+{
+    return QDateTime::currentMSecsSinceEpoch();
 }

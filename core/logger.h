@@ -35,8 +35,8 @@ public:
 
     QList<LoggerSession*> sessions() {return m_sessions;}
 
-    QList<QPointF> getValues(const QString &hash, QDateTime start, QDateTime finish);
-    Q_INVOKABLE QVariant getValues_var(const QString &hash, QDateTime start, QDateTime finish){return QVariant::fromValue(getValues(hash, start, finish));}
+    QList<QPointF> getValuesPoint(const QString &hash, QDateTime start, QDateTime finish);
+    Q_INVOKABLE QVariant getValuesPoint_var(const QString &hash, QDateTime start, QDateTime finish){return QVariant::fromValue(getValuesPoint(hash, start, finish));}
 
 public slots:
     void setValues(const QVector<ModbusValue*> &values) {m_values=values; update_value_table();}

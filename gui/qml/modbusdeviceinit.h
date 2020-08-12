@@ -39,13 +39,15 @@ public slots:
     MapDevices mapDevices() const {return m_mapDevices;}
     QVector<ModbusValue*> getValues(bool readOnly=false);
 
-    Q_INVOKABLE void series_setPoints(const QList<QPointF> &points, QLineSeries *series);
+    Q_INVOKABLE void series_setPoints(const QString &hash, QList<QPointF> points, QLineSeries *series);
+    Q_INVOKABLE qint64 getMSecsSinceEpoch() const ;
 
 signals:
     void mapDevicesChanged();
 
 private:
     MapDevices m_mapDevices;
+    QMap<QString, ModbusSensor*> m_mapSensors;
 };
 
 #endif // MODBUSDEVICEINIT_H

@@ -38,6 +38,11 @@ public:
 
     void updateValue();
     virtual float value_float() const = 0;
+    virtual float value_float_from_int(quint32 ivalue) {
+        float fvalue=(float&)ivalue;
+        return fvalue;
+    }
+//    QList<float> convert_value_list(const QList<quint32> &values);
 signals:
     void fvalueChanged(/*float value*/);
 

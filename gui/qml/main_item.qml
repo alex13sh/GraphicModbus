@@ -25,8 +25,8 @@ Item {
 
             for(var i in ses){
                 var hashs = ses[i].getValuesHash()
-                console.log("Session start:", ses[i].start, "; finish:", ses[i].finish)
-                console.log("hashs:", hashs)
+//                console.log("Session start:", ses[i].start, "; finish:", ses[i].finish)
+//                console.log("hashs:", hashs)
             }
             sessionsList.model = ses
         }
@@ -130,10 +130,10 @@ Item {
         onSelected: {
 //            var s = sensorList.model.at(0)
             var s = chart.lstLS[0]
-            var hash = logger.sessions[index].getValuesHash()[0]
+            var hash = "be7a63150f" //logger.sessions[index].getValuesHash()[0]
             console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
-            var lst = logger.getValues_var(hash, start, finish)
-            devises.series_setPoints(lst, s)
+            var lst = logger.getValuesPoint_var(hash, start, finish)
+            devises.series_setPoints(hash, lst, s)
             s.visible = true
         }
     }
