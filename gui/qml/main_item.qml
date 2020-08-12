@@ -57,7 +57,7 @@ Item {
         Layout.fillHeight: true
     }
 
-    ChartView {
+    MyChartView {
         id: chart
         title: "Top-5 car brand shares in Finland"
 //        anchors.fill: parent

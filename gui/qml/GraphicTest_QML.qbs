@@ -3,11 +3,12 @@ CppApplication{
     Depends{name:"cpp"}
     Depends{name:"Qt"; submodules: ["gui","qml", "quick"]}
     Depends{ name: "GraphicTest_Core" }
-    Depends{name:"Qt"; submodules: ["charts", "widgets"]; condition: isViewer}
+    Depends{name:"Qt"; submodules: ["charts", "charts-private", "widgets"]; condition: isViewer}
 
     Qt.qml.importName: "my.work.gui"
     Qt.qml.importVersion: "1.0"
     cpp.includePaths: "./"
+    cpp.staticLibraries: "/run/media/alex13sh/linux_opt/Qt/5.15.0/gcc_64/qml/QtCharts/libqtchartsqml2.so"
 
     property bool isViewer: true
 
