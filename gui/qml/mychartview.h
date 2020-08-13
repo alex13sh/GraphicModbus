@@ -24,18 +24,23 @@ public:
     Q_INVOKABLE QVector<QAbstractSeries*> setSensors(const QVector<ModbusSensor*> &sens);
     QVector<QAbstractSeries*> myseries() const {return m_sers;}
 
-    void setAxisDate(QAbstractAxis *axisDate)   {m_axisDate=axisDate;}
+    void setAxisDate(QAbstractAxis *axisDate);
     void setAxisTemer(QAbstractAxis *axisTemer) {m_axisTemer=axisTemer;}
     void setAxisDavl(QAbstractAxis *axisDavl)   {m_axisDavl=axisDavl;}
 
 signals:
     void myseriesChanged();
 
+public slots:
+    void updateSensors();
+
+//    void pushValues();
 private:
     QVector<ModbusSensor*> m_sens;
     QVector<QAbstractSeries*> m_sers;
     QAbstractAxis *m_axisDate=nullptr,
         *m_axisTemer=nullptr, *m_axisDavl=nullptr;
+    int m_secondsScala = 50;
 };
 
 #endif // MYCHARTVIEW_H

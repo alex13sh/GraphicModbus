@@ -32,9 +32,12 @@ Item {
         }
     }
     Timer {
-        interval: 20; repeat: true
+        interval: 1000; repeat: true
         running: true
-        onTriggered: logger.readValues()
+        onTriggered: {
+//            logger.readValues()
+            chart.updateSensors()
+        }
     }
 
     ModbusDevicesInit {
@@ -67,6 +70,8 @@ Item {
         Layout.fillHeight: true
         Layout.rowSpan: 2
 
+        legend.visible: false
+
         axisTemer: axis_temper
         ValueAxis {
             id: axis_temper
@@ -93,7 +98,7 @@ Item {
         DateTimeAxis{
             id: axis_dt
 
-            tickCount: 20
+            tickCount: 10
         }
 
         Component{
