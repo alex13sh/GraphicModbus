@@ -1,5 +1,5 @@
 CppApplication{
-    condition: true
+    condition: false
     Depends{name:"Qt"; submodules: ["gui","widgets", "charts"]}
     Depends{
         name: "GraphicTest_Core"

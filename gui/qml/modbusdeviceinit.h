@@ -30,7 +30,7 @@ public slots:
 
     void init_devices();
     void init_devices_analog();
-    void init_devices_analog_2();
+//    void init_devices_analog_2();
     void init_devices_digital();
 
 //    ListSensors getMapSensors();

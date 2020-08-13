@@ -14,7 +14,7 @@ Rectangle {
             property double value: modelData.sens.value
             border{
                 width: 4
-                color: modelData.color
+                color: modelData.sers.color
             }
             width: view.width
             height: column.height

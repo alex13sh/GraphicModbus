@@ -67,6 +67,7 @@ Item {
         Layout.fillHeight: true
         Layout.rowSpan: 2
 
+        axisTemer: axis_temper
         ValueAxis {
             id: axis_temper
             min: 0
@@ -80,12 +81,15 @@ Item {
             minorTickCount: 10
         }
 
+        axisDavl: axis_davl
         LogValueAxis {
             id: axis_davl
             min: 0.001
             max: 1000
             minorTickCount: 10
         }
+
+        axisDate: axis_dt
         DateTimeAxis{
             id: axis_dt
 
@@ -106,16 +110,25 @@ Item {
 
         property var lstLS : []
         Component.onCompleted: {
-            var lst = devises.getListSensors()
+            var lstSens = devises.getListSensors()
 
-
-            for(var i in lst) {
-                console.log(i, ") name:", lst[i].name)
-                var ls = cmpLS.createObject(chart)
-                ls.name = lst[i].name
-                ls.sens = lst[i]
+//            for(var i in lst) {
+//                console.log(i, ") name:", lst[i].name)
+//                var ls = cmpLS.createObject(chart)
+//                ls.name = lst[i].name
+//                ls.sens = lst[i]
+//                lstLS.push(ls)
+//            }
+            var lstLS_ = setSensors(lstSens)
+            for (var i in lstLS_){
+                var ls = {
+                    name: lstSens[i].name,
+                    sens: lstSens[i],
+                    sers: lstLS_[i]
+                }
                 lstLS.push(ls)
             }
+
             sensorList.model = lstLS
         }
     }
