@@ -34,7 +34,7 @@ signals:
 
 public slots:
     void updateSensors();
-    void setValuesPoints(QAbstractSeries* sers, QDateTime start, QDateTime finish, const QList<QPoint> &points);
+    void setValuesPoints(QAbstractSeries* sers, QDateTime start, QDateTime finish, const QList<QPointF> &points);
     void pushValuesPoints(const QList<QPointF> &points);
 
 private:

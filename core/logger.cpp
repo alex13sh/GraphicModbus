@@ -107,7 +107,7 @@ bool Logger::connect_db(const QString &filePath) {
     return true;
 }
 
-QList<QPoint> Logger::getValuesPoint(const QString &hash, QDateTime start, QDateTime finish)
+QList<QPointF> Logger::getValuesPoint(const QString &hash, QDateTime start, QDateTime finish)
 {
     qDebug()<<"__getValues hash:"<<hash<<";";
     QSqlQuery q;
@@ -117,11 +117,12 @@ QList<QPoint> Logger::getValuesPoint(const QString &hash, QDateTime start, QDate
     q.bindValue(":hash", hash);
     if(!q.exec())
         qDebug()<<"MyQuery Error:"<<q.lastError().text();
-    QList<QPoint> res;
+    QList<QPointF> res;
     while (q.next()){
         QDateTime dt = q.value(2).toDateTime();
         quint32 val = q.value(1).toInt();
-        res.append(QPoint(dt.toMSecsSinceEpoch(), val));
+        quint64 msec = dt.toMSecsSinceEpoch();
+        res.append(QPointF(msec, val));
     }
     qDebug()<<"getValues hash:"<<hash<<"; list:"<<res.size();
     return res;

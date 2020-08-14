@@ -52,7 +52,7 @@ void MyChartView::updateSensors()
     m_axisDate->setRange(QDateTime::currentDateTime().addSecs(-m_secondsScala+1), QDateTime::currentDateTime().addSecs(1));
 }
 
-void MyChartView::setValuesPoints(QAbstractSeries *sers, QDateTime start, QDateTime finish, const QList<QPoint> &points)
+void MyChartView::setValuesPoints(QAbstractSeries *sers, QDateTime start, QDateTime finish, const QList<QPointF> &points)
 {
     if (points.size()==0) return;
     auto sers_ = static_cast<QLineSeries*>(sers);
@@ -70,23 +70,20 @@ void MyChartView::setValuesPoints(QAbstractSeries *sers, QDateTime start, QDateT
         if (!sens) return;
         float v_min= 0;
         float v_max=v_min;
-//        qDebug()<<"MyChartView::setValuesPoints points :"<<points;
-        for(auto p : points) {
-            if (p.y() == -167772160) continue;
-            auto v = sens->value_float_from_int(p.y());
-//            if (v == -6.49037e+32) continue;
+        for(auto &p : points) {
+            quint32 iv = (quint32) p.y();
+            if (iv == -6.49037e+32) continue;
+            auto v = sens->value_float_from_int(iv);
+            if (v == -6.49037e+32) continue;
             res.append(QPointF(p.x(), v));
+//            p.setY(v);
             if (v<v_min) v_min = v;
             else if (v>v_max) v_max = v;
         }
         qDebug()<< "MyChartView::setValuesPoints sens_i="<<sens_i<<" range:"<<v_min<<", "<<v_max;
         auto avalues = static_cast<QValueAxis*>(m_axisTemer);
 //        avalues->setRange(v_min, v_max);
-//        sers_->replace(res);
-        sers_->clear();
-        sers_->append(res);
-//        qDebug()<<"MyChartView::setValuesPoints points res:"<<res;
-
+        sers_->replace(res);
     } else qDebug()<<"MyChartView::setValuesPoints Error";
 }
 

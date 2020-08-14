@@ -10,7 +10,7 @@ class QSqlQuery;
 
 #include <QList>
 #include <QPointF>
-Q_DECLARE_METATYPE(QList<QPoint>)
+Q_DECLARE_METATYPE(QList<QPointF>)
 
 class LoggerSession;
 class Logger : public QObject
@@ -35,7 +35,7 @@ public:
 
     QList<LoggerSession*> sessions() {return m_sessions;}
 
-    QList<QPoint> getValuesPoint(const QString &hash, QDateTime start, QDateTime finish);
+    QList<QPointF> getValuesPoint(const QString &hash, QDateTime start, QDateTime finish);
     Q_INVOKABLE QVariant getValuesPoint_var(const QString &hash, QDateTime start, QDateTime finish) {
         return QVariant::fromValue(getValuesPoint(hash, start, finish));
     }
