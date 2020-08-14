@@ -70,14 +70,16 @@ Item {
         Layout.fillHeight: true
         Layout.rowSpan: 2
 
-//        legend.visible: true
+        legend.visible: false
+        focus: true
 
         axisTemer: axis_temper
         ValueAxis {
             id: axis_temper
             min: 0
             max: 100
-            minorTickCount: 10
+            minorTickCount: 5
+            tickCount: 10
         }
         ValueAxis {
             id: axis_other
@@ -97,8 +99,7 @@ Item {
         axisDate: axis_dt
         DateTimeAxis{
             id: axis_dt
-
-            tickCount: 10
+            tickCount: 20
         }
 
         Component{
@@ -146,16 +147,16 @@ Item {
         color: "red"
         clip: true
         onSelected: {
-//            for (var i in chart.lstLS){
+            for (var i in chart.lstLS){
 //            var s = sensorList.model.at(0)
-                var s = chart.lstLS[0]
+                var s = chart.lstLS[i]
                 var hash = s.sens.hash
 //                if (hash==="") continue;
 
                 console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
                 var lst = logger.getValuesPoint_var(hash, start, finish)
                 chart.setValuesPoints(s.sers, start, finish, lst)
-//            }
+            }
         }
     }
     }

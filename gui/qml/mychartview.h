@@ -43,6 +43,10 @@ private:
     QAbstractAxis *m_axisDate=nullptr,
         *m_axisTemer=nullptr, *m_axisDavl=nullptr;
     int m_secondsScala = 50;
+
+    // QQuickItem interface
+protected:
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // MYCHARTVIEW_H

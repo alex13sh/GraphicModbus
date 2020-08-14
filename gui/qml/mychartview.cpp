@@ -92,3 +92,31 @@ void MyChartView::pushValuesPoints(const QList<QPointF> &points)
 
 }
 
+void MyChartView::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key()) {
+    case Qt::Key_Plus:
+        zoomIn();
+        break;
+    case Qt::Key_Minus:
+        zoomOut();
+        break;
+//![1]
+    case Qt::Key_Left:
+        scrollLeft(10);
+        break;
+    case Qt::Key_Right:
+        scrollRight(10);
+        break;
+    case Qt::Key_Up:
+        scrollUp(10);
+        break;
+    case Qt::Key_Down:
+        scrollDown(10);
+        break;
+    default:
+        DeclarativeChart::keyPressEvent(event);
+        break;
+    }
+}
+
