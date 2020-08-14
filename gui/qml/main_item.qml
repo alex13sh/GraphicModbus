@@ -70,7 +70,7 @@ Item {
         Layout.fillHeight: true
         Layout.rowSpan: 2
 
-        legend.visible: false
+//        legend.visible: true
 
         axisTemer: axis_temper
         ValueAxis {
@@ -146,13 +146,16 @@ Item {
         color: "red"
         clip: true
         onSelected: {
+//            for (var i in chart.lstLS){
 //            var s = sensorList.model.at(0)
-            var s = chart.lstLS[0]
-            var hash = "be7a63150f" //logger.sessions[index].getValuesHash()[0]
-            console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
-            var lst = logger.getValuesPoint_var(hash, start, finish)
-            devises.series_setPoints(hash, lst, s)
-            s.visible = true
+                var s = chart.lstLS[0]
+                var hash = s.sens.hash
+//                if (hash==="") continue;
+
+                console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
+                var lst = logger.getValuesPoint_var(hash, start, finish)
+                chart.setValuesPoints(s.sers, start, finish, lst)
+//            }
         }
     }
     }

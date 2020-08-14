@@ -8,6 +8,7 @@ QT_CHARTS_USE_NAMESPACE
 
 //#include "core/modbussensor.h"
 #include <core/defines.h>
+#include <QDateTime>
 
 class MyChartView : public DeclarativeChart
 {
@@ -33,8 +34,9 @@ signals:
 
 public slots:
     void updateSensors();
+    void setValuesPoints(QAbstractSeries* sers, QDateTime start, QDateTime finish, const QList<QPoint> &points);
+    void pushValuesPoints(const QList<QPointF> &points);
 
-//    void pushValues();
 private:
     QVector<ModbusSensor*> m_sens;
     QVector<QAbstractSeries*> m_sers;

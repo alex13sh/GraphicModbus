@@ -3,6 +3,7 @@
 
 #include <QDateTimeAxis>
 #include <QLineSeries>
+#include <QValueAxis>
 
 MyChartView::MyChartView(QQuickItem *parent)
     : DeclarativeChart(parent)
@@ -35,15 +36,62 @@ void MyChartView::setAxisDate(QAbstractAxis *axisDate) {
 
 void MyChartView::updateSensors()
 {
+    static int cnt = 0;
+    cnt+=1;
+    cnt=cnt%10;
     auto momentInTime = QDateTime::currentDateTime().toMSecsSinceEpoch() ;
 //    for( auto *s : m_sens) {
     for (int i=0; i<m_sens.size(); ++i){
         auto *sens = m_sens[i];
         auto *sers = static_cast<QLineSeries*>(m_sers[i]);
-        float v = sens->value_float();
+//        float v = sens->value_float();
+        float v = m_sens.size()*cnt + i;
         sers->append(momentInTime, v);
     }
 
     m_axisDate->setRange(QDateTime::currentDateTime().addSecs(-m_secondsScala+1), QDateTime::currentDateTime().addSecs(1));
+}
+
+void MyChartView::setValuesPoints(QAbstractSeries *sers, QDateTime start, QDateTime finish, const QList<QPoint> &points)
+{
+    if (points.size()==0) return;
+    auto sers_ = static_cast<QLineSeries*>(sers);
+    if(sers) {
+        auto dt = static_cast<QDateTimeAxis*>(m_axisDate);
+        dt->setRange(start, finish);
+
+        QList<QPointF> res;
+        ModbusSensor *sens = nullptr;
+        int sens_i;
+        for (sens_i=0; sens_i<m_sers.size(); ++sens_i)
+            if (m_sers[sens_i] == sers)
+                sens = m_sens[sens_i];
+
+        if (!sens) return;
+        float v_min= 0;
+        float v_max=v_min;
+//        qDebug()<<"MyChartView::setValuesPoints points :"<<points;
+        for(auto p : points) {
+            if (p.y() == -167772160) continue;
+            auto v = sens->value_float_from_int(p.y());
+//            if (v == -6.49037e+32) continue;
+            res.append(QPointF(p.x(), v));
+            if (v<v_min) v_min = v;
+            else if (v>v_max) v_max = v;
+        }
+        qDebug()<< "MyChartView::setValuesPoints sens_i="<<sens_i<<" range:"<<v_min<<", "<<v_max;
+        auto avalues = static_cast<QValueAxis*>(m_axisTemer);
+//        avalues->setRange(v_min, v_max);
+//        sers_->replace(res);
+        sers_->clear();
+        sers_->append(res);
+//        qDebug()<<"MyChartView::setValuesPoints points res:"<<res;
+
+    } else qDebug()<<"MyChartView::setValuesPoints Error";
+}
+
+void MyChartView::pushValuesPoints(const QList<QPointF> &points)
+{
+
 }
 
