@@ -36,16 +36,15 @@ void MyChartView::setAxisDate(QAbstractAxis *axisDate) {
 
 void MyChartView::updateSensors()
 {
-    static int cnt = 0;
-    cnt+=1;
-    cnt=cnt%10;
+//    static int cnt = 0;
+//    cnt+=1; cnt=cnt%10;
     auto momentInTime = QDateTime::currentDateTime().toMSecsSinceEpoch() ;
 //    for( auto *s : m_sens) {
     for (int i=0; i<m_sens.size(); ++i){
         auto *sens = m_sens[i];
         auto *sers = static_cast<QLineSeries*>(m_sers[i]);
-//        float v = sens->value_float();
-        float v = m_sens.size()*cnt + i;
+        float v = sens->value_float();
+//        float v = m_sens.size()*cnt + i;
         sers->append(momentInTime, v);
     }
 
@@ -84,6 +83,7 @@ void MyChartView::setValuesPoints(QAbstractSeries *sers, QDateTime start, QDateT
         auto avalues = static_cast<QValueAxis*>(m_axisTemer);
 //        avalues->setRange(v_min, v_max);
         sers_->replace(res);
+        sers_->setVisible(true);
     } else qDebug()<<"MyChartView::setValuesPoints Error";
 }
 

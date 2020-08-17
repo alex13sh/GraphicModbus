@@ -32,11 +32,13 @@ Item {
         }
     }
     Timer {
-        interval: 1000; repeat: true
-        running: true
+        interval: 500; repeat: true
+        running: macCnt>0;
+        property int macCnt: 20
         onTriggered: {
 //            logger.readValues()
-            chart.updateSensors()
+//            chart.updateSensors()
+            macCnt--;
         }
     }
 
@@ -50,114 +52,123 @@ Item {
         anchors.fill: parent
         columns: 2
         rows: 2
+        flow: GridLayout.TopToBottom
 
-    SensorList {
-        id: sensorList
-        width: 150
-        Layout.minimumWidth: 200
-        Layout.maximumWidth: 250
-//        Layout.preferredWidth: parent.width*20
-        Layout.fillHeight: true
-    }
-
-    MyChartView {
-        id: chart
-        title: "Top-5 car brand shares in Finland"
-//        anchors.fill: parent
-        legend.alignment: Qt.AlignRight
-//        Layout.preferredWidth: parent.width*80
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.rowSpan: 2
-
-        legend.visible: false
-        focus: true
-
-        axisTemer: axis_temper
-        ValueAxis {
-            id: axis_temper
-            min: 0
-            max: 100
-            minorTickCount: 5
-            tickCount: 10
+        SensorList {
+            id: sensorList
+            width: 150
+            Layout.minimumWidth: 200
+            Layout.maximumWidth: 250
+    //        Layout.preferredWidth: parent.width*20
+            Layout.minimumHeight: 200
+            Layout.fillHeight: true
         }
-        ValueAxis {
-            id: axis_other
-            min: -10
-            max: 200
-            minorTickCount: 10
-        }
+        SessionsList {
+            id: sessionsList
+            Layout.minimumWidth: 200
+            Layout.minimumHeight: 200
+            Layout.fillHeight: true
+    //        Layout.column: 0
+            color: "red"
+            clip: true
+            onSelected: {
+                for (var i in chart.lstLS){
+    //            var s = sensorList.model.at(0)
+                    var s = chart.lstLS[i]
+                    s.sers.visible = false
+                    var hash = s.sens.hash
+                    if (hash==="") continue;
 
-        axisDavl: axis_davl
-        LogValueAxis {
-            id: axis_davl
-            min: 0.001
-            max: 1000
-            minorTickCount: 10
-        }
-
-        axisDate: axis_dt
-        DateTimeAxis{
-            id: axis_dt
-            tickCount: 20
-        }
-
-        Component{
-            id: cmpLS
-            LineSeries {
-    //            id: lineSeries1
-                name: "signal 1"
-                axisX: axis_dt
-                axisY: axis_temper
-//                useOpenGL: true
-                property var sens
-            }
-        }
-
-        property var lstLS : []
-        Component.onCompleted: {
-            var lstSens = devises.getListSensors()
-
-//            for(var i in lst) {
-//                console.log(i, ") name:", lst[i].name)
-//                var ls = cmpLS.createObject(chart)
-//                ls.name = lst[i].name
-//                ls.sens = lst[i]
-//                lstLS.push(ls)
-//            }
-            var lstLS_ = setSensors(lstSens)
-            for (var i in lstLS_){
-                var ls = {
-                    name: lstSens[i].name,
-                    sens: lstSens[i],
-                    sers: lstLS_[i]
+                    console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
+                    var lst = logger.getValuesPoint_var(hash, start, finish)
+                    chart.setValuesPoints(s.sers, start, finish, lst)
                 }
-                lstLS.push(ls)
-            }
-
-            sensorList.model = lstLS
-        }
-    }
-    SessionsList {
-        id: sessionsList
-        Layout.minimumWidth: 200
-        Layout.minimumHeight: 200
-//        Layout.fillHeight: true
-//        Layout.column: 0
-        color: "red"
-        clip: true
-        onSelected: {
-            for (var i in chart.lstLS){
-//            var s = sensorList.model.at(0)
-                var s = chart.lstLS[i]
-                var hash = s.sens.hash
-//                if (hash==="") continue;
-
-                console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
-                var lst = logger.getValuesPoint_var(hash, start, finish)
-                chart.setValuesPoints(s.sers, start, finish, lst)
             }
         }
-    }
+
+        MyChartView {
+            id: chart
+            title: "Top-5 car brand shares in Finland"
+    //        anchors.fill: parent
+            legend.alignment: Qt.AlignRight
+    //        Layout.preferredWidth: parent.width*80
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.rowSpan: 2
+
+            legend.visible: false
+            focus: true
+
+            axisTemer: axis_temper
+            ValueAxis {
+                id: axis_temper
+                min: 0
+                max: 100
+                minorTickCount: 5
+                tickCount: 10
+            }
+            ValueAxis {
+                id: axis_other
+                min: -10
+                max: 200
+                minorTickCount: 10
+            }
+
+            axisDavl: axis_davl
+            LogValueAxis {
+                id: axis_davl
+                min: 0.001
+                max: 1000
+                minorTickCount: 10
+            }
+
+            axisDate: axis_dt
+            DateTimeAxis{
+                id: axis_dt
+                tickCount: 20
+            }
+
+            Component{
+                id: cmpLS
+                LineSeries {
+        //            id: lineSeries1
+                    name: "signal 1"
+                    axisX: axis_dt
+                    axisY: axis_temper
+    //                useOpenGL: true
+                    property var sens
+                }
+            }
+
+            property var lstLS : []
+            Component.onCompleted: {
+                var lstSens = devises.getListSensors()
+
+    //            for(var i in lst) {
+    //                console.log(i, ") name:", lst[i].name)
+    //                var ls = cmpLS.createObject(chart)
+    //                ls.name = lst[i].name
+    //                ls.sens = lst[i]
+    //                lstLS.push(ls)
+    //            }
+                var lstLS_ = setSensors(lstSens)
+                for (var i in lstLS_){
+                    var ls = {
+                        name: lstSens[i].name,
+                        sens: lstSens[i],
+                        sers: lstLS_[i]
+                    }
+                    lstLS.push(ls)
+                }
+
+                sensorList.model = lstLS
+            }
+        }
+
+//        Rectangle {
+//            color: "red"
+//            Layout.fillWidth: true
+//            Layout.minimumHeight: 100
+//        }
     }
 }

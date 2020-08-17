@@ -12,14 +12,16 @@ Rectangle {
             id: delegate
             property string name: modelData.name
             property double value: modelData.sens.value
+            property var sers: modelData.sers
             border{
                 width: 4
-                color: modelData.sers.color
+                color: delegate.sers.visible ? delegate.sers.color : "grey"
             }
-            width: view.width
-            height: column.height
+            width: view.width+5
+            height: column.height+10
             Column{
                 id: column
+                x: 5; y: 5
                 Text {
                     width: delegate.width
                     text: delegate.name
@@ -29,6 +31,13 @@ Rectangle {
                     width: delegate.width
                     clip: true
                     text: "value: "+delegate.value
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    delegate.sers.visible = !delegate.sers.visible
                 }
             }
         }

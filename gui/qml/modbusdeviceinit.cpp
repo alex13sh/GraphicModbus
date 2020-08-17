@@ -58,15 +58,15 @@ void ModbusDevicesInit::init_devices_digital()
     dev_iod->connectRTU("/dev/ttyACM0");
 
 //    auto sens_in = static_cast<ModbusSensor_IDigital *>(dev_iod->createSensor(1, "Скоростной счётчик импульсов")); // DI-1 - Скоростной счётчик импульсов
-    qDebug()<< "_bp_1";
+//    qDebug()<< "_bp_1";
     auto sens_in = new ModbusSensor_IDigital("Скоростной счётчик импульсов", 1, dev_iod);
-    qDebug()<< "_bp_2";
+//    qDebug()<< "_bp_2";
     dev_iod->initSensor(sens_in);
-    qDebug()<< "_bp_3";
+//    qDebug()<< "_bp_3";
     dev_iod->setSensor(0, sens_in);
-    qDebug()<< "_bp_4";
+//    qDebug()<< "_bp_4";
     sens_in->setInterval(2);
-    qDebug()<< "_bp_5";
+//    qDebug()<< "_bp_5";
     sens_in->setTypeInput(ModbusSensor_IDigital::InputHZ);
 
 //    sens_in = static_cast<ModbusSensor_IDigital *>(dev_iod->createSensor(9, "Состояние клапана 1")); // клапан 1 DI-9
@@ -74,9 +74,9 @@ void ModbusDevicesInit::init_devices_digital()
 //    sens_in = static_cast<ModbusSensor_IDigital *>(dev_iod->createSensor(11, "Состояние клапана 3")); // клапан 3 DI-11
 
     auto sens_out = new ModbusSensor_ODigital("Клапан 24В", 1, dev_iod);
-    qDebug()<< "_bp_6";
+//    qDebug()<< "_bp_6";
     dev_iod->initSensor(sens_out);
-    qDebug()<< "_bp_7";
+//    qDebug()<< "_bp_7";
     dev_iod->setSensor(1, sens_out);
     sens_out->setTypeOutput(ModbusSensor_ODigital::LogicSignal);
     sens_out = new ModbusSensor_ODigital("Клапан 2", 2, dev_iod);  // клапан 2  D0-2
