@@ -70,6 +70,11 @@ int main(int argc, char *argv[])
 
 //    viewer.engine()->addImportPath(extraImportPath.arg(QGuiApplication::applicationDirPath(),
 //                                      QString::fromLatin1("qml")));
+
+#ifdef _WIN32
+    viewer.engine()->addImportPath("C:/Qt/5.15.0/mingw81_64/qml");
+#endif
+
     QObject::connect(viewer.engine(), &QQmlEngine::quit, &viewer, &QWindow::close);
 
     viewer.setTitle(QStringLiteral("QML Chart"));

@@ -16,8 +16,8 @@ Item {
         id: logger
         values: devises.getValues(true)
 
-        filePath: "/home/alex13sh/TMP/test_2.sqlite"
-//        filePath: "./test_2.sqlite"
+//        filePath: "/home/alex13sh/TMP/test_2.sqlite"
+        filePath: "./test_2.sqlite"
         Component.onCompleted: {
 //            isRead = true
 

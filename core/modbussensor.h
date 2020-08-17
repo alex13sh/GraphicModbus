@@ -7,8 +7,8 @@
 
 enum SensorType{
     OtherSensor=0,
-    Температура,
-    Давление
+    Temper,
+    Davl
 };
 
 class ModbusDevice;
