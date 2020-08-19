@@ -10,6 +10,7 @@ CppApplication{
     cpp.includePaths: "./"
     Depends {name: "myproduct.library_charts-qml"}
     Depends {name: "myproduct.library_qt"}
+    Depends {name: "myproduct.qt_plagins"}
 
     property bool isViewer: true
 

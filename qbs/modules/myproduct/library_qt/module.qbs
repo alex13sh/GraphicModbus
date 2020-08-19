@@ -8,6 +8,8 @@ Module {
     condition: true
     additionalProductTypes: "library-qt"
 
+    Depends { name: "Qt.core" }
+
     property string libDir: qbs.targetOS.contains("unix")
             ? "lib"
             : qbs.targetOS.contains("windows")
@@ -21,7 +23,7 @@ Module {
         multiplex: true
         inputsFromDependencies: [/*"installable",*/ "dynamiclibrary", "dynamiclibrary_import"]
         Artifact {
-            filePath: "~/TMP/test_list.lst"; // product.filePath + ".tarlist_2"
+            filePath: product.myproduct.library_qt.libPath + "lib_list.txt"
             fileTags: "library-qt"
         }
         prepare: {
@@ -38,12 +40,13 @@ Module {
 //                        console.info("infi i:", i)
                         var inp = inputs[j][i];
                         var libPath = inp.moduleProperty("myproduct.library_qt", "libPath");
-//                        var libFilePathRelease = inp.moduleProperty("", "libFilePathRelease");
-//                        var installedFilePath = ModUtils.artifactInstalledFilePath(inp);
-//                        if (!installedFilePath) installedFilePath = installRoot + "/qt_lib"
-//                        ofile.writeLine(FileInfo.relativePath(installRoot, installedFilePath));
-                        ofile.writeLine(inp.filePath);
-                        File.copy(inp.filePath, libPath+inp.fileName)
+                        var baseName = inp.baseName
+                        if (baseName.startsWith("lib")) baseName = baseName.slice(3)
+                        ofile.writeLine(baseName);
+                        if (inp.qbs.targetOS.contains("windows")
+                            && baseName.startsWith("Qt"))
+                            File.copy(inp.Qt.core.binPath +"/"+ baseName+".dll", libPath+baseName+".dll")
+                        else File.copy(inp.filePath, libPath+inp.fileName)
                     }
                     }
                 } finally {
