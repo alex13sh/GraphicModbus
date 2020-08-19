@@ -28,7 +28,7 @@ Item {
 //                console.log("Session start:", ses[i].start, "; finish:", ses[i].finish)
 //                console.log("hashs:", hashs)
             }
-            sessionsList.model = ses
+//            sessionsList.model = ses
         }
     }
     Timer {
@@ -71,6 +71,7 @@ Item {
     //        Layout.column: 0
             color: "red"
             clip: true
+            model: logger.sessions
             onSelected: {
                 for (var i in chart.lstLS){
     //            var s = sensorList.model.at(0)

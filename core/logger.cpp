@@ -38,6 +38,8 @@ void Logger::setWrite(bool v) {
         my_query.bindValue(":start", m_start);
         my_query.bindValue(":finish", m_finish);
         my_query.exec();
+        m_sessions.append(new LoggerSession(m_start, m_finish, this));
+        emit sessionsChanged();
     }
 }
 
@@ -226,9 +228,9 @@ void Logger::read_sessions()
     q.exec("select * from session_table");
     m_sessions.clear();
     while(q.next()){
-        QString sq ="select * from values_table where datetime >= :start and datetime <= :finish";
-        auto s = new LoggerSession(sq, this);
-        s->setRange(q.value("start").toDateTime(), q.value("finish").toDateTime());
+        auto s = new LoggerSession(
+            q.value("start").toDateTime(), q.value("finish").toDateTime()
+                    , this);
         m_sessions.append(s);
     }
 }
@@ -259,6 +261,12 @@ void Logger::query_read()
 }
 
 
+LoggerSession::LoggerSession(QDateTime start, QDateTime finish, QObject *parent)
+    : QObject(parent)
+{
+    setRange(start, finish);
+}
+
 LoggerSession::LoggerSession(const QString &query, QObject *parent)
     : QObject(parent), m_query(query)
 {
@@ -277,7 +285,7 @@ void LoggerSession::setRange(QDateTime start, QDateTime finish)
 QStringList LoggerSession::getValuesHash() const
 {
     QSqlQuery q;
-    auto txt = m_query;
+    QString txt ="select * from values_table where datetime >= :start and datetime <= :finish";
 //    txt = txt.left(txt.length()-1);
     txt = QString("select DISTINCT value_hash as hash from (%1)").arg(txt);
     qDebug()<<"getValuesHash: "<<txt;

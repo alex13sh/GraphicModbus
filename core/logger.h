@@ -21,7 +21,7 @@ class Logger : public QObject
     Q_PROPERTY(QString filePath WRITE connect_db FINAL)
     Q_PROPERTY(bool isWrite READ isWrite WRITE setWrite FINAL)
     Q_PROPERTY(bool isRead READ isRead WRITE setRead FINAL)
-    Q_PROPERTY(QList<LoggerSession*> sessions READ sessions CONSTANT)
+    Q_PROPERTY(QList<LoggerSession*> sessions READ sessions NOTIFY sessionsChanged)
 public:
     explicit Logger(QObject *parent = nullptr);
     ~Logger();
@@ -45,7 +45,7 @@ public slots:
     void pushValues();
     void readValues();
 signals:
-
+    void sessionsChanged();
 private:
     QList<LoggerSession*> m_sessions;
     QVector<ModbusValue*> m_values;
@@ -72,6 +72,7 @@ class LoggerSession : public QObject
     Q_PROPERTY(QDateTime start READ start CONSTANT FINAL)
     Q_PROPERTY(QDateTime finish READ finish CONSTANT FINAL)
 public:
+    LoggerSession(QDateTime start, QDateTime finish, QObject *parent = nullptr);
     LoggerSession(const QString &query, QObject *parent = nullptr);
     ~LoggerSession();
 
