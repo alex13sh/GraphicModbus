@@ -3,6 +3,7 @@ import QtQuick 2.0
 Rectangle {
     color: "grey"
     property alias model: view.model
+    property alias currentIndex: view.currentIndex
     ListView {
         id: view
         anchors.fill: parent
@@ -36,8 +37,13 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
-                    delegate.sers.visible = !delegate.sers.visible
+                    if (mouse.button === Qt.LeftButton) {
+                        delegate.sers.visible = !delegate.sers.visible
+                    } else {
+                        view.currentIndex = index
+                    }
                 }
             }
         }

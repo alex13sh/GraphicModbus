@@ -16,7 +16,7 @@ class ModbusSensor : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(QString name READ name FINAL)
+    Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(float value READ value_float NOTIFY fvalueChanged)
     Q_PROPERTY(QString hash READ hash CONSTANT)
 public:

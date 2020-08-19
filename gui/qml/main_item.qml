@@ -18,6 +18,8 @@ Item {
 
 //        filePath: "/home/alex13sh/TMP/test_2.sqlite"
         filePath: "./test_2.sqlite"
+        isWrite: pbStart.checked
+        isRead: !pbStart.checked
         Component.onCompleted: {
 //            isRead = true
 
@@ -33,12 +35,12 @@ Item {
     }
     Timer {
         interval: 500; repeat: true
-        running: macCnt>0;
+        running: pbStart.checked
         property int macCnt: 20
         onTriggered: {
 //            logger.readValues()
-//            chart.updateSensors()
-            macCnt--;
+            chart.updateSensors()
+//            macCnt--;
         }
     }
 
@@ -50,25 +52,19 @@ Item {
 
     GridLayout{
         anchors.fill: parent
-        columns: 2
+        columns: 3
         rows: 2
         flow: GridLayout.TopToBottom
 
-        SensorList {
-            id: sensorList
-            width: 150
-            Layout.minimumWidth: 200
-            Layout.maximumWidth: 250
-    //        Layout.preferredWidth: parent.width*20
-            Layout.minimumHeight: 200
-            Layout.fillHeight: true
-        }
         SessionsList {
             id: sessionsList
-            Layout.minimumWidth: 200
+//            visible: !pbStart.checked
+            Layout.minimumWidth: !pbStart.checked ?200:0
+//            Layout.maximumWidth: 200
             Layout.minimumHeight: 200
             Layout.fillHeight: true
-    //        Layout.column: 0
+            Layout.column: 0
+            Layout.row: 0
             color: "red"
             clip: true
             model: logger.sessions
@@ -87,6 +83,33 @@ Item {
             }
         }
 
+        SensorList {
+            id: sensorList
+            width: 150
+            Layout.minimumWidth: 200
+            Layout.maximumWidth: 250
+    //        Layout.preferredWidth: parent.width*20
+            Layout.minimumHeight: 200
+            Layout.fillHeight: true
+            Layout.column: 1
+            Layout.row: 0
+        }
+        Item {
+            Layout.column: 0
+            Layout.row: 1
+            Layout.columnSpan: 2
+
+            Layout.fillWidth: true
+            Layout.minimumHeight: 100
+
+            Button {
+                id: pbStart
+                text: checked? "Stop" : "Start"
+                checkable: true
+                checked: false
+            }
+        }
+
         MyChartView {
             id: chart
             title: "Top-5 car brand shares in Finland"
@@ -95,7 +118,9 @@ Item {
     //        Layout.preferredWidth: parent.width*80
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.rowSpan: 2
+            Layout.column: 2
+            Layout.row: 0
+//            Layout.rowSpan: 2
 
             legend.visible: false
             focus: true
@@ -126,7 +151,7 @@ Item {
             axisDate: axis_dt
             DateTimeAxis{
                 id: axis_dt
-                tickCount: 20
+                tickCount: 10
             }
 
             Component{
@@ -166,10 +191,13 @@ Item {
             }
         }
 
-//        Rectangle {
-//            color: "red"
-//            Layout.fillWidth: true
-//            Layout.minimumHeight: 100
-//        }
+        Rectangle {
+            color: "red"
+            Layout.fillWidth: true
+            Layout.minimumHeight: 100
+            Text {
+                text: "Current sensor: " + chart.lstLS[sensorList.currentIndex].sens.name
+            }
+        }
     }
 }
