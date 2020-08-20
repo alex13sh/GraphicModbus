@@ -42,12 +42,17 @@ void ModbusValue::updateValues(const ValuesType &values) {
     if(m_values == values) return;
     m_values = values;
     m_countUpdate++;
+    m_onRequest = 0;
     qDebug()<<"ModbusValue::updateValues:"<<name()<<values.size()<<values<<"; time:"<<QTime::currentTime().toString("ss.zzz");
     emit valuesChanged();
 }
 
 void ModbusValue::updateValues() {
-    if(m_module) m_module->sendRead(m_address, m_size);
+    if(m_onRequest>0) m_onRequest -= 1;
+    if(m_module && m_onRequest==0) {
+        m_onRequest = 5;
+        m_module->sendRead(m_address, m_size);
+    }
 }
 
 ValuesType ModbusValue::values() const {

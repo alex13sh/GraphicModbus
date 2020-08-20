@@ -80,6 +80,7 @@ protected:
     QTimer *m_updateValue;
     ValuesType m_values;
 
+    int m_onRequest = 0;
     void update_hash();
 };
 

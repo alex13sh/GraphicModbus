@@ -29,12 +29,15 @@ bool ModbusDevice::connectTCP(const QString &adr)
 {
     m_device = new QModbusTcpClient(this);
     m_device->setConnectionParameter(QModbusDevice::NetworkAddressParameter, QVariant(adr));
-    m_device->setTimeout(1000);
+    m_device->setTimeout(2000);
     m_device->setNumberOfRetries(3);
-    if (!m_device->connectDevice())
-//        qDebug()<<tr("Connect failed: ") + m_device->errorString();
+    if (!m_device->connectDevice()) {
+        qDebug()<<tr("Connect failed: ") + m_device->errorString();
         return false;
-    else return true; //qDebug()<<"Connected!";
+    } else {
+         qDebug()<<"Connected!";
+        return true;
+    }
 }
 
 bool ModbusDevice::isConnected() const {
@@ -89,7 +92,7 @@ void ModbusDevice::onReadReady()
     if (reply->error() == QModbusDevice::NoError) {
         const QModbusDataUnit unit = reply->result();
         getValues(unit.startAddress(), unit.values());
-    }else qDebug()<<" - Error:"<<reply->errorString()<<tr("(%1) ").arg(reply->error())<<"; device:"<<m_device->errorString();
+    }else qDebug()<<" - Error:"<<reply->errorString()<<tr("(%1) ").arg(reply->error())<<"; device:"<<this->name();
 
 }
 

@@ -104,6 +104,7 @@ bool Logger::connect_db(const QString &filePath) {
         return false;
     }
     else qDebug()<<"Sql is open";
+    create_tables();
     query_read();
     read_sessions();
     return true;

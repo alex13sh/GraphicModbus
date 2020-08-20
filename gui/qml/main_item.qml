@@ -15,7 +15,7 @@ Item {
         values: devises.getValues(true)
 
 //        filePath: "/home/alex13sh/TMP/test_2.sqlite"
-        filePath: "./test_2.sqlite"
+        filePath: "./test_3.sqlite"
         isWrite: sessionPane.isStart
         isRead: !sessionPane.isStart
         Component.onCompleted: {
@@ -24,12 +24,13 @@ Item {
         }
     }
     Timer {
-        interval: 500; repeat: true
+        interval: 1000; repeat: true
         running: sessionPane.isStart
         property int macCnt: 20
         onTriggered: {
 //            logger.readValues()
             chart.updateSensors()
+            logger.pushValues()
 //            macCnt--;
         }
     }
@@ -66,6 +67,7 @@ Item {
 //                    console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
                     var lst = logger.getValuesPoint_var(hash, start, finish)
                     chart.setValuesPoints(s.sers, start, finish, lst)
+                    chart.focus = true
                 }
             }
         }
