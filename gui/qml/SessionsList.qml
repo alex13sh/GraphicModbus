@@ -3,6 +3,7 @@ import QtQuick 2.0
 Rectangle {
     id: root
     color: "grey"
+    clip: true
     border{
         color: "black"
         width: 2
