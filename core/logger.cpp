@@ -9,8 +9,9 @@ Logger::Logger(QObject *parent) : QObject(parent)
 {
 
     m_updateValues = new QTimer(this);
-    m_updateValues->setInterval(1000);
-    connect(m_updateValues, &QTimer::timeout, this, &Logger::pushValues);
+    m_updateValues->setInterval(5000);
+    connect(m_updateValues, &QTimer::timeout, this, &Logger::commit_values);
+    m_updateValues->start();
     QSqlDatabase::addDatabase("QSQLITE");
 //    if(!connect_db()) return;
 //    create_tables();
@@ -55,24 +56,16 @@ void Logger::setRead(bool v) {
 #include "modbusdevice.h"
 #include <QDateTime>
 void Logger::pushValues() {
-    if (!m_isWrite) return;
-    QSqlQuery my_query;
 
-    my_query.prepare("INSERT INTO values_table (value_hash, value, datetime)"
-                                  "VALUES (:hash, :value, :datetime);");
     QDateTime cur = QDateTime::currentDateTime();
-    QVariantList v_hash, v_value, v_dt;
+
     for(auto v:m_values){
         cur = cur.addMSecs(1);
         v_hash<<v->hash_str().left(10);
         v_value<<v->value_int32();
         v_dt<<cur;
     }
-    my_query.bindValue(":hash", v_hash);
-    my_query.bindValue(":value", v_value);
-    my_query.bindValue(":datetime", v_dt);
-        if(!my_query.execBatch())
-            qDebug()<<"Error:"<<my_query.lastError().text();
+
 }
 
 void Logger::readValues()
@@ -259,6 +252,25 @@ void Logger::query_read()
 //    if (!m_queryRead->exec("select * from values_table;"))
         qDebug()<<"Error:"<<m_queryRead->lastError().text();
 
+}
+
+void Logger::commit_values()
+{
+    if (!m_isWrite) return;
+    if (v_value.isEmpty()) return;
+    QSqlQuery my_query;
+
+    my_query.prepare("INSERT INTO values_table (value_hash, value, datetime)"
+                                  "VALUES (:hash, :value, :datetime);");
+
+    my_query.bindValue(":hash", v_hash);
+    my_query.bindValue(":value", v_value);
+    my_query.bindValue(":datetime", v_dt);
+        if(!my_query.execBatch())
+            qDebug()<<"Error:"<<my_query.lastError().text();
+    v_hash.clear();
+    v_value.clear();
+    v_dt.clear();
 }
 
 

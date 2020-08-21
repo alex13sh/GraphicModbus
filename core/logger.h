@@ -56,12 +56,15 @@ private:
     QDateTime m_start, m_finish;
 
     bool m_isWrite = false, m_isRead = false;
+    QVariantList v_hash, v_value, v_dt;
 
     void create_tables();
     void test_printCount();
     void update_value_table();
     void read_sessions();
     void query_read();
+
+    void commit_values();
 };
 
 class LoggerSession : public QObject

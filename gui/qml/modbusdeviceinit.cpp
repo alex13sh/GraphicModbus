@@ -21,7 +21,7 @@ void ModbusDevicesInit::init_devices_analog()
     auto dev_analog = new ModbusDevice_Analog("Input Analog", nullptr);
     m_mapDevices->insert(dev_analog->name(), dev_analog);
 //    dev_analog->connectRTU("/dev/ttyACM0");
-    dev_analog->connectTCP("192.168.1.3");
+    dev_analog->connectTCP("192.168.8.3");
     auto sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(1, "Перометр 4_20"));
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
@@ -57,7 +57,7 @@ void ModbusDevicesInit::init_devices_digital()
     auto dev_iod = new ModbusDevice_IODigital("Input/Output Digit", nullptr);
     m_mapDevices->insert(dev_iod->name(), dev_iod);
 //    dev_iod->connectRTU("/dev/ttyACM0");
-    dev_iod->connectTCP("192.168.1.2");
+    dev_iod->connectTCP("192.168.8.2");
 
 //    auto sens_in = static_cast<ModbusSensor_IDigital *>(dev_iod->createSensor(1, "Скоростной счётчик импульсов")); // DI-1 - Скоростной счётчик импульсов
 //    qDebug()<< "_bp_1";
