@@ -8,13 +8,6 @@
 Logger::Logger(QObject *parent) : QObject(parent)
 {
 
-    m_updateValues = new QTimer(this);
-    m_updateValues->setInterval(5000);
-    connect(m_updateValues, &QTimer::timeout, this, &Logger::commit_values);
-    m_updateValues->moveToThread(&workerThread);
-    connect(&workerThread, &QThread::started, this, [this](){m_updateValues->start();});
-//    m_updateValues->start();
-    workerThread.start();
     QSqlDatabase::addDatabase("QSQLITE");
 //    if(!connect_db()) return;
 //    create_tables();
@@ -27,8 +20,6 @@ Logger::Logger(QObject *parent) : QObject(parent)
 Logger::~Logger(){
     setWrite(false);
     QSqlDatabase::database().close();
-    workerThread.quit();
-    workerThread.wait();
 }
 
 void Logger::setWrite(bool v) {
@@ -37,6 +28,7 @@ void Logger::setWrite(bool v) {
     if (m_isRead && m_isWrite) setRead(false);
     if (v) m_start = QDateTime::currentDateTime();
     else {
+        commit_values();
         m_finish = QDateTime::currentDateTime();
         QSqlQuery my_query;
         my_query.prepare("INSERT INTO session_table (start, finish)"
@@ -264,7 +256,7 @@ void Logger::query_read()
 
 void Logger::commit_values()
 {
-    if (!m_isWrite) return;
+//    if (!m_isWrite) return;
     if (v_value.isEmpty()) return;
     QSqlQuery my_query;
 
