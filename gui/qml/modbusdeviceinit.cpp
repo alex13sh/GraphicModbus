@@ -22,7 +22,7 @@ void ModbusDevicesInit::init_devices_analog()
     m_mapDevices->insert(dev_analog->name(), dev_analog);
 //    dev_analog->connectRTU("/dev/ttyACM0");
     dev_analog->connectTCP("192.168.8.3");
-    auto sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(1, "Перометр 4_20"));
+    auto sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(1, "Температура Ротора"));
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
     sens_analog->setRange(0, 250.0);
@@ -40,13 +40,13 @@ void ModbusDevicesInit::init_devices_analog()
     sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
     sens_analog->setRange(0, 25.0);
 
-    sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(4, "Термосопротивление 1"));
+    sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(4, "Температура Статора"));
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Pt_100);
-    sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(5, "Термосопротивление 2"));
+    sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(5, "Температура Пер.Под."));
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Pt_100);
-    sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(6, "Термосопротивление 3"));
+    sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(6, "Температура Зад.Под."));
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Pt_100);
 }
