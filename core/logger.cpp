@@ -26,10 +26,14 @@ void Logger::setWrite(bool v) {
     if (m_isWrite == v) return;
     m_isWrite = v;
     if (m_isRead && m_isWrite) setRead(false);
-    if (v) m_start = QDateTime::currentDateTime();
-    else {
-        commit_values();
+    if (v) {
+        m_start = QDateTime::currentDateTime();
+        v_hash.clear();
+        v_value.clear();
+        v_dt.clear();
+    } else {
         m_finish = QDateTime::currentDateTime();
+        commit_values();
         QSqlQuery my_query;
         my_query.prepare("INSERT INTO session_table (start, finish)"
                                       "VALUES (:start, :finish);");
@@ -103,9 +107,23 @@ bool Logger::connect_db(const QString &filePath) {
     return true;
 }
 
+void Logger::openJsonFile(const QString &fileName)
+{
+    QFile file;
+    file.setFileName(fileName);
+    file.open(QIODevice::ReadOnly);
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    auto jobj = doc.object();
+    v_hash = jobj.take("v_hash").toArray().toVariantList();
+    v_value = jobj.take("v_value").toArray().toVariantList();
+    v_dt = jobj.take("v_dt").toArray().toVariantList();
+}
+
 QList<QPointF> Logger::getValuesPoint(const QString &hash, QDateTime start, QDateTime finish)
 {
     qDebug()<<"__getValues hash:"<<hash<<";";
+    QList<QPointF> res;
+#ifdef LOGGER_SQL
     QSqlQuery q;
     q.prepare("select value_hash, value, datetime from values_table where datetime >= :start and datetime <= :finish and value_hash = :hash;");
     q.bindValue(":start", start);
@@ -113,13 +131,27 @@ QList<QPointF> Logger::getValuesPoint(const QString &hash, QDateTime start, QDat
     q.bindValue(":hash", hash);
     if(!q.exec())
         qDebug()<<"MyQuery Error:"<<q.lastError().text();
-    QList<QPointF> res;
+
     while (q.next()){
         QDateTime dt = q.value(2).toDateTime();
         quint32 val = q.value(1).toInt();
         quint64 msec = dt.toMSecsSinceEpoch();
         res.append(QPointF(msec, val));
     }
+#endif
+
+#ifdef LOGGER_JSON
+    openJsonFile(QString("./values_%1.json").arg(start.toString("dd_MM_yyyy__hh_mm_ss_zzz")));
+    for (int i=0; i<v_value.size(); ++i){
+        if (v_hash[i].toString()==hash) {
+            QDateTime dt =v_dt[i].toDateTime();
+            quint32 val = v_value[i].toInt();
+            quint64 msec = dt.toMSecsSinceEpoch();
+            res.append(QPointF(msec, val));
+        }
+    }
+#endif
+
     qDebug()<<"getValues hash:"<<hash<<"; list:"<<res.size();
     return res;
 }
@@ -262,6 +294,7 @@ void Logger::commit_values()
 //    if (!m_isWrite) return;
     if (v_value.isEmpty()) return;
 
+#ifdef LOGGER_JSON
     QJsonObject jobj;
     jobj["start"] = m_start.toString();
     jobj["finish"] = m_finish.toString();
@@ -274,17 +307,21 @@ void Logger::commit_values()
     file.open(QIODevice::WriteOnly);
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
+#endif
 
-//    QSqlQuery my_query;
+#ifdef LOGGER_SQL
+    QSqlQuery my_query;
 
-//    my_query.prepare("INSERT INTO values_table (value_hash, value, datetime)"
-//                                  "VALUES (:hash, :value, :datetime);");
+    my_query.prepare("INSERT INTO values_table (value_hash, value, datetime)"
+                                  "VALUES (:hash, :value, :datetime);");
 
-//    my_query.bindValue(":hash", v_hash);
-//    my_query.bindValue(":value", v_value);
-//    my_query.bindValue(":datetime", v_dt);
-//        if(!my_query.execBatch())
-//            qDebug()<<"Error:"<<my_query.lastError().text();
+    my_query.bindValue(":hash", v_hash);
+    my_query.bindValue(":value", v_value);
+    my_query.bindValue(":datetime", v_dt);
+        if(!my_query.execBatch())
+            qDebug()<<"Error:"<<my_query.lastError().text();
+#endif
+
     v_hash.clear();
     v_value.clear();
     v_dt.clear();

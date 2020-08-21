@@ -21,6 +21,7 @@ Rectangle {
             property date start: modelData.start
             property date finish: modelData.finish
 
+            color: ListView.isCurrentItem ? "grey" : "white"
             width: view.width
             height: column.height
             Column{
@@ -38,7 +39,10 @@ Rectangle {
             }
             MouseArea{
                 anchors.fill: parent
-                onClicked: root.selected(delegate.index, start, finish)
+                onClicked: {
+                    ListView.view.currentIndex = index
+                    root.selected(delegate.index, start, finish)
+                }
             }
         }
     }

@@ -12,6 +12,11 @@
 
     cpp.includePaths:"./"
 
+    cpp.defines: [
+//        "LOGGER_SQL",
+        "LOGGER_JSON",
+    ]
+
     Export{
 //        property stringList qmlImportPaths: [qbs.installRoot + "/lib/"]
         Depends{name:"cpp"}

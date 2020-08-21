@@ -33,10 +33,12 @@ public:
     bool isRead() const {return m_isRead;}
 
     Q_INVOKABLE bool connect_db(const QString &filePath = "./test_2.sqlite");
+    Q_INVOKABLE void openJsonFile(const QString &fileName);
 
     QList<LoggerSession*> sessions() {return m_sessions;}
 
     QList<QPointF> getValuesPoint(const QString &hash, QDateTime start, QDateTime finish);
+
     Q_INVOKABLE QVariant getValuesPoint_var(const QString &hash, QDateTime start, QDateTime finish) {
         return QVariant::fromValue(getValuesPoint(hash, start, finish));
     }

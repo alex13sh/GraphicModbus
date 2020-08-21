@@ -5,16 +5,31 @@ Item {
 
     property alias isStart: pbStart.checked
     property string txt_start: ""
-    Column {
-    Button {
-        id: pbStart
-        text: checked? "Stop" : "Start"
-        checkable: true
-        checked: false
-    }
-    Text {
-        text: "Start:" + txt_start
-    }
-    }
 
+    signal openJsonFile(string fileName);
+
+    Row {
+        Column {
+            Button {
+                id: pbStart
+                text: checked? "Stop" : "Start"
+                checkable: true
+                checked: false
+            }
+            Text {
+                text: "Start:" + txt_start
+            }
+        }
+        TextField {
+            id: txtFileName
+            visible: !isStart
+            placeholderText: "FileName"
+            onEditingFinished: {
+                if (text.endsWith(".json")) {
+                    console.log("FileOpen: ", text)
+
+                }
+            }
+        }
+    }
 }
