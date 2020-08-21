@@ -28,7 +28,7 @@ QVector<QAbstractSeries*> MyChartView::setSensors(const QVector<ModbusSensor *> 
 void MyChartView::setAxisDate(QAbstractAxis *axisDate) {
     m_axisDate=axisDate;
     auto dt = static_cast<QDateTimeAxis*>(m_axisDate);
-    m_secondsScala = dt->tickCount();
+    m_secondsScala = dt->tickCount()*20;
 //    dt->setTickCount(m_secondsScala+1);
     dt->setRange(QDateTime::currentDateTime().addSecs(-m_secondsScala+1), QDateTime::currentDateTime().addSecs(1));
     dt->setFormat("h:mm:ss");

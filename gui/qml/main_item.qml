@@ -15,7 +15,7 @@ Item {
         values: devises.getValues(true)
 
 //        filePath: "/home/alex13sh/TMP/test_2.sqlite"
-        filePath: "./test_3.sqlite"
+        filePath: "./test_4.sqlite"
         isWrite: sessionPane.isStart
         isRead: !sessionPane.isStart
         Component.onCompleted: {
