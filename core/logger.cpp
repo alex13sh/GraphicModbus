@@ -254,20 +254,37 @@ void Logger::query_read()
 
 }
 
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 void Logger::commit_values()
 {
 //    if (!m_isWrite) return;
     if (v_value.isEmpty()) return;
-    QSqlQuery my_query;
 
-    my_query.prepare("INSERT INTO values_table (value_hash, value, datetime)"
-                                  "VALUES (:hash, :value, :datetime);");
+    QJsonObject jobj;
+    jobj["start"] = m_start.toString();
+    jobj["finish"] = m_finish.toString();
+    jobj["v_hash"] = QJsonArray::fromVariantList(v_hash);
+    jobj["v_value"] = QJsonArray::fromVariantList(v_value);
+    jobj["v_dt"] = QJsonArray::fromVariantList(v_dt);
+    QJsonDocument doc(jobj);
+    QFile file;
+    file.setFileName(QString("./values_%1.json").arg(m_start.toString("dd_MM_yyyy__hh_mm_ss_zzz")));
+    file.open(QIODevice::WriteOnly);
+    file.write(doc.toJson(QJsonDocument::Indented));
+    file.close();
 
-    my_query.bindValue(":hash", v_hash);
-    my_query.bindValue(":value", v_value);
-    my_query.bindValue(":datetime", v_dt);
-        if(!my_query.execBatch())
-            qDebug()<<"Error:"<<my_query.lastError().text();
+//    QSqlQuery my_query;
+
+//    my_query.prepare("INSERT INTO values_table (value_hash, value, datetime)"
+//                                  "VALUES (:hash, :value, :datetime);");
+
+//    my_query.bindValue(":hash", v_hash);
+//    my_query.bindValue(":value", v_value);
+//    my_query.bindValue(":datetime", v_dt);
+//        if(!my_query.execBatch())
+//            qDebug()<<"Error:"<<my_query.lastError().text();
     v_hash.clear();
     v_value.clear();
     v_dt.clear();

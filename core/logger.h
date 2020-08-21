@@ -22,6 +22,7 @@ class Logger : public QObject
     Q_PROPERTY(bool isWrite READ isWrite WRITE setWrite FINAL)
     Q_PROPERTY(bool isRead READ isRead WRITE setRead FINAL)
     Q_PROPERTY(QList<LoggerSession*> sessions READ sessions NOTIFY sessionsChanged)
+    Q_PROPERTY(QDateTime start MEMBER m_start CONSTANT FINAL)
 public:
     explicit Logger(QObject *parent = nullptr);
     ~Logger();

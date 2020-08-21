@@ -93,7 +93,13 @@ Item {
             Layout.fillWidth: true
             Layout.minimumHeight: 100
 
-            onIsStartChanged: if(isStart) chart.clearValues()
+            txt_start: logger.start
+            onIsStartChanged: {
+                if(isStart) {
+                    chart.clearValues()
+                    txt_start = logger.start
+                }
+            }
         }
 
         Graphics {
