@@ -109,7 +109,10 @@ void ModbusSensor_ODigital::addValue(quint16 address, ModbusValue *value) {
     ModbusSensor::addValue(address, value);
     auto name = value->name();
 
-    if(name == "type_output") v_type_output = value;
+    if(name == "type_output") {
+        v_type_output = value;
+        v_type_output->setValue_int(0);
+    }
     else if(name == "value") {
         v_value = value;
 //        connect(v_value, &ModbusValue::valuesChanged, this, &ModbusSensor_IDigital::valueChanged);
@@ -117,6 +120,10 @@ void ModbusSensor_ODigital::addValue(quint16 address, ModbusValue *value) {
         v_bit_state = value;
     else if (name == "Битовая маска установки") {
         v_bit_setup = value;
+        if (v_bit_setup) {
+            v_bit_setup->updateValues();
+            qDebug()<< " > v_bit_setup->updateValues();";
+        }
         v_logic = new ModbusValue((ModbusDevice*)0, "Logic out", m_pin, 1);
         connect(v_logic, &ModbusValue::valuesChanged, [this](){
             qDebug()<<"Set logic ("<<v_logic->address()<<") = "<<v_logic->value_int8();
@@ -137,7 +144,17 @@ void ModbusSensor_ODigital::setLogicLevel(bool lvl) {
     if(lvl) v |= 1<<pin;
     else v &= ~(1<<pin);
     v_bit_setup->setValue_int16(v);
+    v_bit_setup->updateValues();
     qDebug()<<"ModbusSensor_ODigital::setLogicLevel:"<<v;
+}
+
+bool ModbusSensor_ODigital::logicLevel()
+{
+    if(!v_bit_setup) return false;
+    quint8 v = (quint8) v_bit_setup->value_int8();
+    auto pin = m_pin-1;
+    qDebug() << "ModbusSensor_ODigital::logicLevel v:"<<v;
+    return v & (1<<pin);
 }
 
 int ModbusSensor_ODigital::value() const

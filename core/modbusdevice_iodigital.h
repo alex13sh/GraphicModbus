@@ -71,7 +71,9 @@ public:
     void setTypeOutput(SensorOutputType type);
     SensorOutputType typeOutput() const {return m_type_output;}
 
-    void setLogicLevel(bool lvl);
+    Q_INVOKABLE void setLogicLevel(bool lvl);
+    Q_INVOKABLE bool logicLevel();
+
     int value() const;
     virtual float value_float() const;
 

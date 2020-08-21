@@ -96,6 +96,10 @@ void ModbusDevice::onReadReady()
         qDebug()<<" - Error:"<<reply->errorString()<<tr("(%1) ").arg(reply->error())<<"; device:"<<this->name();
         if (reply->error() == 7) { // Error: "Reply aborted due to connection closure." "(7) " ;
             m_device->connectDevice();
+        } if (reply->error() == 6) // Error: "Modbus Exception Response." "(6) " ;
+        {
+            const QModbusDataUnit unit = reply->result();
+            qDebug()<<" > values:"<<  unit.values();
         }
     }
 }

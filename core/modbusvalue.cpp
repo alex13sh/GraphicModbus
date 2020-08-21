@@ -120,7 +120,7 @@ float ModbusValue::value_float() const {
 }
 
 qint8 ModbusValue::value_int8() const {
-    if(m_size<1 || m_values.size()<1) return -1;
+    if(m_size<1 || m_values.size()<1) return 0;
     qint8 ivalue=(qint8)(m_values.value(0,0));
     return ivalue;
 }
