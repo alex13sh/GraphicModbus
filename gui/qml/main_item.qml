@@ -92,6 +92,8 @@ Item {
 
             Layout.fillWidth: true
             Layout.minimumHeight: 100
+
+            onIsStartChanged: if(isStart) chart.clearValues()
         }
 
         Graphics {

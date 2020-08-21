@@ -37,6 +37,7 @@ public slots:
     void setValuesPoints(QAbstractSeries* sers, QDateTime start, QDateTime finish, const QList<QPointF> &points);
     void pushValuesPoints(const QList<QPointF> &points);
 
+    void clearValues();
 private:
     QVector<ModbusSensor*> m_sens;
     QVector<QAbstractSeries*> m_sers;

@@ -95,6 +95,14 @@ void MyChartView::pushValuesPoints(const QList<QPointF> &points)
 
 }
 
+void MyChartView::clearValues()
+{
+    for (auto s:m_sers) {
+        auto *sers = static_cast<QLineSeries*>(s);
+        sers->clear();
+    }
+}
+
 void MyChartView::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
