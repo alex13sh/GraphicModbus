@@ -11,7 +11,10 @@ Logger::Logger(QObject *parent) : QObject(parent)
     m_updateValues = new QTimer(this);
     m_updateValues->setInterval(5000);
     connect(m_updateValues, &QTimer::timeout, this, &Logger::commit_values);
-    m_updateValues->start();
+    m_updateValues->moveToThread(&workerThread);
+    connect(&workerThread, &QThread::started, this, [this](){m_updateValues->start();});
+//    m_updateValues->start();
+    workerThread.start();
     QSqlDatabase::addDatabase("QSQLITE");
 //    if(!connect_db()) return;
 //    create_tables();
@@ -24,6 +27,8 @@ Logger::Logger(QObject *parent) : QObject(parent)
 Logger::~Logger(){
     setWrite(false);
     QSqlDatabase::database().close();
+    workerThread.quit();
+    workerThread.wait();
 }
 
 void Logger::setWrite(bool v) {
@@ -91,6 +96,9 @@ bool Logger::connect_db(const QString &filePath) {
 
     auto m_sdb = QSqlDatabase::database();
     m_sdb.setDatabaseName(filePath);
+//    qDebug()<<"connectOptions:"<<m_sdb.connectOptions();
+//    m_sdb.setConnectOptions("QSQLITE_OPEN_URI;QSQLITE_ENABLE_SHARED_CACHE");
+
 
     if (!m_sdb.open()) {
         qDebug()<<"Sql is not open. Error:"<<m_sdb.lastError().text();

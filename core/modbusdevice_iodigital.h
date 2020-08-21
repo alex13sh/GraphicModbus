@@ -13,6 +13,7 @@ public:
     ModbusSensor *createSensor(quint8 pin, const QString &name) override;
     void initSensor(ModbusSensor *sens) override;
 
+    void updateValues() override;
 signals:
 
 private:

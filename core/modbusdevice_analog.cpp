@@ -52,6 +52,12 @@ void ModbusDevice_Analog::initSensor(ModbusSensor *sens) {
     addValue("interval", 4113+(pin-1)*16, 1, ValueType_UINT16, false); // <<--
 }
 
+void ModbusDevice_Analog::updateValues()
+{
+    qDebug()<<"ModbusDevice_Analog::updateValues";
+    sendRead(4000, 24);
+}
+
 //void ModbusDevice_Analog::getValues(quint16 adr, ValuesType values) {
 //    ModbusDevice::getValues(adr, values);
 //    return;

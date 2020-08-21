@@ -45,6 +45,8 @@ public:
     QModbusClient *device() const {return m_device;}
     ListSensors getListSensors() const {return m_sensors;}
 
+    virtual void updateValues()=0;
+
 signals:
     void updatedListSensors();
 

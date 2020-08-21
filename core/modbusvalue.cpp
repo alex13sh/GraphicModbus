@@ -43,7 +43,7 @@ void ModbusValue::updateValues(const ValuesType &values) {
     m_values = values;
     m_countUpdate++;
     m_onRequest = 0;
-    qDebug()<<"ModbusValue::updateValues:"<<name()<<values.size()<<values<<"; time:"<<QTime::currentTime().toString("ss.zzz");
+    qDebug()<<"ModbusValue::updateValues:"<<m_sensor->name()<<"_"<<name()<<values.size()<<values<<"; time:"<<QTime::currentTime().toString("ss.zzz");
     emit valuesChanged();
 }
 

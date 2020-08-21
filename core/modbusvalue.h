@@ -31,6 +31,7 @@ public:
 
     QString name() const {return m_name;}
     quint16 address() const {return m_address;}
+    quint8 size() const {return m_size;}
     void setDescription(const QString &desc) {m_description=desc;}
     QString description() const {return m_description;}
     QString hash_str() const {return m_hash_str;}

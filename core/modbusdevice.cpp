@@ -92,18 +92,28 @@ void ModbusDevice::onReadReady()
     if (reply->error() == QModbusDevice::NoError) {
         const QModbusDataUnit unit = reply->result();
         getValues(unit.startAddress(), unit.values());
-    }else qDebug()<<" - Error:"<<reply->errorString()<<tr("(%1) ").arg(reply->error())<<"; device:"<<this->name();
-
+    }else {
+        qDebug()<<" - Error:"<<reply->errorString()<<tr("(%1) ").arg(reply->error())<<"; device:"<<this->name();
+        if (reply->error() == 7) { // Error: "Reply aborted due to connection closure." "(7) " ;
+            m_device->connectDevice();
+        }
+    }
 }
 
 void ModbusDevice::getValues(quint16 adr, ValuesType value) {
-    if(!m_values.contains(adr)) return;
-    m_values[adr]->updateValues(value);
+    int adr_end = adr+value.size();
+    qDebug()<<"ModbusDevice::getValues adr_start:"<<adr<<"; adr_end:"<<adr_end;
+    for (int a=adr; a<adr_end; a++) {
+        if(m_values.contains(a)) {
+            int cnt = m_values[a]->size();
+            m_values[a]->updateValues(value.mid(a-adr, cnt));
+        }
+    }
 }
 
 bool ModbusDevice::sendRead(quint16 addr, quint16 cnt) const {
     if(not isConnected()) return false;
-
+    qDebug()<<"ModbusDevice::sendRead adr:"<<addr<<"; cnt:"<<cnt;
     QModbusDataUnit du(QModbusDataUnit::InputRegisters, addr, cnt);
     if (auto *reply = m_device->sendReadRequest(du, 1)) {
         if (!reply->isFinished()){

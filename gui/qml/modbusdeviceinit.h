@@ -42,6 +42,7 @@ public slots:
     Q_INVOKABLE void series_setPoints(const QString &hash, QList<QPointF> points, QLineSeries *series);
     Q_INVOKABLE qint64 getMSecsSinceEpoch() const ;
 
+    Q_INVOKABLE void updateValues();
 signals:
     void mapDevicesChanged();
 

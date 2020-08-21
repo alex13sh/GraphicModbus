@@ -57,6 +57,7 @@ private:
 
     bool m_isWrite = false, m_isRead = false;
     QVariantList v_hash, v_value, v_dt;
+    QThread workerThread;
 
     void create_tables();
     void test_printCount();
@@ -64,6 +65,7 @@ private:
     void read_sessions();
     void query_read();
 
+private slots:
     void commit_values();
 };
 

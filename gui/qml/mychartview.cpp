@@ -36,6 +36,7 @@ void MyChartView::setAxisDate(QAbstractAxis *axisDate) {
 
 void MyChartView::updateSensors()
 {
+    qDebug()<< ">> MyChartView::updateSensors";
 //    static int cnt = 0;
 //    cnt+=1; cnt=cnt%10;
     auto momentInTime = QDateTime::currentDateTime().toMSecsSinceEpoch() ;
@@ -44,10 +45,12 @@ void MyChartView::updateSensors()
         auto *sens = m_sens[i];
         auto *sers = static_cast<QLineSeries*>(m_sers[i]);
         float v = sens->value_float();
+//        sens->updateValue();
 //        float v = m_sens.size()*cnt + i;
         sers->append(momentInTime, v);
     }
 
+    qDebug()<< "<< MyChartView::updateSensors";
     m_axisDate->setRange(QDateTime::currentDateTime().addSecs(-m_secondsScala+1), QDateTime::currentDateTime().addSecs(1));
 }
 

@@ -58,6 +58,11 @@ void ModbusDevice_IODigital::initSensor(ModbusSensor *sens) {
     }
 }
 
+void ModbusDevice_IODigital::updateValues()
+{
+    sendRead(160, 24);
+}
+
 ModbusSensor_IDigital::ModbusSensor_IDigital(const QString &name, quint8 pin, ModbusDevice *module)
     : ModbusSensor(name, pin, module)
 {

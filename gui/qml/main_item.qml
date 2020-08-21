@@ -29,6 +29,7 @@ Item {
         property int macCnt: 20
         onTriggered: {
 //            logger.readValues()
+            devises.updateValues()
             chart.updateSensors()
             logger.pushValues()
 //            macCnt--;

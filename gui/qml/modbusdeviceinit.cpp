@@ -11,7 +11,7 @@ ModbusDevicesInit::ModbusDevicesInit(QObject *parent)
 void ModbusDevicesInit::init_devices()
 {
     init_devices_analog();
-//    init_devices_digital();
+    init_devices_digital();
     emit mapDevicesChanged();
 }
 
@@ -136,4 +136,13 @@ void ModbusDevicesInit::series_setPoints(const QString &hash, QList<QPointF> poi
 qint64 ModbusDevicesInit::getMSecsSinceEpoch() const
 {
     return QDateTime::currentMSecsSinceEpoch();
+}
+
+void ModbusDevicesInit::updateValues()
+{
+    qDebug()<<"ModbusDevicesInit::updateValues";
+    for (auto *d : *m_mapDevices){
+        qDebug()<<" > "<<d->name();
+        d->updateValues();
+    }
 }
