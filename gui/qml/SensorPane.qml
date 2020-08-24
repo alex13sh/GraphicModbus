@@ -10,7 +10,12 @@ Item {
             text: "Current sensor: " + sensor.name
         }
         Text {
+            visible: !sensor.logicLevel
             text: "Value Warn: " + sensor.value_warn + "; Err: " + sensor.value_err
+        }
+        Text {
+            visible: !sensor.logicLevel
+            text: "Value Max: " + sensor.value_max
         }
         Button {
             visible: sensor.logicLevel ? true : false

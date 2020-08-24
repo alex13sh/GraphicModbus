@@ -51,3 +51,30 @@ void ModbusSensor::updateValue()
 {
     if(v_value) v_value->updateValues();
 }
+
+float ModbusSensor::get_value_float() {
+    float v = value_float();
+    if (v>m_value_max)
+        setValueMax(v);
+    return v;
+}
+
+float ModbusSensor::get_value_float_from_int(quint32 ivalue)
+{
+    float v = value_float_from_int(ivalue);
+    if (v>m_value_max)
+        setValueMax (v);
+    return v;
+}
+
+float ModbusSensor::value_float_from_int(quint32 ivalue) {
+    float fvalue=(float&)ivalue;
+    return fvalue;
+}
+
+void ModbusSensor::setValueMax(float value)
+{
+    if (value == m_value_max) return;
+    m_value_max = value;
+    emit value_maxChanged();
+}

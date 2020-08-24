@@ -22,6 +22,7 @@ class ModbusSensor : public QObject
 
     Q_PROPERTY(float value_warn MEMBER m_value_warn CONSTANT)
     Q_PROPERTY(float value_err MEMBER m_value_err CONSTANT)
+    Q_PROPERTY(float value_max MEMBER m_value_max NOTIFY value_maxChanged)
 public:
     explicit ModbusSensor(QObject *parent = nullptr);
 
@@ -41,15 +42,15 @@ public:
     QString hash() const;
 
     void updateValue();
+    float get_value_float();
     virtual float value_float() const = 0;
-    virtual float value_float_from_int(quint32 ivalue) {
-        float fvalue=(float&)ivalue;
-        return fvalue;
-    }
+    float get_value_float_from_int(quint32 ivalue);
+    virtual float value_float_from_int(quint32 ivalue);
+    void setValueMax(float value);
 //    QList<float> convert_value_list(const QList<quint32> &values);
 signals:
     void fvalueChanged(/*float value*/);
-
+    void value_maxChanged();
 protected:
 
     QString m_name = "None";
@@ -62,7 +63,7 @@ protected:
     ModbusValue *v_value = nullptr, *v_interval=nullptr;
     QMap<QString, ModbusValue*> m_mapNameValue;
 //    ListValues m_sensorValues, m_optionValues;
-    float m_value_warn=-1, m_value_err=-1;
+    float m_value_warn=-1, m_value_err=-1, m_value_max=0;
 
     friend class ModbusDevice;
 };

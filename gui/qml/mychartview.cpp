@@ -48,7 +48,7 @@ void MyChartView::updateSensors()
     for (int i=0; i<m_sens.size(); ++i){
         auto *sens = m_sens[i];
         auto *sers = static_cast<QLineSeries*>(m_sers[i]);
-        float v = sens->value_float();
+        float v = sens->get_value_float();
 //        sens->updateValue();
 //        float v = m_sens.size()*cnt + i;
         sers->append(momentInTime, v);
@@ -70,16 +70,19 @@ void MyChartView::setValuesPoints(QAbstractSeries *sers, QDateTime start, QDateT
         ModbusSensor *sens = nullptr;
         int sens_i;
         for (sens_i=0; sens_i<m_sers.size(); ++sens_i)
-            if (m_sers[sens_i] == sers)
+            if (m_sers[sens_i] == sers) {
                 sens = m_sens[sens_i];
+                break;
+            }
 
         if (!sens) return;
+        sens->setValueMax(0);
         float v_min= 0;
         float v_max=v_min;
         for(auto &p : points) {
             quint32 iv = (quint32) p.y();
             if (iv == -6.49037e+32) continue;
-            auto v = sens->value_float_from_int(iv);
+            auto v = sens->get_value_float_from_int(iv);
             if (v == -6.49037e+32) continue;
             res.append(QPointF(p.x(), v));
 //            p.setY(v);
