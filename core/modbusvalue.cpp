@@ -133,8 +133,16 @@ qint16 ModbusValue::value_int16() const {
 
 qint32 ModbusValue::value_int32() const {
     qint32 ivalue=-5;
-    if(m_size==1 || m_values.size()<1) ivalue = (qint32)m_values.value(0, 0);
+    if(m_size==1 || m_values.size()<2) ivalue = (qint32)m_values.value(0, 0);
     else if(m_size==2) ivalue = (((qint32)m_values[1]<<16)|(qint32)m_values[0]);
+    return ivalue;
+}
+
+qint32 ModbusValue::value_uint32() const
+{
+    quint32 ivalue=-5;
+    if(m_size==1 || m_values.size()<2) ivalue = (quint32)m_values.value(0, 0);
+    else if(m_size==2) ivalue = (((quint32)m_values[1]<<16)|(quint32)m_values[0]);
     return ivalue;
 }
 

@@ -63,8 +63,12 @@ void Logger::pushValues() {
     for(auto v:m_values){
         cur = cur.addMSecs(1);
         v_hash<<v->hash_str().left(10);
-        v_value<<v->value_int32();
+        v_value<<v->value_uint32();
         v_dt<<cur;
+
+        v_value_int32 << v->value_int32();
+        v_value_uint32<< v->value_uint32();
+        v_value_float << v->value_float();
     }
 
 }
@@ -150,6 +154,8 @@ QList<QPointF> Logger::getValuesPoint(const QString &hash, QDateTime start, QDat
             res.append(QPointF(msec, val));
         }
     }
+    if (hash == "82dc5b4c30")
+        qDebug()<<"openFileJson values:"<<res;
 #endif
 
     qDebug()<<"getValues hash:"<<hash<<"; list:"<<res.size();
@@ -301,6 +307,11 @@ void Logger::commit_values()
     jobj["v_hash"] = QJsonArray::fromVariantList(v_hash);
     jobj["v_value"] = QJsonArray::fromVariantList(v_value);
     jobj["v_dt"] = QJsonArray::fromVariantList(v_dt);
+
+    jobj["v_value_int32"] = QJsonArray::fromVariantList(v_value_int32);
+    jobj["v_value_uint32"] = QJsonArray::fromVariantList(v_value_uint32);
+    jobj["v_value_float"] = QJsonArray::fromVariantList(v_value_float);
+
     QJsonDocument doc(jobj);
     QFile file;
     file.setFileName(QString("./values_%1.json").arg(m_start.toString("dd_MM_yyyy__hh_mm_ss_zzz")));

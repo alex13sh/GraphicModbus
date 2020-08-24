@@ -42,6 +42,7 @@ public:
     QString hash() const;
 
     void updateValue();
+    ModbusValue *get_Value() {return v_value;}
     float get_value_float();
     virtual float value_float() const = 0;
     float get_value_float_from_int(quint32 ivalue);

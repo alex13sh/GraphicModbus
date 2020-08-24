@@ -63,6 +63,7 @@ public:
     qint8 value_int8() const;
     qint16 value_int16() const;
     qint32 value_int32() const;
+    qint32 value_uint32() const;
 
 signals:
     void valuesChanged();

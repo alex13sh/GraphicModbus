@@ -60,6 +60,7 @@ private:
 
     bool m_isWrite = false, m_isRead = false;
     QVariantList v_hash, v_value, v_dt;
+    QVariantList v_value_int32, v_value_uint32, v_value_float;
 
     void create_tables();
     void test_printCount();

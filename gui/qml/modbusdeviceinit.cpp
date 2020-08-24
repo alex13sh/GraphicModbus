@@ -112,9 +112,15 @@ QVector<ModbusValue *> ModbusDevicesInit::getValues(bool readOnly)
     QVector<ModbusValue *> res;
     for (auto d : *m_mapDevices) {
         for (auto s : d->getListSensors()) {
-            for (auto v : s->values()) {
-                if (!readOnly or (v->readOnly() and readOnly)) res.append(v);
-            }
+//            if (s->get_Value()) {
+//                res.append(s->get_Value());
+//            } else {
+                for (auto v : s->values()) {
+                    if (!readOnly or (v->readOnly() and readOnly)) res.append(v);
+                    if (v->hash_str().left(10) == "82dc5b4c30") res.append(v);
+    //                qDebug()<<"ModbusDevicesInit::getValues:"<<v->sensor()->name()<<"; "<<v->name()<<": readOnly:"<<v->readOnly();
+                }
+//            }
         }
     }
     return res;
