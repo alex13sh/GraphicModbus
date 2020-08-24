@@ -138,3 +138,31 @@ void MyChartView::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void MyChartView::wheelEvent(QWheelEvent *event)
+{
+    if (event->modifiers() & Qt::ControlModifier) {
+        auto r = plotArea();
+        if (event->modifiers() & Qt::ShiftModifier) {
+            auto dlt = event->angleDelta().y() > 0 ? 10 : -10;
+            r.setX(r.x()+dlt);
+            r.setWidth(r.width()-2*dlt);
+        } else {
+            auto dlt = event->angleDelta().y() > 0 ? 10 : -10;
+            r.setY(r.y()+dlt);
+            r.setHeight(r.height()-2*dlt);
+        }
+        zoomIn(r);
+    } else {
+        if (event->modifiers() & Qt::ShiftModifier) {
+            if (event->angleDelta().y() > 0)
+                scrollRight(10);
+            else if (event->angleDelta().y() < 0)
+                scrollLeft(10);
+        } else {
+            if (event->angleDelta().y() > 0)
+                scrollUp(10);
+            else if (event->angleDelta().y() < 0)
+                scrollDown(10);
+        }
+    }
+}

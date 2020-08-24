@@ -62,4 +62,8 @@ MyChartView {
         }
     }
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: parent.focus = true
+    }
 }

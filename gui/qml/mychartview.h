@@ -49,6 +49,7 @@ private:
     // QQuickItem interface
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void wheelEvent(QWheelEvent *event);
 };
 
 #endif // MYCHARTVIEW_H
