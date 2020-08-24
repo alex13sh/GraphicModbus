@@ -19,6 +19,9 @@ class ModbusSensor : public QObject
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(float value READ value_float NOTIFY fvalueChanged)
     Q_PROPERTY(QString hash READ hash CONSTANT)
+
+    Q_PROPERTY(float value_warn MEMBER m_value_warn CONSTANT)
+    Q_PROPERTY(float value_err MEMBER m_value_err CONSTANT)
 public:
     explicit ModbusSensor(QObject *parent = nullptr);
 
@@ -31,6 +34,7 @@ public:
     virtual void addValue(quint16 address, ModbusValue* value);
     ListValues values() const;
     void setInterval(quint16 interval);
+    void setValueErr(float warn, float err);
 
     QString name() const {return m_name;}
     quint8 pin() const {return m_pin;}
@@ -58,6 +62,7 @@ protected:
     ModbusValue *v_value = nullptr, *v_interval=nullptr;
     QMap<QString, ModbusValue*> m_mapNameValue;
 //    ListValues m_sensorValues, m_optionValues;
+    float m_value_warn=-1, m_value_err=-1;
 
     friend class ModbusDevice;
 };

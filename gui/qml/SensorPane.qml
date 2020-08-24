@@ -9,6 +9,9 @@ Item {
         Text {
             text: "Current sensor: " + sensor.name
         }
+        Text {
+            text: "Value Warn: " + sensor.value_warn + "; Err: " + sensor.value_err
+        }
         Button {
             visible: sensor.logicLevel ? true : false
             checkable: true

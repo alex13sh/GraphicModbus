@@ -26,6 +26,7 @@ void ModbusDevicesInit::init_devices_analog()
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
     sens_analog->setRange(0, 250.0);
+    sens_analog->setValueErr(60, 90);
 
     sens_analog = static_cast<ModbusSensor_Analog *>(new ModbusSensor_Analog_Davl("Давление -1_1 V", 2, dev_analog));
     dev_analog->initSensor(sens_analog); // 0.1 В
@@ -33,6 +34,7 @@ void ModbusDevicesInit::init_devices_analog()
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Volt_1);
     sens_analog->setRange(-1.0, 1.0);
+    sens_analog->setValueErr(0.1, 0.5);
 //    dev_analog->setSensor(2, dynamic_cast<ModbusSensor_Analog_Davl*>(sens_analog));
 
     sens_analog = static_cast<ModbusSensor_Analog *>(new ModbusSensor_Analog_Vibra("Вибрация 4_20 A", 3, dev_analog));
@@ -41,16 +43,20 @@ void ModbusDevicesInit::init_devices_analog()
     sens_analog->setInterval(600);
     sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
     sens_analog->setRange(0, 25.0);
+    sens_analog->setValueErr(3, 5);
 
     sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(4, "Температура Статора"));
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Pt_100);
+    sens_analog->setValueErr(60, 85);
     sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(5, "Температура Пер.Под."));
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Pt_100);
+    sens_analog->setValueErr(60, 80);
     sens_analog = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(6, "Температура Зад.Под."));
     sens_analog->setInterval(800);
     sens_analog->setType(ModbusSensor_Analog::Pt_100);
+    sens_analog->setValueErr(60, 80);
 }
 
 #include "core/modbusdevice_iodigital.h"
@@ -62,14 +68,11 @@ void ModbusDevicesInit::init_devices_digital()
     dev_iod->connectTCP("192.168.8.2");
 
 //    auto sens_in = static_cast<ModbusSensor_IDigital *>(dev_iod->createSensor(1, "Скоростной счётчик импульсов")); // DI-1 - Скоростной счётчик импульсов
-//    qDebug()<< "_bp_1";
     auto sens_in = new ModbusSensor_IDigital("Скоростной счётчик импульсов", 1, dev_iod);
-//    qDebug()<< "_bp_2";
     dev_iod->initSensor(sens_in);
-//    qDebug()<< "_bp_3";
     dev_iod->setSensor(0, sens_in);
-//    qDebug()<< "_bp_4";
     sens_in->setInterval(2);
+    sens_in->setValueErr(333, 433);
 //    qDebug()<< "_bp_5";
 //    sens_in->setTypeInput(ModbusSensor_IDigital::InputHZ);
 
