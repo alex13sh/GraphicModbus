@@ -9,6 +9,7 @@ MyChartView::MyChartView(QQuickItem *parent)
     : DeclarativeChart(parent)
 {
     setAnimationOptions(NoAnimation);
+//    setRubberBand(RectangleRubberBand);
 }
 
 #include "core/modbussensor.h"
@@ -89,7 +90,7 @@ void MyChartView::setValuesPoints(QAbstractSeries *sers, QDateTime start, QDateT
             if (v<v_min) v_min = v;
             else if (v>v_max) v_max = v;
         }
-        qDebug()<< "MyChartView::setValuesPoints sens_i="<<sens_i<<" range:"<<v_min<<", "<<v_max;
+        qDebug()<< "MyChartView::setValuesPoints sens_="<<sens->name()<<" range:"<<v_min<<", "<<v_max;
         auto avalues = static_cast<QValueAxis*>(m_axisTemer);
 //        avalues->setRange(v_min, v_max);
         sers_->replace(res);

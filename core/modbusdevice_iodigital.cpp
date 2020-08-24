@@ -93,8 +93,9 @@ int ModbusSensor_IDigital::value() const {
 float ModbusSensor_IDigital::value_float() const
 {
     if(v_value) {
-        if(v_value->type() == ValueType_FLOAT) return v_value->value_float();
-        else if(v_value->type() == ValueType_UINT32) return v_value->value_int32();
+//        if(v_value->type() == ValueType_FLOAT) return v_value->value_float();
+//        else if(v_value->type() == ValueType_UINT32) return v_value->value_int32();
+        return v_value->value_float();
     }
     return -2.0;
 }

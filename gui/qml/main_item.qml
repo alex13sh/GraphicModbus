@@ -63,8 +63,10 @@ Item {
                     var s = chart.lstLS[i]
                     s.sers.visible = false
                     var hash = s.sens.hash
-                    if (hash==="") continue;
-
+                    if (hash==="") {
+                        console.log("Empty hash sensor name:", s.sens.name)
+                        continue;
+                    }
 //                    console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
                     var lst = logger.getValuesPoint_var(hash, start, finish)
                     chart.setValuesPoints(s.sers, start, finish, lst)
@@ -97,6 +99,7 @@ Item {
                     chart.axis_davl.gridVisible = false
                     chart.axis_davl.visible = false
                 }
+                console.log("sens hash:", sens.hash)
             }
         }
         SessionPane {
