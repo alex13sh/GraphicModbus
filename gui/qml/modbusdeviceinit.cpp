@@ -35,7 +35,9 @@ void ModbusDevicesInit::init_devices_analog()
     sens_analog->setRange(-1.0, 1.0);
 //    dev_analog->setSensor(2, dynamic_cast<ModbusSensor_Analog_Davl*>(sens_analog));
 
-    sens_analog  = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(3, "Вибрация 4_20 A"));
+    sens_analog = static_cast<ModbusSensor_Analog *>(new ModbusSensor_Analog_Vibra("Вибрация 4_20 A", 3, dev_analog));
+    dev_analog->initSensor(sens_analog);
+//    sens_analog  = static_cast<ModbusSensor_Analog *>(dev_analog->createSensor(3, "Вибрация 4_20 A"));
     sens_analog->setInterval(600);
     sens_analog->setType(ModbusSensor_Analog::Amper_4_20);
     sens_analog->setRange(0, 25.0);
@@ -69,7 +71,7 @@ void ModbusDevicesInit::init_devices_digital()
 //    qDebug()<< "_bp_4";
     sens_in->setInterval(2);
 //    qDebug()<< "_bp_5";
-    sens_in->setTypeInput(ModbusSensor_IDigital::InputHZ);
+//    sens_in->setTypeInput(ModbusSensor_IDigital::InputHZ);
 
 //    sens_in = static_cast<ModbusSensor_IDigital *>(dev_iod->createSensor(9, "Состояние клапана 1")); // клапан 1 DI-9
 //    sens_in = static_cast<ModbusSensor_IDigital *>(dev_iod->createSensor(10, "Состояние клапана 2")); // клапан 2  DI-10

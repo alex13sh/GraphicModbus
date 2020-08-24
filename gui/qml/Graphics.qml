@@ -13,6 +13,7 @@ MyChartView {
     legend.visible: false
     focus: true
 
+    property alias axis_temper: axis_temper
     axisTemer: axis_temper
     ValueAxis {
         id: axis_temper
@@ -26,14 +27,19 @@ MyChartView {
         min: -10
         max: 200
         minorTickCount: 10
+        visible: false
+        gridVisible: false
     }
 
+    property alias axis_davl: axis_davl
     axisDavl: axis_davl
     LogValueAxis {
         id: axis_davl
         min: 0.001
         max: 1000
         minorTickCount: 10
+        visible: true
+        gridVisible: false
     }
 
     axisDate: axis_dt
@@ -54,27 +60,4 @@ MyChartView {
         }
     }
 
-    property var lstLS : []
-    Component.onCompleted: {
-        var lstSens = devises.getListSensors()
-
-//            for(var i in lst) {
-//                console.log(i, ") name:", lst[i].name)
-//                var ls = cmpLS.createObject(chart)
-//                ls.name = lst[i].name
-//                ls.sens = lst[i]
-//                lstLS.push(ls)
-//            }
-        var lstLS_ = setSensors(lstSens)
-        for (var i in lstLS_){
-            var ls = {
-                name: lstSens[i].name,
-                sens: lstSens[i],
-                sers: lstLS_[i]
-            }
-            lstLS.push(ls)
-        }
-
-        sensorList.model = lstLS
-    }
 }

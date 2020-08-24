@@ -18,7 +18,9 @@ QVector<QAbstractSeries*> MyChartView::setSensors(const QVector<ModbusSensor *> 
 
     m_sens = sens;
     for (auto *s : sens){
-        auto *series = createSeries(SeriesTypeLine, s->name(), m_axisDate, m_axisTemer);
+
+        auto *series = createSeries(SeriesTypeLine, s->name(), m_axisDate,
+                    s->hash()=="86c6deedfb"? m_axisDavl : m_axisTemer); // Кастыль!
         m_sers.append(series);
         series->setUseOpenGL(true);
     }

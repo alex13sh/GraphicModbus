@@ -94,14 +94,22 @@ public:
 class ModbusSensor_Analog_Vibra : public ModbusSensor_Analog
 {
 public:
-    ModbusSensor_Analog_Vibra(const QString &name, quint8 pin, ModbusDevice *module);
-    virtual float value_float() const
+    ModbusSensor_Analog_Vibra(const QString &name, quint8 pin, ModbusDevice *module)
+        : ModbusSensor_Analog(name, pin, module)
+    {
+    }
+    virtual float value_float() const override
     {
         // от 0 до 25 мм/с
         // 4 - 20 мА
         float v = ModbusSensor_Analog::value_float();
-
+        v += 0.15;
         return v;
+    }
+    float value_float_from_int(quint32 ivalue) override {
+        float fvalue = ModbusSensor_Analog::value_float_from_int(ivalue);
+        fvalue += 0.15;
+        return fvalue;
     }
 };
 #include <math.h>
