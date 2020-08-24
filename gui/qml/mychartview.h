@@ -17,6 +17,7 @@ class MyChartView : public DeclarativeChart
 
     Q_PROPERTY(QAbstractAxis *axisDate WRITE setAxisDate)
     Q_PROPERTY(QAbstractAxis *axisTemer WRITE setAxisTemer)
+    Q_PROPERTY(QAbstractAxis *axisVibra MEMBER m_axisVibra)
     Q_PROPERTY(QAbstractAxis *axisDavl WRITE setAxisDavl)
     Q_PROPERTY(QVector<QAbstractSeries*> myseries READ myseries NOTIFY myseriesChanged)
 public:
@@ -42,7 +43,7 @@ private:
     QVector<ModbusSensor*> m_sens;
     QVector<QAbstractSeries*> m_sers;
     QAbstractAxis *m_axisDate=nullptr,
-        *m_axisTemer=nullptr, *m_axisDavl=nullptr;
+        *m_axisTemer=nullptr, *m_axisDavl=nullptr, *m_axisVibra=nullptr;
     int m_secondsScala = 50;
 
     // QQuickItem interface

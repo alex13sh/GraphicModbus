@@ -22,13 +22,15 @@ MyChartView {
         minorTickCount: 5
         tickCount: 10
     }
+    axisVibra: axis_other
     ValueAxis {
         id: axis_other
-        min: -10
-        max: 200
+        min: -1
+        max: 5
         minorTickCount: 10
-        visible: false
+        visible: true
         gridVisible: false
+//        alignment: Qt.AlignRight
     }
 
     property alias axis_davl: axis_davl

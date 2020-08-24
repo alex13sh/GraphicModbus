@@ -40,7 +40,7 @@ Rectangle {
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    ListView.view.currentIndex = index
+                    view.currentIndex = index
                     root.selected(delegate.index, start, finish)
                 }
             }
