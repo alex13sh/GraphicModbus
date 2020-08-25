@@ -28,13 +28,15 @@ Rectangle {
                 id: column
                 Text {
                     width: delegate.width
-                    text: "start: " + delegate.start
+                    text: "start: " + delegate.start.toLocaleString(Qt.locale(), "dd hh:mm:ss")
                     wrapMode: Text.WordWrap
+                    font.pixelSize: 14
                 }
                 Text {
                     width: delegate.width
                     clip: true
-                    text: "finish: "+delegate.finish
+                    text: "finish: "+delegate.finish.toLocaleString(Qt.locale(), "dd hh:mm:ss")
+                    font.pixelSize: 14
                 }
             }
             MouseArea{

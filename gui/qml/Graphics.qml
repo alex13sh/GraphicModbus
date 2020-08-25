@@ -39,7 +39,7 @@ MyChartView {
     LogValueAxis {
         id: axis_davl
         min: 0.001
-        max: 1000
+        max: 1200
         minorTickCount: 5
         visible: false
         gridVisible: true

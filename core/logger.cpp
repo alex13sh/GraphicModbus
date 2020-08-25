@@ -40,7 +40,7 @@ void Logger::setWrite(bool v) {
         my_query.bindValue(":start", m_start);
         my_query.bindValue(":finish", m_finish);
         my_query.exec();
-        m_sessions.append(new LoggerSession(m_start, m_finish, this));
+        m_sessions.push_front(new LoggerSession(m_start, m_finish, this));
         emit sessionsChanged();
     }
 }
@@ -260,7 +260,7 @@ void Logger::read_sessions()
         auto s = new LoggerSession(
             q.value("start").toDateTime(), q.value("finish").toDateTime()
                     , this);
-        m_sessions.append(s);
+        m_sessions.push_front(s);
     }
 }
 
@@ -333,6 +333,10 @@ void Logger::commit_values()
     v_hash.clear();
     v_value.clear();
     v_dt.clear();
+
+    v_value_float.clear();
+    v_value_int32.clear();
+    v_value_uint32.clear();
 }
 
 
