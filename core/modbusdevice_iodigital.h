@@ -46,6 +46,7 @@ public:
     SensorInputType typeInput() const {return m_type_input;}
     int value() const;
     virtual float value_float() const;
+    virtual float value_float_from_int(quint32 ivalue);
 
 signals:
     void valueChanged();

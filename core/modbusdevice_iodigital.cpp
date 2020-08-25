@@ -100,6 +100,11 @@ float ModbusSensor_IDigital::value_float() const
     return -2.0;
 }
 
+float ModbusSensor_IDigital::value_float_from_int(quint32 ivalue)
+{
+    return ivalue;
+}
+
 ModbusSensor_ODigital::ModbusSensor_ODigital(const QString &name, quint8 pin, ModbusDevice *module)
     : ModbusSensor(name, pin, module)
 {

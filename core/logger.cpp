@@ -114,7 +114,7 @@ bool Logger::connect_db(const QString &filePath) {
 void Logger::openJsonFile(const QString &fileName)
 {
     QFile file;
-    file.setFileName(fileName);
+    file.setFileName("./log/"+fileName);
     file.open(QIODevice::ReadOnly);
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
     auto jobj = doc.object();
@@ -314,7 +314,7 @@ void Logger::commit_values()
 
     QJsonDocument doc(jobj);
     QFile file;
-    file.setFileName(QString("./values_%1.json").arg(m_start.toString("dd_MM_yyyy__hh_mm_ss_zzz")));
+    file.setFileName(QString("./log/values_%1.json").arg(m_start.toString("dd_MM_yyyy__hh_mm_ss_zzz")));
     file.open(QIODevice::WriteOnly);
     file.write(doc.toJson(QJsonDocument::Indented));
     file.close();
