@@ -4,6 +4,7 @@ Rectangle {
     color: "grey"
     property alias model: view.model
     property alias currentIndex: view.currentIndex
+    property bool isStart: false
     ListView {
         id: view
         anchors.fill: parent
@@ -12,7 +13,7 @@ Rectangle {
         delegate: Rectangle {
             id: delegate
             property string name: modelData.name
-            property double value: modelData.sens.value
+            property double value: isStart ? modelData.sens.value : modelData.value
             property var sers: modelData.sers
             border{
                 width: 4

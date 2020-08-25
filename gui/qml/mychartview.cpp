@@ -167,3 +167,15 @@ void MyChartView::wheelEvent(QWheelEvent *event)
         }
     }
 }
+
+void MyChartView::hoverMoveEvent(QHoverEvent *event)
+{
+    if (event->modifiers() & Qt::ControlModifier) {
+        auto pos = event->posF();
+        QList<float> values;
+        QDateTime dt = QDateTime::fromMSecsSinceEpoch( mapToValue(pos, m_sers.first()).x() );
+        for (auto s : m_sers)
+            values.append( mapToValue(pos, s).y() );
+        emit selectedValues(dt, values);
+    }
+}

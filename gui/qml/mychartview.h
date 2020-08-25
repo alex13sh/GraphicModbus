@@ -32,6 +32,7 @@ public:
 
 signals:
     void myseriesChanged();
+    void selectedValues(const QDateTime &time, const QList<float> &values);
 
 public slots:
     void updateSensors();
@@ -50,6 +51,7 @@ private:
 protected:
     void keyPressEvent(QKeyEvent *event);
     void wheelEvent(QWheelEvent *event);
+    void hoverMoveEvent(QHoverEvent *event) override;
 };
 
 #endif // MYCHARTVIEW_H

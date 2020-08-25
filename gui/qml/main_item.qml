@@ -86,6 +86,7 @@ Item {
             Layout.column: 1
             Layout.row: 0
 
+            isStart: sessionPane.isStart
             onCurrentIndexChanged: {
                 var sens = chart.lstLS[sensorList.currentIndex].sens
                 if (sens.hash === "86c6deedfb") {
@@ -128,6 +129,16 @@ Item {
             Layout.row: 0
         //  Layout.rowSpan: 2
 
+            Component {
+                id: cmpLS
+                QtObject {
+                    property string name: ""
+                    property var sens
+                    property var sers
+                    property double value: -1
+                }
+            }
+
             property var lstLS : []
             Component.onCompleted: {
                 var lstSens = devises.getListSensors()
@@ -137,12 +148,19 @@ Item {
                     var ls = {
                         name: lstSens[i].name,
                         sens: lstSens[i],
-                        sers: lstLS_[i]
+                        sers: lstLS_[i],
+                        value: -1
                     }
-                    lstLS.push(ls)
+                    lstLS.push(cmpLS.createObject(this, ls))
                 }
 
                 sensorList.model = lstLS
+            }
+
+            onSelectedValues: {
+                sessionPane.txt_curTime = time.toLocaleString(Qt.locale(), "hh:mm:ss.zzz")
+                for (var i in lstLS)
+                    lstLS[i].value = values[i]
             }
         }
 

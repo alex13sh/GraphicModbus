@@ -5,6 +5,7 @@ Item {
 
     property alias isStart: pbStart.checked
     property string txt_start: ""
+    property string txt_curTime: ""
 
     signal openJsonFile(string fileName);
 
