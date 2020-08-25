@@ -10,7 +10,9 @@ Item {
     signal openJsonFile(string fileName);
 
     Row {
+        x: 20
         Column {
+            spacing: 10
             Button {
                 id: pbStart
                 text: checked? "Stop" : "Start"
@@ -18,12 +20,17 @@ Item {
                 checked: false
             }
             Text {
-                text: "Start:" + txt_start
+                text: "Start: " + txt_start
+                font.pixelSize: 14
+            }
+            Text {
+                text: "Time:  " + txt_curTime
+                font.pixelSize: 14
             }
         }
         TextField {
             id: txtFileName
-            visible: !isStart
+            visible:  false // !isStart
             placeholderText: "FileName"
             onEditingFinished: {
                 if (text.endsWith(".json")) {

@@ -21,16 +21,17 @@ MyChartView {
         max: 100
         minorTickCount: 5
         tickCount: 10
+        visible: false
     }
     axisVibra: axis_other
     ValueAxis {
         id: axis_other
         min: -1
         max: 5
-        minorTickCount: 10
+//        minorTickCount: 10
         visible: true
         gridVisible: false
-//        alignment: Qt.AlignRight
+        minorGridVisible: false
     }
 
     property alias axis_davl: axis_davl
@@ -39,9 +40,9 @@ MyChartView {
         id: axis_davl
         min: 0.001
         max: 1000
-        minorTickCount: 10
-        visible: true
-        gridVisible: false
+        minorTickCount: 5
+        visible: false
+        gridVisible: true
     }
 
     axisDate: axis_dt

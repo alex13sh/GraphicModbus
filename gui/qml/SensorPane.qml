@@ -8,14 +8,17 @@ Item {
         spacing: 5
         Text {
             text: "Current sensor: " + sensor.name
+            font.pixelSize: 14
         }
         Text {
             visible: !sensor.logicLevel
             text: "Value Warn: " + sensor.value_warn + "; Err: " + sensor.value_err
+            font.pixelSize: 14
         }
         Text {
             visible: !sensor.logicLevel
             text: "Value Max: " + sensor.value_max
+            font.pixelSize: 14
         }
         Button {
             visible: sensor.logicLevel ? true : false

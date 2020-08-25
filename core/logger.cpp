@@ -154,11 +154,8 @@ QList<QPointF> Logger::getValuesPoint(const QString &hash, QDateTime start, QDat
             res.append(QPointF(msec, val));
         }
     }
-    if (hash == "82dc5b4c30")
-        qDebug()<<"openFileJson values:"<<res;
 #endif
 
-    qDebug()<<"getValues hash:"<<hash<<"; list:"<<res.size();
     return res;
 }
 

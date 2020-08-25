@@ -6,8 +6,8 @@ import my.work.core 1.0
 import my.work.gui 1.0
 
 Item {
-    width: 800
-    height: 600
+    width: 1280
+    height: 940
 
 
     Logger {
@@ -91,16 +91,11 @@ Item {
                 var sens = chart.lstLS[sensorList.currentIndex].sens
                 if (sens.hash === "86c6deedfb") {
                     chart.axis_temper.visible = false
-                    chart.axis_temper.gridVisible = false
-                    chart.axis_davl.gridVisible = true
                     chart.axis_davl.visible = true
                 } else {
                     chart.axis_temper.visible = true
-                    chart.axis_temper.gridVisible = true
-                    chart.axis_davl.gridVisible = false
                     chart.axis_davl.visible = false
                 }
-                console.log("sens hash:", sens.hash)
             }
         }
         SessionPane {
@@ -110,13 +105,14 @@ Item {
             Layout.columnSpan: 2
 
             Layout.fillWidth: true
-            Layout.minimumHeight: 100
+            Layout.minimumHeight: 150
 
-            txt_start: logger.start
             onIsStartChanged: {
                 if(isStart) {
                     chart.clearValues()
-                    txt_start = logger.start
+                    txt_start = logger.start.toLocaleString(Qt.locale(), "hh:mm:ss.zzz")
+                } else {
+                    txt_curTime = logger.finish.toLocaleString(Qt.locale(), "hh:mm:ss.zzz")
                 }
             }
         }
@@ -166,7 +162,7 @@ Item {
 
         SensorPane {
             Layout.fillWidth: true
-            Layout.minimumHeight: 100
+            Layout.minimumHeight: 150
             sensor: chart.lstLS[sensorList.currentIndex].sens
         }
     }

@@ -13,7 +13,12 @@ Rectangle {
         delegate: Rectangle {
             id: delegate
             property string name: modelData.name
-            property double value: isStart ? modelData.sens.value : modelData.value
+            property double value: {
+                var v = isStart
+                    ? modelData.sens.value
+                    : modelData.value
+                return v.toFixed(3)
+            }
             property var sers: modelData.sers
             border{
                 width: 4
@@ -28,11 +33,13 @@ Rectangle {
                     width: delegate.width
                     text: delegate.name
                     wrapMode: Text.WordWrap
+                    font.pixelSize: 15
                 }
                 Text {
                     width: delegate.width
                     clip: true
                     text: "value: "+delegate.value
+                    font.pixelSize: 15
                 }
             }
 
