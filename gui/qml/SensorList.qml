@@ -12,10 +12,11 @@ Rectangle {
         spacing: 2
         delegate: Rectangle {
             id: delegate
+            property var sens: modelData.sens
             property string name: modelData.name
             property double value: {
                 var v = isStart
-                    ? modelData.sens.value
+                    ? sens.value
                     : modelData.value
                 return v.toFixed(3)
             }
@@ -24,6 +25,16 @@ Rectangle {
                 width: 4
                 color: delegate.sers.visible ? delegate.sers.color : "grey"
             }
+            color: {
+                var clr = sens.logicLevel ? "white" :
+                   value < sens.value_warn
+                   ? "green"
+                   : value < sens.value_err
+                   ? "yellow"
+                   : "red"
+                return Qt.lighter(clr, 1.4)
+            }
+
             width: view.width+5
             height: column.height+10
             Column{
