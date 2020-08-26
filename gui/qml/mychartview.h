@@ -9,6 +9,9 @@ QT_CHARTS_USE_NAMESPACE
 //#include "core/modbussensor.h"
 #include <core/defines.h>
 #include <QDateTime>
+#include <QLineSeries>
+
+//class QLineSeries;
 
 class MyChartView : public DeclarativeChart
 {
@@ -20,6 +23,7 @@ class MyChartView : public DeclarativeChart
     Q_PROPERTY(QAbstractAxis *axisVibra MEMBER m_axisVibra)
     Q_PROPERTY(QAbstractAxis *axisDavl WRITE setAxisDavl)
     Q_PROPERTY(QVector<QAbstractSeries*> myseries READ myseries NOTIFY myseriesChanged)
+    Q_PROPERTY(bool isStart MEMBER m_isStart)
 public:
     MyChartView(QQuickItem *parent = 0);
 
@@ -46,7 +50,9 @@ private:
     QAbstractAxis *m_axisDate=nullptr,
         *m_axisTemer=nullptr, *m_axisDavl=nullptr, *m_axisVibra=nullptr;
     int m_secondsScala = 50;
+    bool m_isStart=false;
 
+    QPointF getValue(QLineSeries *ser, QDateTime dt);
     // QQuickItem interface
 protected:
     void keyPressEvent(QKeyEvent *event);

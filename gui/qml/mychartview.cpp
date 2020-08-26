@@ -111,6 +111,26 @@ void MyChartView::clearValues()
     }
 }
 
+QPointF MyChartView::getValue(QLineSeries *ser, QDateTime dt)
+{
+    auto _dt = dt.toMSecsSinceEpoch();
+    int i_min = 0, i_max = ser->count();
+    int i;
+    QPointF res;
+    while(true) {
+        i = i_min+(i_max-i_min)/2;
+        qDebug()<<"binary seach i:"<<i<<", mix:"<<i_min<<", max:"<<i_max;
+        res = ser->at(i);
+        if (res.x()<_dt)
+            i_min = i;
+        else if (res.x()>_dt)
+            i_max = i;
+        else return res;
+        if (i_max-i_min<=1)
+            return res;
+    }
+}
+
 void MyChartView::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
@@ -170,12 +190,14 @@ void MyChartView::wheelEvent(QWheelEvent *event)
 
 void MyChartView::hoverMoveEvent(QHoverEvent *event)
 {
-    if (event->modifiers() & Qt::ControlModifier) {
+    if (!m_isStart && event->modifiers() & Qt::ControlModifier) {
         auto pos = event->posF();
         QList<float> values;
         QDateTime dt = QDateTime::fromMSecsSinceEpoch( mapToValue(pos, m_sers.first()).x() );
-        for (auto s : m_sers)
-            values.append( mapToValue(pos, s).y() );
+        for (auto s : m_sers) {
+            auto v = getValue(static_cast<QLineSeries*>(s), dt);
+            values.append( v.y() );
+        }
         emit selectedValues(dt, values);
     }
 }

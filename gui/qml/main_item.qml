@@ -125,6 +125,7 @@ Item {
             Layout.row: 0
         //  Layout.rowSpan: 2
 
+            isStart: sessionPane.isStart
             Component {
                 id: cmpLS
                 QtObject {
