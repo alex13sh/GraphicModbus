@@ -106,22 +106,36 @@ Item {
                 text: "Уменьшить давление"
                 checkable: true
                 checked: false
-                onClicked: {
-//                    var klap_1 = chart.getSensor("308e553d36")
-                    var klap_2 = chart.getSensor("615b2468bd")
-                    var klap_3 = chart.getSensor("5b4afc628e")
+                property var klap_2: chart.getSensor("615b2468bd")
+                property var klap_3: chart.getSensor("5b4afc628e")
+                Component.onCompleted: {
+                    klap_2 = chart.getSensor("615b2468bd")
+                    klap_3 = chart.getSensor("5b4afc628e")
+                }
 
+                onClicked: {
                     klap_2.setLogicLevel(checked)
-                    klap_3.setLogicLevel(checked)
+//                    klap_3.setLogicLevel(checked)
+                    tim_klap_3.start()
+                    console.log("klap_2 hash:", klap_2.hash)
+                    console.log("klap_3 hash:", klap_3.hash)
+                }
+                Timer {
+                    id: tim_klap_3
+                    interval: 1000
+                    onTriggered: parent.klap_3.setLogicLevel(parent.checked)
                 }
             }
             Button {
                 text: "Увеличить давление"
+                checkable: true
+                checked: false
                 onClicked: {
                     var klap_1 = chart.getSensor("308e553d36")
 //                    var klap_2 = chart.getSensor("615b2468bd")
 //                    var klap_3 = chart.getSensor("5b4afc628e")
                     klap_1.setLogicLevel(checked)
+                    console.log("klap_1 hash:", klap_1.hash)
                 }
             }
         }

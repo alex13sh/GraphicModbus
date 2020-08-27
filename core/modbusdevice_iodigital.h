@@ -83,7 +83,7 @@ signals:
 private:
     SensorOutputType m_type_output;
     ModbusValue *v_type_output=nullptr,
-      *v_value=nullptr,
+//      *v_value=nullptr,
       *v_bit_state=nullptr, *v_bit_setup=nullptr;
     ModbusValue *v_logic = nullptr;
 };

@@ -108,7 +108,7 @@ float ModbusSensor_IDigital::value_float_from_int(quint32 ivalue)
 ModbusSensor_ODigital::ModbusSensor_ODigital(const QString &name, quint8 pin, ModbusDevice *module)
     : ModbusSensor(name, pin, module)
 {
-
+    v_value = v_bit_state;
 }
 
 void ModbusSensor_ODigital::addValue(quint16 address, ModbusValue *value) {
@@ -118,13 +118,13 @@ void ModbusSensor_ODigital::addValue(quint16 address, ModbusValue *value) {
     if(name == "type_output") {
         v_type_output = value;
         v_type_output->setValue_int(0);
-    }
-    else if(name == "value") {
-        v_value = value;
+//    } else if(name == "value") {
+//        v_value = value;
 //        connect(v_value, &ModbusValue::valuesChanged, this, &ModbusSensor_IDigital::valueChanged);
-    } else if (name == "Битовая маска состояния")
+    } else if (name == "Битовая маска состояния") {
         v_bit_state = value;
-    else if (name == "Битовая маска установки") {
+        v_value = v_bit_state;
+    } else if (name == "Битовая маска установки") {
         v_bit_setup = value;
         if (v_bit_setup) {
             v_bit_setup->updateValues();
