@@ -66,9 +66,11 @@ void Logger::pushValues() {
         v_value<<v->value_uint32();
         v_dt<<cur;
 
+#ifdef LOGGER_VALUES_INT32
         v_value_int32 << v->value_int32();
         v_value_uint32<< v->value_uint32();
         v_value_float << v->value_float();
+#endif
     }
 
 }
@@ -305,9 +307,11 @@ void Logger::commit_values()
     jobj["v_value"] = QJsonArray::fromVariantList(v_value);
     jobj["v_dt"] = QJsonArray::fromVariantList(v_dt);
 
+#ifdef LOGGER_VALUES_INT32
     jobj["v_value_int32"] = QJsonArray::fromVariantList(v_value_int32);
     jobj["v_value_uint32"] = QJsonArray::fromVariantList(v_value_uint32);
     jobj["v_value_float"] = QJsonArray::fromVariantList(v_value_float);
+#endif
 
     QJsonDocument doc(jobj);
     QFile file;
@@ -334,9 +338,11 @@ void Logger::commit_values()
     v_value.clear();
     v_dt.clear();
 
+#ifdef LOGGER_VALUES_INT32
     v_value_float.clear();
     v_value_int32.clear();
     v_value_uint32.clear();
+#endif
 }
 
 

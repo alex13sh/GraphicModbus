@@ -12,6 +12,8 @@ class QSqlQuery;
 #include <QPointF>
 Q_DECLARE_METATYPE(QList<QPointF>)
 
+//#define LOGGER_VALUES_INT32
+
 class LoggerSession;
 class Logger : public QObject
 {
@@ -60,7 +62,9 @@ private:
 
     bool m_isWrite = false, m_isRead = false;
     QVariantList v_hash, v_value, v_dt;
+#ifdef LOGGER_VALUES_INT32
     QVariantList v_value_int32, v_value_uint32, v_value_float;
+#endif
 
     void create_tables();
     void test_printCount();
