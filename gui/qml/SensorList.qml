@@ -8,6 +8,7 @@ Rectangle {
     ListView {
         id: view
         anchors.fill: parent
+        clip: true
         width: 100
         spacing: 2
         delegate: Rectangle {
@@ -35,7 +36,7 @@ Rectangle {
                 return Qt.lighter(clr, 1.4)
             }
 
-            width: view.width+5
+            width: view.width
             height: column.height+10
             Column{
                 id: column

@@ -43,7 +43,7 @@ Item {
     GridLayout{
         anchors.fill: parent
         columns: 3
-        rows: 2
+        rows: 3
         flow: GridLayout.TopToBottom
 
         SessionsList {
@@ -55,6 +55,7 @@ Item {
             Layout.fillHeight: true
             Layout.column: 0
             Layout.row: 0
+            Layout.rowSpan: 2
 
             model: logger.sessions
             onSelected: {
@@ -81,7 +82,7 @@ Item {
             Layout.minimumWidth: 200
             Layout.maximumWidth: 250
     //        Layout.preferredWidth: parent.width*20
-            Layout.minimumHeight: 200
+            Layout.minimumHeight: 210
             Layout.fillHeight: true
             Layout.column: 1
             Layout.row: 0
@@ -98,10 +99,37 @@ Item {
                 }
             }
         }
+        Column {
+            Layout.minimumWidth: 200
+            spacing: 10
+            Button {
+                text: "Уменьшить давление"
+                checkable: true
+                checked: false
+                onClicked: {
+//                    var klap_1 = chart.getSensor("308e553d36")
+                    var klap_2 = chart.getSensor("615b2468bd")
+                    var klap_3 = chart.getSensor("5b4afc628e")
+
+                    klap_2.setLogicLevel(checked)
+                    klap_3.setLogicLevel(checked)
+                }
+            }
+            Button {
+                text: "Увеличить давление"
+                onClicked: {
+                    var klap_1 = chart.getSensor("308e553d36")
+//                    var klap_2 = chart.getSensor("615b2468bd")
+//                    var klap_3 = chart.getSensor("5b4afc628e")
+                    klap_1.setLogicLevel(checked)
+                }
+            }
+        }
+
         SessionPane {
             id: sessionPane
             Layout.column: 0
-            Layout.row: 1
+            Layout.row: 2
             Layout.columnSpan: 2
 
             Layout.fillWidth: true
@@ -123,7 +151,7 @@ Item {
             Layout.fillHeight: true
             Layout.column: 2
             Layout.row: 0
-        //  Layout.rowSpan: 2
+            Layout.rowSpan: 2
 
             isStart: sessionPane.isStart
             Component {
@@ -152,6 +180,13 @@ Item {
                 }
 
                 sensorList.model = lstLS
+            }
+            function getSensor(hash){
+                for(var i in lstLS) {
+                    if (lstLS[i].sens.hash === hash)
+                        return lstLS[i].sens
+//                    return null
+                }
             }
 
             onSelectedValues: {
