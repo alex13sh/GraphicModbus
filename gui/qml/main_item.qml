@@ -9,30 +9,54 @@ Item {
     width: 1280
     height: 940
 
-
     Logger {
-        id: logger
+        id: logger_1
         values: devises.getValues(true)
 
-//        filePath: "/home/alex13sh/TMP/test_2.sqlite"
+        filePath: "./test_4.sqlite"
+        isWrite: false
+        isRead: !sessionPane.isStart
+//        Component.onCompleted: connect_db("./test_4.sqlite")
+    }
+    Logger {
+        id: logger_2
+        values: devises.getValues(true)
+
         filePath: "./test_4.sqlite"
         isWrite: sessionPane.isStart
         isRead: !sessionPane.isStart
-        Component.onCompleted: {
-            var ses = this.sessions;
-//            sessionsList.model = ses
-        }
+    }
+    Logger {
+        id: logger_0
+        values: devises.getValues(true)
+
+        filePath: "./test_4.sqlite"
+        isWrite: true
+
     }
     Timer {
         interval: 1000; repeat: true
-        running: sessionPane.isStart
-        property int macCnt: 20
+        running: true
+        property var sens_hz
+        Component.onCompleted: {
+            sens_hz = chart.getSensor("82dc5b4c30")
+        }
+
         onTriggered: {
 //            logger.readValues()
             devises.updateValues()
-            chart.updateSensors()
-            logger.pushValues()
-//            macCnt--;
+            if (chart.isStart) chart.updateSensors()
+            logger_0.pushValues()
+            logger_1.pushValues()
+            logger_2.pushValues()
+
+            if (sens_hz) {
+                var v = sens_hz.value
+                if (v>1)
+                    logger_1.isWrite = true
+                else
+                    logger_1.isWrite = false
+            }
         }
     }
 
@@ -57,8 +81,9 @@ Item {
             Layout.row: 0
             Layout.rowSpan: 2
 
-            model: logger.sessions
+            model: logger_2.sessions
             onSelected: {
+                chart.isStart = false
                 for (var i in chart.lstLS){
     //            var s = sensorList.model.at(0)
                     var s = chart.lstLS[i]
@@ -69,7 +94,7 @@ Item {
                         continue;
                     }
 //                    console.log("selected start:", start, ", finish:", finish, ", hash:", hash)
-                    var lst = logger.getValuesPoint_var(hash, start, finish)
+                    var lst = logger_1.getValuesPoint_var(hash, start, finish)
                     chart.setValuesPoints(s.sers, start, finish, lst)
                     chart.focus = true
                 }
@@ -152,9 +177,13 @@ Item {
             onIsStartChanged: {
                 if(isStart) {
                     chart.clearValues()
-                    txt_start = logger.start.toLocaleString(Qt.locale(), "hh:mm:ss.zzz")
+                    chart.isStart = true
+                    txt_start = logger_1.start.toLocaleString(Qt.locale(), "hh:mm:ss.zzz")
                 } else {
-                    txt_curTime = logger.finish.toLocaleString(Qt.locale(), "hh:mm:ss.zzz")
+//                    txt_curTime = logger.finish.toLocaleString(Qt.locale(), "hh:mm:ss.zzz")
+                    sessionsList.view.currentIndex = -1
+                    sessionsList.view.currentIndex = 0
+                    chart.isStart = false
                 }
             }
         }
@@ -167,7 +196,7 @@ Item {
             Layout.row: 0
             Layout.rowSpan: 2
 
-            isStart: sessionPane.isStart
+            isStart: true
             Component {
                 id: cmpLS
                 QtObject {
@@ -199,7 +228,6 @@ Item {
                 for(var i in lstLS) {
                     if (lstLS[i].sens.hash === hash)
                         return lstLS[i].sens
-//                    return null
                 }
             }
 

@@ -7,8 +7,6 @@
 
 Logger::Logger(QObject *parent) : QObject(parent)
 {
-
-    QSqlDatabase::addDatabase("QSQLITE");
 //    if(!connect_db()) return;
 //    create_tables();
 //    test_printCount();
@@ -19,7 +17,7 @@ Logger::Logger(QObject *parent) : QObject(parent)
 
 Logger::~Logger(){
     setWrite(false);
-    QSqlDatabase::database().close();
+//    QSqlDatabase::database().close();
 }
 
 void Logger::setWrite(bool v) {
