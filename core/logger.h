@@ -25,9 +25,11 @@ class Logger : public QObject
     Q_PROPERTY(bool isRead READ isRead WRITE setRead FINAL)
     Q_PROPERTY(QList<LoggerSession*> sessions READ sessions NOTIFY sessionsChanged)
     Q_PROPERTY(QDateTime start MEMBER m_start CONSTANT FINAL)
+    Q_PROPERTY(int startCount MEMBER m_startCount NOTIFY sessionsChanged)
 public:
     explicit Logger(QObject *parent = nullptr);
     ~Logger();
+    Q_INVOKABLE void close(bool isWrite=true);
 
     void setWrite(bool v);
     bool isWrite() const {return m_isWrite;}
@@ -59,6 +61,7 @@ private:
     QTimer *m_updateValues=nullptr;
     QSqlQuery *m_queryRead = nullptr;
     QDateTime m_start, m_finish;
+    int m_startCount = 0;
 
     bool m_isWrite = false, m_isRead = false;
     QVariantList v_hash, v_value, v_dt;

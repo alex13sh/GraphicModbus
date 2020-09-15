@@ -10,14 +10,20 @@ Logger::Logger(QObject *parent) : QObject(parent)
 //    if(!connect_db()) return;
 //    create_tables();
 //    test_printCount();
-
+    static auto m_sdb = QSqlDatabase::addDatabase("QSQLITE");
     m_start = QDateTime::currentDateTime();
 //    m_updateValues->start();
 }
 
 Logger::~Logger(){
     setWrite(false);
-//    QSqlDatabase::database().close();
+    //    QSqlDatabase::database().close();
+}
+
+void Logger::close(bool isWrite) {
+    if (isWrite) {
+        setWrite(false);
+    } else m_isWrite = false;
 }
 
 void Logger::setWrite(bool v) {
@@ -39,6 +45,7 @@ void Logger::setWrite(bool v) {
         my_query.bindValue(":finish", m_finish);
         my_query.exec();
         m_sessions.push_front(new LoggerSession(m_start, m_finish, this));
+        m_startCount += 1;
         emit sessionsChanged();
     }
 }
@@ -55,7 +62,7 @@ void Logger::setRead(bool v) {
 #include "modbusdevice.h"
 #include <QDateTime>
 void Logger::pushValues() {
-
+    if (!m_isWrite) return;
     QDateTime cur = QDateTime::currentDateTime();
 
     for(auto v:m_values){

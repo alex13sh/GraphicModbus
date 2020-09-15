@@ -13,7 +13,7 @@ Item {
         id: logger_1
         values: devises.getValues(true)
 
-        filePath: "./test_4.sqlite"
+        filePath: "./session_litle.sqlite"
         isWrite: false
         isRead: !sessionPane.isStart
 //        Component.onCompleted: connect_db("./test_4.sqlite")
@@ -22,7 +22,8 @@ Item {
         id: logger_2
         values: devises.getValues(true)
 
-        filePath: "./test_4.sqlite"
+        filePath: "./session_litle.sqlite"
+//        filePath: "./test_4.sqlite"
         isWrite: sessionPane.isStart
         isRead: !sessionPane.isStart
     }
@@ -30,10 +31,15 @@ Item {
         id: logger_0
         values: devises.getValues(true)
 
-        filePath: "./test_4.sqlite"
+        filePath: "./session_full.sqlite"
         isWrite: true
-
+        Component.onDestruction: {
+            if (logger_1.startCount===0
+            && logger_2.startCount===0)
+                close(false);
+        }
     }
+
     Timer {
         interval: 1000; repeat: true
         running: true
